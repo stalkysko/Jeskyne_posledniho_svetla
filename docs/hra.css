@@ -1,0 +1,41 @@
+:root{color-scheme:dark;--crt:.45}*{box-sizing:border-box}body{margin:0;background:#0b0c15;color:#ddd7ef;font:16px/1.55 'Courier New',monospace}main{max-width:1150px;margin:24px auto;padding:0 24px}header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}small{color:#87cdec;font-size:10px;letter-spacing:3px}h1{color:#f5edff;font-size:26px;font-weight:normal;letter-spacing:-1px;margin:6px 0}.filters{display:flex;flex-direction:column;align-items:flex-end;gap:8px}.filters label{font-size:10px;color:#aaa2bd;display:flex;align-items:center;gap:10px}input[type=range]{width:90px;accent-color:#9ddfff}button{cursor:pointer;background:#151525;border:1px solid #4c445f;color:#d8c6ef;font:12px 'Courier New',monospace;padding:8px 11px}button:hover{border-color:#99dfff;color:#fff}button:focus-visible,input:focus-visible{outline:2px solid #86e9ff;outline-offset:2px}#monitor{position:relative;isolation:isolate;background:#030309;border:1px solid #5d526f;overflow:hidden;box-shadow:0 24px 100px #0008}.bar{display:flex;justify-content:space-between;padding:8px 16px;color:#8ddcff;background:#11111d;font-size:12px}#picture{position:relative;aspect-ratio:8/3;background:#02020a}canvas{display:block;width:100%;height:100%;image-rendering:pixelated}.terminal{padding:15px 22px;border-top:1px solid #4b3e5c}#log{height:190px;overflow:auto;scrollbar-color:#51435e #08080e;padding-right:12px;font-size:15px}#log p{margin:0 0 9px;white-space:pre-wrap}.cmd{color:#c58bea}.good{color:#88e4ed}.sys{color:#a59bb9}form{display:flex;align-items:center;gap:12px;border-top:1px solid #393040;padding-top:12px;margin-top:10px}form label{color:#d09aff;font-size:23px}#command{width:100%;font:16px 'Courier New',monospace;background:transparent;border:0;color:white;outline:0}#inventory{padding:7px 20px;background:#20182d;color:#bcafcb;font-size:12px}footer{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}footer span{margin-left:auto;font-size:10px;color:#8e839f}#startup{font-size:13px;color:#e5a2c3}dialog{max-width:680px;background:#141321;color:#e3daee;border:1px solid #9979b3;padding:26px}dialog p{white-space:pre-wrap}dialog::backdrop{background:#000b}#monitor.crt:after{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.65) 3px,transparent 4px),repeating-linear-gradient(to right,rgba(255,20,20,.13) 0 1px,rgba(20,255,70,.08) 1px 2px,rgba(20,80,255,.14) 2px 3px),radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.9) 100%);opacity:var(--crt)}#monitor.crt{border-radius:14px;box-shadow:0 0 24px #8071d82a,0 24px 100px #0008}#monitor.crt canvas{filter:contrast(1.08) saturate(1.12) drop-shadow(0 0 1px #89bfff)}#monitor.crt #log,#monitor.crt #command{text-shadow:0 0 4px #a58ada88}@media(max-width:600px){main{padding:0 8px;margin:12px auto}h1{font-size:20px}small{font-size:8px;letter-spacing:1px}.terminal{padding:12px}#log{height:230px;font-size:14px}header{align-items:flex-start}.filters label{font-size:9px}footer span{margin:0}#inventory{font-size:11px}}
+
+#mapDialog{width:min(960px,96vw);max-width:960px;padding:18px;background:#0c1120;border:2px solid #657f9b;box-shadow:0 0 0 4px #172238,0 24px 100px #000c}#mapDialog h2{font-weight:normal;color:#dfecf1;margin:4px 0 14px;font-size:23px}.mapHeading{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.mapFrame{border:1px solid #61748b;padding:3px;background:#060a13}.mapFrame canvas{height:auto;aspect-ratio:640/427}.mapLegend{display:flex;justify-content:space-between;gap:14px;margin-top:12px;font-size:12px;color:#96adbf}#mapPosition{color:#ffe1a0}@media(max-width:600px){#mapDialog{padding:10px}#mapDialog h2{font-size:17px}.mapLegend{flex-direction:column;gap:5px}.mapHeading small{letter-spacing:1px}}
+
+/* V11.5: iPhone / Android bez vodorovného posouvání a s ovládáním palcem. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:hidden}
+#mobileNav{display:none}
+#scene{touch-action:manipulation}
+@media(max-width:700px){
+ main{max-width:100%;margin:0 auto;padding:env(safe-area-inset-top) max(8px,env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+ header{gap:7px;align-items:flex-start;margin:8px 0 11px}
+ h1{font-size:clamp(17px,4.9vw,23px);line-height:1.2;letter-spacing:-.5px}
+ .filters{flex:0 0 auto;gap:5px}.filters button{font-size:10px;padding:8px}
+ .filters label{font-size:10px;gap:4px}.filters input[type=range]{width:60px}
+ .bar{padding:7px 10px;font-size:11px;gap:9px}.bar span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ #picture{width:100%;aspect-ratio:8/3}
+ .terminal{padding:10px 11px}
+ #log{height:clamp(235px,34dvh,350px);font-size:clamp(13px,3.5vw,15px);line-height:1.55;padding-right:4px;overscroll-behavior:contain}
+ #log p{margin-bottom:10px}
+ form{gap:8px;padding:9px 0 3px;margin-top:5px}
+ #command{min-width:0;flex:1;font-size:16px;min-height:40px}
+ form button{min-height:43px;min-width:65px;font-size:12px}
+ #inventory{font-size:12px;padding:9px 10px;white-space:normal;overflow-wrap:anywhere}
+ #mobileNav{display:block;margin-top:10px;border:1px solid #494157;border-radius:7px;padding:8px;background:#11101b}
+ .mobileDirections,.mobileActions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ #mobileNav button{touch-action:manipulation;min-width:0;min-height:46px;font-size:clamp(9px,2.6vw,12px);padding:7px 3px;line-height:1.35;border-radius:4px}
+ .mobileActions{margin-top:7px}.mobileActions button{background:#1c2030;color:#a9dff2}
+ footer{gap:6px;margin:10px 0 0}footer button{min-height:42px;padding:9px;font-size:11px}footer span{width:100%;text-align:center}
+ #startup{font-size:11px;line-height:1.5}
+ dialog{max-width:94vw;width:94vw;max-height:86dvh;overflow-y:auto;padding:15px}
+ #mapDialog{max-width:96vw;width:96vw;padding:9px}
+ #mapDialog h2{font-size:16px;margin:4px 0 8px}
+ .mapHeading button{min-width:69px;min-height:43px}
+}
+@media(max-width:365px){.filters label{display:none}.mobileDirections button{font-size:9px}.bar{font-size:10px}}
+
+/* V11.7: rytmus blikajícího DOS promptu. Vstupní text ani pozice kurzoru se nehýbají. */
+@keyframes lastLightDosPrompt{0%,49%{opacity:1}50%,100%{opacity:0}}
+#form>label{display:inline-block;min-width:1ch;animation:lastLightDosPrompt 1s steps(1,end) infinite}
+@media(prefers-reduced-motion:reduce){#form>label{animation:none}}

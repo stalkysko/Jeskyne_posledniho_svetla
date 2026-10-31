@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Havran na rozcestníku pod hvězdou">
+ <rect width="256" height="256" rx="40" fill="#0b0d1e"/>
+ <path d="M0 180 62 117 98 149 156 88 256 187v69H0z" fill="#24374e"/>
+ <path d="M0 202 68 154 105 184 171 128 256 209v47H0z" fill="#45657a"/>
+ <path d="m186 33 6 17 18 1-14 11 5 18-15-10-15 10 5-18-14-11 18-1z" fill="#f9e09c"/>
+ <path d="M105 92c19-21 42-22 59 3l10 2-12 8c-3 12-8 19-20 26v16l-10 9-9-9v-13c-16-7-22-18-18-42z" fill="#070914"/>
+ <path d="M115 102c-11 5-18 15-28 22 12-1 22-3 34-9z" fill="#171d31"/>
+ <circle cx="151" cy="101" r="4" fill="#a7e8f8"/>
+ <path d="M120 147v62" stroke="#d7b17b" stroke-width="11" stroke-linecap="square"/>
+ <path d="M72 159h95l-11 23H72z" fill="#8b6b58" stroke="#d0a574" stroke-width="4"/>
+ <path d="M91 225h67" stroke="#d7b17b" stroke-width="9" stroke-linecap="square"/>
+</svg>
