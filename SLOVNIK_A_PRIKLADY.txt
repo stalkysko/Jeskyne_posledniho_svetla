@@ -1,0 +1,349 @@
+JAZYKOVÝ SYSTÉM 0.11.8.13
+
+NÁDVOŘÍ HVĚZDÁŘE — VĚŽNÍ DVEŘE (0.11.8.13)
+Příkazy nejsou předepsaná hesla. Rozumí se různým způsobům,
+jak se zkusíš dostat do věže. Překážka má svůj fyzický důvod;
+úspěch hlavní hádanky není založen na vykopnutí dveří.
+vyrazit dveře
+vyrazím dveře
+rozběhnout se a kopnout do dveří
+vypáčit dveře mečem
+strčit meč do klíčové dírky
+zatlačit do dveří
+rozsekat dveře mečem
+vylézt oknem
+vyšplhat po zdi věže
+probourat zeď věže
+prozkoumat zámek
+
+ČARODĚJ — VOLNÝ ROLEPLAY (0.11.8.12)
+Toto nejsou předepsaná hesla. Zkus vlastní formulace, skloňování,
+protiotázky, oslovení i čiré nesmysly. Čaroděj vnímá záměr.
+máš rodinu?
+je ti smutno?
+nechci s tebou bojovat
+promiň
+co si myslíš o mé helmě?
+zahrajeme si hru?
+obejmu tě
+řekni mi vtip
+co když tě obejdu?
+vyšplhám na sloup
+zavolám kamaráda
+předstírám, že jsem mrtvý
+co je za tebou?
+vytáhnu laser
+jsi jen NPC
+vymysli vlastní pokus a sleduj, jak čaroděj zareaguje
+
+NOVÁ PŘIROZENÁ SLOVA A VĚTY
+přistoupit blíž
+přiblížit se k havranovi
+natáhnout k němu ruku
+neškrtí tě ten kroužek?
+ten kroužek máš od hvězdáře?
+chybí ti hlas hvězdáře?
+chtěl by ses vrátit k hvězdáři?
+budeš tu až půjdu zpátky?
+zapomněl jsem se rozloučit
+prolistovat deník
+nahlédnout do deníku
+
+ČARODĚJ — HLOUBĚJŠÍ ROZHOVORY S VLASTNÍ PAMĚTÍ (0.11.8.10)
+promluv s čarodějem
+kdo jsi
+co chceš
+proč to děláš
+pustíš mě dál
+co tu děláš
+mohu projít
+nech mě projít
+jít k portálu
+k portálu
+co je za portálem
+co je to za portál
+proč stojíš na sloupu
+proč máš tolik očí
+co držíš v ruce
+proč jsi zmrazil údolí
+co se stalo hvězdáři
+znal jsi hvězdáře
+co se stalo trpaslíkům
+jak dlouho tu jsi
+odkud jsi přišel
+čeho se bojíš
+jsi zlý
+mohu ti pomoci
+budeme přátelé
+co si myslíš o lidech
+co si myslíš o mně
+co si pamatuješ
+máš rád ticho
+proč nesnášíš změnu
+co ještě
+proč
+co mi uděláš
+bojíš se mě
+nebojím se tě
+můžeme se dohodnout
+vzdej se
+co víš o hvězdáři
+co ti provedli trpaslíci
+
+LEDOVÁ JESKYNĚ — FYZICKÉ AKCE A PRŮZKUM (0.11.8.11)
+vytáhnout meč
+píchnout čaroděje do oka
+bodnout čaroděje
+hodit po něm meč
+hodit po něm led
+sekat do ledové vyvýšeniny
+sekat mečem
+sekat ho víc
+schovat se mu
+prohlédnout padlé
+prozkoumat mrtvé
+prohledat mrtvé
+mají zbraně?
+mají u sebe luk?
+je tu někde luk?
+co si myslíš o mně?
+
+Čaroděj je mimo dosah běžných útoků. Při opakovaném násilí můžeš
+prohrát; příkaz ZPĚT vrací poslední tah. Prohlížení těl nic
+neodebírá z inventáře a samo neřeší žádnou hádanku.
+
+ZVUKOVÉ OVLÁDÁNÍ
+V dolní liště jsou dvě samostatná tlačítka ZVUK a HUDBA.
+Obě se zapínají kliknutím; nemusíš psát příkaz. Zvuk nikdy nezačne
+bez tvého kliknutí. Vše funguje i bez internetu.
+
+HAVRAN — ROZHOVORY, KTERÉ SI PAMATUJE
+ahoj havrane
+jak se máš
+je ti zima
+jsi sám
+odkud jsi
+proč tu čekáš
+jak jsi poznal hvězdáře
+co ještě
+jak to víš
+proč
+jsme kamarádi
+mám tě rád
+věříš mi
+neboj se
+co bude potom
+pamatuješ si mě
+děkuji za pomoc
+promiň
+mohu tě pohladit
+poslouchej havrana
+dej meč havranovi
+sbohem
+
+DALŠÍ ROZHOVORY S HAVRANEM
+můžu ti pomoct
+jak ti mohu pomoci
+pomůžeš mi
+proč mi pomáháš
+potřebuješ mou pomoc
+slibuji, že se vrátím
+zůstanu s tebou
+jak se jmenuješ
+jak ses naučil mluvit
+kdo ti dal kroužek
+máš rodinu
+proč neodletíš
+chybí ti hvězdář
+bojíš se smrti
+co je vzpomínka
+o čem sníš
+jsi osamělý
+co je ticho
+co je čas
+věříš na osud
+co je smysl života
+je ještě naděje
+zeptej se mě na něco
+dej mi hádanku
+co ještě
+jak to víš
+proč
+
+TÉMATA A PŘESUNY JSOU ODDĚLENÉ
+mlýn                 — zmínka, otázka nebo téma hovoru; NESPUSTÍ chůzi
+k mlýnu              — stále jen téma, nikoli povel k cestě
+kam vede cesta       — otázka podle aktuálního rozcestí
+jak se dostanu do mlýna — otázka, ne přesun
+jdi do mlýna         — výslovný přesun
+západ                — směr cesty z rozcestí
+
+MOST A LANO S HÁKEM
+U mlýna visí jeden předmět — konopné lano s připevněným železným hákem.
+Není potřeba nacházet hák zvlášť. Můžeš napsat VEZMI LANO i VEZMI HÁK.
+přehoď lano
+hodit lano na druhou stranu
+použít lano
+přejít na druhou stranu
+přejít přes most
+jít na druhou stranu
+Zajištěné lano dovolí přechod; jinak tě propast bezpečně zastaví.
+
+ROZHLÍŽENÍ A FYZICKÉ ČINNOSTI NA MOSTĚ
+rozhlédnout se
+porozhlédnout se
+prozkoumat břeh
+prozkoumat sráz
+prozkoumat kámen
+hodit kámen ze srázu
+hodit sněhovou kouli dolů
+skočit dolů
+prozkoumat co se tam leskne
+podívat se co se tam blyští
+prozkoumat okraj útesu
+prozkoumat skalní spáru
+vypáčit sponu mečem
+
+Odpovědi se mění podle tématu, již vedených rozhovorů, tvých činů
+a některých opakování. Vyzkoušej vracet se na rozcestí po splnění úkolů.
+Havran může znát vlastní minulost, ale neví automaticky všechno, co
+jsi právě udělal někde, odkud tě nemohl vidět. Je to autorský systém
+dialogů a paměti, nikoli neomezený jazykový model.
+
+PO VÍTĚZSTVÍ
+jih (z jeskyně do nádvoří)
+jih (přes zajištěný most)
+jih (zpět na rozcestí)
+ahoj havrane
+děkuji
+jak se máš
+co bude potom
+co ještě
+Poslední setkání se promění podle toho, jaký jste si vytvořili vztah.
+Rytíř může pokračovat v prohlížení osvobozeného údolí.
+
+NOVÉ SITUAČNÍ PŘÍKAZY
+jdi ke stolu
+co je na stole
+co je pod stolem
+podívej se pod stůl
+vstup do mlýna
+zaklepej na zavřené dveře
+jdi k pilíři
+zaklepej na pilíř
+otevři sarkofág
+co je uvnitř
+vezmi klíč
+zavři sarkofág
+jdi k dalekohledu
+podívej se do dalekohledu
+nahlédni do dalekohledu
+vezmi čočku
+podívej se do dalekohledu (pohled už nebude ostrý)
+
+U NÁVAZNÝCH ROZHOVORŮ VYZKOUŠEJ
+promluv s havranem o hvězdáři
+co ještě
+jak to víš
+a proč
+co jsi slyšel
+promluv s havranem o mlýnu
+řekni víc
+zeptej se čaroděje na zimu
+co ještě
+co ještě
+
+Hra si pamatuje mluvčího a téma. Když se zeptáš na jiné téma,
+navazující odpovědi se začnou vztahovat k němu. Rozloučení či odchod
+z místa rozhovor ukončí. Jde o připravené texty, nikoliv síťové AI.
+
+LOKACE A DOPLŇUJÍCÍ OTÁZKY
+prozkoumat kryptu
+prozkoumej místnost
+prohledej všechno
+prozkoumat → kryptu
+jdi → kryptu
+vejdi do krypty
+Rozpoznává rozcestí, mlýn, most, nádvoří/věž, kryptu, observatoř/síň
+ a jeskyni v běžných českých pádech. Vzdálené místo neprozkoumá na dálku.
+V temné kryptě vysvětlí, že potřebuješ světlo.
+
+PŘEDMĚTY
+vezmi všechno kromě oleje
+odlož vše kromě meče
+prozkoumej lano a lucernu → vezmi je
+prohlédni lucernu → vezmi ji
+naplň ji olejem
+schovej lano do batohu
+polož lucernu na zem
+Rozumí diakritice i zápisu bez ní. Akce respektují dostupnost předmětů.
+Překlep může navrhnout k opravě; opravený příkaz se musí potvrdit opakováním.
+
+OTÁZKY — NIC SAMY NEPOUŽIJÍ
+k čemu je lucerna
+jak překonat most
+jak otevřít dveře
+kde je klíč
+mohu vzít lano
+kdo jsem
+jak jsem na tom
+co mám dělat
+
+ROZHOVORY A SPOLEČENSKÉ REAKCE
+ahoj havrane
+děkuji
+promiň
+sbohem
+zeptej se havrana na počasí
+pověz mi vtip
+promluv s havranem o hvězdáři
+zeptej se čaroděje proč je zima
+Reakce závisí na tom, kdo je přítomen a jaké je téma. Opakované rozhovory
+mají více odpovědí. Pozdrav nebo poděkování neruší rozpracovanou otázku.
+
+ZKOUMÁNÍ OKOLÍ
+prohlédni sníh
+prozkoumej stromy
+prozkoumej zdivo
+podívej se na oblohu
+prohlédni zbroj
+prozkoumej plášť
+Okolní objekty jsou dostupné jen tam, kde patří do scény. Ve tmě platí
+stejná omezení jako pro ostatní předměty.
+
+DALŠÍ ČINNOSTI A ODPOVĚDI
+zaklepej na dveře
+zatřes olejničkou
+očisti čočku
+otoč klíčem v zámku
+oprav most
+kopej ve sněhu
+potěžkej meč
+spočítej klíče
+zapískej
+zazpívej
+poklekni
+pomodli se
+křič
+zasměj se
+schovej se
+plav ve vodě
+Reakce závisí na konkrétním předmětu, jeho materiálu a místě. Není to
+příslib další hádanky: některé pokusy jen objasní, proč něco nejde.
+
+NÁVRAT A OPRAVA VSTUPU
+zruš to / nech toho — zruší doplňující otázku
+zpět — vrátí herní tah
+jdi zpátky — vrátí tě do předchozí lokace
+cože / zopakuj — zopakuje poslední odpověď
+neber lano — neprovede sebrání
+Pozor: otázky a společenské reakce nespotřebovávají herní tah.
+Více příkazů odděluj středníkem, „a pak“, „a potom“ nebo „a následně“.
+
+ROZSAH A LIMITY
+1365 jedinečných slovesných/ovládacích tvarů a aliasů včetně angličtiny.
+Další slovníky názvů objektů a lokací, fráze, otázky, tematické dialogy,
+materiálové a situační odpovědi. Běží kompletně offline.
+Není to jazykový model a neumí každou možnou českou větu. U nejasného
+příkazu se doptá či vysvětlí omezení; neznámý cíl nesmí být nahrazen
+jiným cílem a spustit nechtěnou akci.

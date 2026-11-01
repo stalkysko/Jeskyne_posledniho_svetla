@@ -1,0 +1,46 @@
+JESKYNĚ POSLEDNÍHO SVĚTLA 0.11.5 — MOBILNÍ VERZE PRO iPHONE A ANDROID
+
+Jde o stejnou klasickou dobrodružnou hru v mobilně přizpůsobeném
+webovém rozhraní (Safari, Chrome). Součástí jsou dotykové směrové šipky,
+větší tlačítka, obraz přizpůsobený šířce displeje a normální český parser.
+Nejde zatím o nativní aplikaci pro App Store ani soubor .ipa/.apk.
+
+NEJJEDNODUŠŠÍ TEST PŘES DOMÁCÍ WIFI
+
+1) Na Windows PC rozbal obsah ZIPu do jedné složky.
+2) Otevři START_MOBILE_WINDOWS.cmd. Skript spustí malý místní webový
+   server (potřebuje Windows s Pythonem 3). Pokud Python chybí, nainstaluj
+   oficiální Python 3 z python.org a zkus spouštěč znovu.
+3) iPhone/Android a počítač musí být ve STEJNÉ domácí Wi-Fi/LAN síti.
+4) Pokud Windows Firewall nabídne povolení přístupu, povol pouze
+   SOUKROMOU síť, ne veřejné sítě.
+5) Na PC v příkazovém řádku vyhledej řádek IPv4 Address (IPv4 adresa),
+   například 192.168.1.25. Adresu musíš zjistit NA SVÉM počítači.
+6) V Safari/Chrome na telefonu zadej:
+      http://192.168.1.25:8765/HRA.html
+   Číslo 192.168.1.25 je pouze příklad; nahraď ho IP počítače.
+7) Pokud se hra otevře, můžeš ji hrát dotykem a psaním příkazů.
+8) Po dokončení na PC stiskni CTRL+C v okně se serverem.
+
+Pokud je PC připojeno k více sítím, vyber IPv4 z té, kterou sdílí mobil.
+Pokud mobil nic neotevře, zkontroluj firewall, izolaci klientů Wi-Fi
+a stejnou síť. Nesdílej port 8765 do internetu na routeru.
+
+Na iPhonu můžeš použít Safari → Sdílet → Přidat na plochu pro zástupce.
+Samotný místní HTTP server musí zůstat spuštěný; tento způsob
+NEINSTALUJE úplně offline iOS aplikaci. Pro skutečný offline režim
+v mobilu by bylo nutné hru hostovat na HTTPS a doplnit service worker,
+nebo vytvořit balíček přes vhodný nativní obal.
+
+OVLÁDÁNÍ
+• Šipky západ / sever / jih / východ = přechod do sousední lokace.
+• ROZHLÉDNOUT SE = popis aktuálního místa.
+• OSLOVIT = zkusit promluvit s místní postavou (funguje u havrana).
+• MAPA a VAK = rychlý přehled.
+• Vlastní příkazy piš pod obraz do pole „Co uděláš?“.
+• ULOŽIT v pravém menu stáhne JSON zálohu. NAČÍST ji obnoví.
+• Samotné rozhraní automaticky pamatuje rozehranou hru v prohlížeči.
+  Data mezi mobilem a PC se nesynchronizují — pro přenos použij JSON.
+
+TIP: Při testování nejprve nech ZVUK a HUDBU vypnuté. Poté je můžeš
+zapnout samostatnými tlačítky. Na telefonu se spustí až po dotyku.

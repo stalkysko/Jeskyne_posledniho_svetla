@@ -1,0 +1,448 @@
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.13 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+
+SPUŠTĚNÍ NA WINDOWS
+1. Rozbal celý archiv do nové složky.
+2. Dvakrát klikni na HRA.html.
+3. V horní liště musíš vidět 0.11.8.13.
+
+Samostatný opravný ZIP pro 0.11.8.13 patří na verzi 0.11.8.12.
+Přepiš soubory z patche. Neobsahuje žádné nové grafické soubory.
+Ze starších vydání použij celý archiv FULL; uloženou hru lze
+poté znovu načíst.
+
+Hra nepotřebuje instalaci ani internet. Neotvírej HRA.html přímo
+z náhledu ZIPu: soubory hra.js, havran_dialogy.js, carodej_dialogy.js,
+carodej_roleplay_v11812.js,
+havran_v116.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
+reakce.js, mapa.js, hra.css
+a celá složka assets musejí zůstat vedle sebe.
+
+OPRAVA 0.11.8.13 (1. 11. 2026) — VĚŽNÍ DVEŘE A ROLEPLAY
+• Drobné upřesnění: věž jistí mosazný zámek se slunečním znakem;
+  na rozdíl od mlýna nemá žádnou vnitřní závoru.
+• Pokusy „vyrazit dveře“, „rozrazit dveře“ nebo „rozběhnout se
+  a kopnout do dveří“ nyní skutečně znamenají fyzický útok, nikoli
+  přistoupení k zámku nebo prohlížení dveří.
+• Rozlišeny kopnutí, náraz ramenem, páčení zámku či pantů mečem,
+  zasouvání meče do klíčové dírky, sekání, tlak a tahání za kliku.
+  Opakované pokusy mají nové, na situaci navazující odpovědi.
+• Příkazy „vylézt do věže“, „vylézt oknem“, „prolézt oknem“,
+  „vyšplhat po zdi“ nebo „probourat zeď“ nyní popisují skutečnou
+  překážku a nemění hráči místnost.
+• Tlačení do stále zamčených dveří už nesmyslně nevyžaduje volbu
+  klíče. Když jsou dveře předem odjištěné, lze je tlačením otevřít.
+  Sluneční klíč dál otvírá věž původním způsobem.
+• Beze změny zůstávají grafika, čaroděj, havran, herní hádanky,
+  předměty i formát uložených her. PATCH je určený přímo na 0.11.8.12.
+
+ROZŠÍŘENÍ 0.11.8.12 (1. 11. 2026) — ČARODĚJ ROZUMÍ ZÁMĚRU
+• V ledové jeskyni přidána samostatná kontextová vrstva češtiny:
+  rozlišuje rozhovor, fyzický pokus, žert, lichotku, urážku, omluvu,
+  soucit, vyjednávání, podvod, neuskutečnitelný plán i nesmysl.
+• Čaroděj nově odpovídá na širokou škálu obměn otázek: minulost,
+  rodina, nálady, hlad, smutek, přátelství, jméno a vlastní chyby.
+  Konverzace se mění podle opakování a předchozího zacházení.
+• Při absurdních pokusech nevznikají předměty z ničeho a hra
+  neodchází do cizí lokace; čaroděj zůstává ostražitým strážcem.
+• Rozšířeny reakce na schovávání, šplhání, kontakt, vyvolání pomoci,
+  předstírání smrti, hloupé triky i hráčovy komentáře o světě.
+• Původní pokyny k portálu, boj, fyzický průzkum a především řešení
+  hlavní hádanky jsou zachovány. Nová vrstva je čistě offline:
+  rozpoznává skupiny významově příbuzných vět, nikoli libovolnou
+  svobodnou řeč jako vzdálená umělá inteligence.
+• Grafika ani audio se NEMĚNÍ. Uložené hry ze starších verzí fungují.
+• Kontrolováno rozšířenou sadou více než 970 herních regresních testů.
+
+OPRAVA 0.11.8.11 (1. 11. 2026) — ŽIVÉ AKCE V LEDOVÉ JESKYNI
+• Odstraněna kolize mezi rozhovory a fyzickými úkony. Zmínka o meči,
+  ledu nebo mrtvých trpaslících už nepřevádí útok či průzkum na
+  náhodnou čarodějovu repliku.
+• Příkazy k bodnutí oka, házení meče, kamene či kousku ledu a sekání
+  do ledového sloupu mají konkrétní scénické výsledky; pokusy o
+  násilný útok mají dál původní nebezpečné následky.
+• Schovávání před čarodějem (i „schovat se mu“) bere v úvahu jeho oči;
+  opakované pokusy dostaly různé odpovědi.
+• Prohlížení a prohledávání mrtvých je oddělené od hovoru s čarodějem.
+  Lze se ptát na jejich zbraně, hledat luk a prozkoumat zbytky výzbroje.
+  Nebyly přidány žádné nevysvětlené předměty či nové řešení hádanky.
+• Opravena i otázka „co si myslíš o mně?“ v rozhovoru s čarodějem.
+• Umělecké podklady, ostatní lokace, průchod k portálu, inventář a
+  ukládání/načítání zůstávají zachované. PATCH nemění žádný obrázek.
+
+NOVINKA 0.11.8.10 (1. 11. 2026) — ČARODĚJ S VLASTNÍM HLASEM
+• Ledový čaroděj má rozšířenou historii, motivace a více než čtyřicet
+  konverzačních okruhů; reaguje na opakované dotazy, dřívější pokusy
+  o průchod i na stav příběhu. Je chladný a nebezpečný, ale ne plochý.
+• Lze se ho ptát na minulost, jméno, podobu, oči, žezlo, hvězdáře,
+  trpaslíky, havrana, věčnou zimu, samotu, lítost, strach či portál.
+• „Co tu děláš?“, „Můžu jít dál?“, „Mohu projít?“, „Nech mě projít“
+  včetně drobného překlepu patří nyní čaroději, ne obecným nápovědám.
+• „Jít k portálu“, „k portálu“, „na sever“ a „chci jít dál“
+  se skutečně pokusí přiblížit k portálu. Čaroděj tomu aktivně zabrání;
+  žádné přesměrování na jižní cestu ani přesun mimo jeskyni.
+• Hlavní hádanka, podoba čaroděje, veškerá původní grafika, inventář,
+  havranovy rozhovory a načítání starších uložených her zůstávají.
+• PATCH obsahuje pouze úpravy textu a JavaScriptu, žádné obrázky.
+
+OPRAVA 0.11.8.9c (31. 10. 2026)
+• Mlýn: pokus vstoupit oknem odpovídá skutečnému oknu/průlezu,
+  nikoli zavřeným dveřím a klice. Mlýn přesto zůstává neprůchodný.
+• Havran: reakce na přímé oslovení („na co čumíš“, „co na mě zíráš“),
+  mluvení, původ, důvod sezení, dobu čekání, otázky „jak dlouho ještě“
+  a upřesnění „vrátit kam“ mají vlastní kontextové odpovědi.
+  Hod kamenem po havranovi má konečně konkrétní reakci a zhorší důvěru;
+  neodkazuje na zdivo na úplně jiném místě.
+• Most: „co je to za světlo“ správně označuje kovový odlesk ve spáře,
+  nikoli lucernu z jiné lokace.
+• Oprava nemění kresby, jejich umístění ani fungování existujících
+  hádanek a inventáře.
+
+OPRAVA 0.11.8.9b (31. 10. 2026)
+• Krypta: původní příliš ozdobná schránka je nahrazena jednoduchou,
+  nenápadnou, tmavě kamennou kresbou ve skutečném VGA měřítku.
+  Zavřená, otevřená s lístkem a prázdná varianta drží stejné místo na
+  podlaze před výklenkem. Původní malba místnosti zůstala nedotčená.
+• Havran: po útoku odpovídá na „zlobíš se?“ a „odpustíš mi?“ podle
+  skutečného stavu důvěry a omluv; „ublížit havranovi“ je chápáno jako
+  úmysl útoku, nikoli jako neznámý příkaz.
+• Observatoř: hvězdná mapa (i „podívat se na mapu“), hodiny a náčrty
+  mají konkrétní, scénické odpovědi namísto popisu celé místnosti.
+• Sluneční kotouč: jeho prázdný držák nabízí pouze sotva patrnou
+  kruhovou stopu po hladkém skle, bez předčasného prozrazení kapsle.
+  Otázky na kapsli nevracejí chybnou hlášku o jejím dosahu.
+
+ÚPRAVA 0.11.8.9a (31. 10. 2026)
+• Posunuta a proporcionálně zmenšena malovaná bedýnka u mlýna.
+  Nyní stojí ve stínu pod pracovní deskou, mezi již namalovanou
+  stoličkou a pravou nohou stolu. Nedotýká se žádné nohy stolu.
+• Všechny tři stavy bedýnky mají stejné souřadnice; ostatní malby
+  i herní logika zůstávají beze změny.
+• Krypta: zkontrolovaná původní malba a boční temný výklenek.
+  Okovaná schránka je menší, níž u podlahy, nepřekrývá sarkofág
+  ani sloupy; všechny tři stavy mají společné umístění.
+• Havran rozumí i pochvale „jsi lepší než někteří lidé“, povzdechu
+  „achjo“ a rozloučení „měj se“ / „měj se hezky“. Nevyžaduje
+  opravu na nesouvisející příkaz „směj se“.
+• Po zahřátí havrana lucernou fungují otázky „je ti lépe?“,
+  „už ti není zima?“ a nabídka „chceš přinést něco teplého?“.
+  Odpovídá podle toho, zda byl skutečně zahřát, a pamatuje si to.
+
+OPRAVA 0.11.8.9 (31. 10. 2026)
+• Havran nemá přidělené jméno „Krá“: je to jen jeho zakrákání.
+  Hvězdář jej oslovoval „kamaráde“, což také není jeho vlastní jméno.
+  Sjednoceny osobní rozhovory a odpovědi na opakované dotazy.
+• Na právě prohlédnutou bedýnku či pohřební schránku můžeš navázat
+  přirozeně: „rozbít to mečem“, „vypáčit to“, „prozkoumat to“.
+  Odkazy se při změně místnosti zahazují; puzzle stále vyžadují
+  skutečně objevené předměty a původní postup.
+• Most: všechny nahlášené opisné příkazy k odlesku a sponě
+  zůstávají funkční včetně „vyndat to mečem“.
+• Prázdný příkazový řádek má viditelný blikající blokový kurzor
+  i při zaměření; při psaní přepne na kurzor za zadávaným textem.
+• Původní ručně malované pozadí, dodatečně malované bedýnky,
+  schránky, podkova a nový čaroděj zůstávají. Zachován save/load.
+
+VERZE 0.11.8.8 (31. 10. 2026)
+• Vrátily se VIDITELNÉ a stylově jednotné malované předměty:
+  dřevěná bedýnka pod stolem (zavřená, rozbitá s mincí, prázdná),
+  pohřební schránka ve výklenku krypty (zavřená, s lístkem, prázdná).
+• Osm vlastních VGA spritů: zachovávají chladnou modrofialovou paletu,
+  drobnou pixelovou kresbu a světlo původních pozadí.
+• Čaroděj v ledové jeskyni je nově výtvarně přepracovaná čtyřoká
+  modrá bytost dle předlohy z filmu Velký, se zvláštním žezlem.
+  Původní jednoduchý znakový sprite se již nepoužívá.
+• Nad zápražím mlýna visí kreslená rezavá podkova. Lze ji prohlédnout,
+  sebrat, odložit a uložit do uložené hry; po sebrání ze scény zmizí.
+• Lezení na zamrzlé mlýnské kolo dostalo místní reakci.
+  „Vypáčit dveře mečem“ skutečně zanechá zásek, ale dál platí,
+  že dveře jsou zapřené zevnitř a nelze jimi projít.
+• Příkazový řádek má blikající kurzor. Na PC se po spuštění aktivuje
+  vstupní pole; při psaní bliká kurzor za skutečně vloženým textem.
+• Hádanky, mapa, přechody, původní malovaná pozadí a kompatibilita
+  uložených her zůstávají zachované. Žádné původní PNG není přepsané.
+
+OPRAVA 0.11.8.7 (31. 10. 2026)
+• Krypta: odstraněné obě hrubě dokreslené podoby schránky
+  (zavřená i rozbitá), které překrývaly původní ručně malovaný obraz.
+• Schránka zůstává skrytá v pohřebním výklenku a lze ji prozkoumat,
+  vypáčit mečem a vyzvednout z ní lístek přes původní příkazy.
+• Žádné změny původních obrázků, inventáře, stavů hádanek ani uložených her.
+
+OPRAVA 0.11.8.6 (31. 10. 2026)
+• Opravena návaznost na lesklý předmět u strženého mostu:
+  „sebrat to“, „sebrat lesklý objekt“, „vyndat lesklý předmět“,
+  „jít blíž k lesklému kovu“ a „co se to leskne?“
+  už neodkazují na havrana ani nevracejí obecnou příběhovou radu.
+• Předmět zůstává zajištěný zrezlou sponou: nejprve prozkoumej
+  okraj útesu, pak lze sponu vypáčit mečem a přívěsek sebrat.
+• V mlýně odstraněna hrubě dokreslená hnědá bedýnka překrývající
+  ručně malovanou scénu. Hádanka s bedýnkou zůstává funkční.
+  „Co to je pod stolem?“ a „pod stolem“ ji správně popíšou.
+• Žádné nové místnosti, předměty ani grafické podklady.
+  Uložené pozice V11.8.5 zůstávají kompatibilní.
+
+NOVINKY A OPRAVY 0.11.8.5 (31. 10. 2026)
+• Kovový odlesk a skrytý přívěsek patří k hraně levého útesu,
+  do úzké skalní spáry. Hra nepředpokládá žádné křoví na obrázku.
+  Příkazy pro prozkoumání lesku, okraje, skály nebo spáry
+  vedou k odpovídajícím stopám. Zůstává možnost sponu vypáčit mečem.
+• V kryptě je nový postranní výklenek se starou schránkou.
+  Mečem lze schránku otevřít a získat čitelný předmět s příběhovou stopou.
+  Hrobka, klíč a původní postup hlavní hrou jsou zachovány.
+• Historická verze zde chybně přiřadila havranovi jméno „Krá“;
+  oprava 0.11.8.9 toto neodsouhlasené pojmenování odstranila.
+• Opravy kontextu a synonym parseru. Hledání prostoru na mostě
+  neodkazuje na havrana v jiné lokaci. Zachovány příkazy lavice,
+  interakce s lucernou, zápisník, dalekohled a vztahová paměť havrana.
+• Nedošlo k nahrazení grafických podkladů ani odstranění původních
+  lokací. Načítání uložených her z dřívějších verzí V11 je zachováno.
+
+OPRAVY 0.11.8.4 (31. 10. 2026)
+• „Prozkoumat lavici“ na rozcestí nyní funguje. Stejně tak „prohlédnout
+  lavičku“, „sednout na lavici“ a „očistit lavici“.
+• U neškodného prohlížení lze opravit jediný překlep v příkazu
+  (např. „prozkiumat lavici“) i v názvu blízkého předmětu, pokud
+  je rozpoznání jednoznačné. Hráč nemusí opravný příkaz opakovat.
+• Doplněny běžné tvary dalších místních předmětů, např. „patníku“.
+  Automatické domýšlení se nepoužívá na sekání, rozbíjení ani
+  jiné riskantní akce, aby hra sama nevykonala nechtěný zásah.
+• V této starší verzi zůstával kompletní obsah V11.8.3 včetně křoví u mostu, přívěsku,
+  bedýnky, rozhovorů s havranem, grafiky, mapy a uložení hry.
+
+OPRAVY 0.11.8.1 (31. 10. 2026)
+• Opravené odpovědi havrana na „pomůžeš mi?“, „můžeš mi pomoct?",
+  hledání černokněžníka, „proč tu musíš zůstat?“ a navazující „proč?“.
+• Příkaz „jít k havranovi“ z mostu vrátí hráče na rozcestí.
+  Osobní otázky havranovi nadále nepřesouvají postavu.
+• „Pryč“ / „odejít“ při pohledu dalekohledem nejprve ukončí pohled,
+  až opakovaný příkaz odvede hráče ze síně.
+• Opakované prohlížení mosazného těžítka přidává detaily bez umělé hádanky.
+• Zachován pětistupňový deník a původní odsouhlasený pixelový havran.
+  Poslední stránka se nyní otevírá uvnitř VGA scény, nikoli jako
+  celostránkové okno; je záměrně zobrazena přes hrubší pixely.
+• Skrytý hvězdářův přívěsek má vlastní malou grafickou podobu.
+  V tehdejší aktualizaci byla jeho skrýš přesunuta do křoví u mostu.
+
+NOVINKY A OPRAVY 0.11.8.3 (HISTORICKÝ ZÁZNAM; UMÍSTĚNÍ ZMĚNĚNO V 0.11.8.5)
+• Zmizela nepřirozeně veliká levitující spona na pilíři mostu.
+• V křoví na levém břehu je viditelný, ale stále drobný kovový odlesk.
+  Záblesky jsou pixelové, častější a kontrastnější; nekryje je rytíř.
+  Zkoumej křoví, odhrň větve, pak můžeš mečem
+  vypáčit sponu mezi kořeny. Přívěsek se dá sebrat a ukázat havranovi.
+• Rozhlížení na mostě má více různých pozorování; lze prozkoumat
+  břeh, sráz i kameny, házet nalezené oblázky či sněhové koule.
+  Skok dolů vyvolá smysluplnou reakci na nebezpečnou propast.
+• U pracovního stolu mlýna je malá dřevěná bedýnka. Meč ji může
+  rozbít; pod troskami zůstane stříbrná mince k sebrání.
+  Oba stavy jsou uložitelné a v grafice trvale viditelné.
+• „Zahřát havrana lucernou“ reaguje podle skutečné lucerny,
+  světla, důvěry a případného předchozího ubližování.
+  Nejde o rozpouštění ledu. Úspěšná laskavost může posílit důvěru.
+• Ověřena podmínka pro oslovení „příteli“: důvěra, přiblížení,
+  žádná neodčiněná újma. U nepřátelského hráče se nespouští.
+
+NOVINKY 0.11.8 (31. 10. 2026)
+• Havran odpovídá na osobní otázky o slibu, hvězdáři, jeho hlasu,
+  kroužku, návratu a čekání. Otázky nepřesouvají postavu mezi lokacemi.
+  Výslovně ošetřeny i věty „budeš tu až půjdu zpátky?“ a
+  „zapomněl jsem se rozloučit“.
+• K havranovi lze fyzicky přistoupit a natáhnout k němu ruku. Reakce
+  a viditelná blízkost závisí na předchozím chování hráče. Zachována
+  původní havranova poznámka o jeho důstojnosti při pohlazení.
+• Oslovení „příteli“ si musí hráč zasloužit vzájemnou důvěrou.
+  Havran zůstává na místě dobrovolně, protože věří svému slibu.
+• Hvězdářův zápisník má posloupnost čtení: třikrát nové poznatky
+  o pozvolném chladu a hvězdářově zdraví, počtvrté nic nového,
+  popáté poslední stránku s jedinou obyčejnou kresbou havrana.
+  Deník není ani zpola popsaný; žádný dalekohled ani vysvětlující nápis.
+• Časová osa odpovídá postupnému šíření zimy. Jde o tajemství,
+  vztah a rozhodnutí, nikoli příběh o pomstě.
+• Uložené hry z předchozích verzí V11 lze dál načítat.
+
+NOVINKY 0.11.7 (31. 10. 2026)
+• Havran rozumí návazným osobním otázkám „opustil tě?“, „cestu kam?“,
+  „co ti řekl?“ i „a teď je to těžké?“ bez toho, aby vypsal inventář,
+  zkusil fyzický příkaz nebo přerušil rozhovor.
+• Zachována doslovná věta „Ten slib jsem dal, když ještě nebyl sníh.
+  Tehdy se mi zdál lehký jako pírko.“ Havran může sám po delším tichu
+  promluvit, ne však uprostřed příkazu.
+• Sedm původních lokací má navíc mnoho nepovinných, autorsky psaných
+  detailů, povrchů, zvuků, stop a reakcí. Některé pokusy mění stav světa.
+• Existuje jediný skrytý sběratelský předmět související s hvězdářem;
+  jeho nalezení není nezbytné pro vítězství. Návod neprozrazuje kde je.
+• Dveře mlýna po zásahu mečem nesou viditelnou stopu v textovém popisu;
+  mlýn zůstává nepřístupný, jak určuje příběh.
+• Po prozkoumání stolu lze říct „vezmi oboje“ nebo „věci ze stolu“.
+• Fialový prompt > bliká jako na starém PC, s respektem k nastavení
+  omezeného pohybu operačního systému.
+• Uložené hry z dřívějších V11 zůstávají načitatelné.
+
+NOVINKY 0.11.6 (31. 10. 2026)
+• Čtvrtá testovací sada: po „můžu ti pomoct?“ odpovídá havran
+  přirozeně i na „co mám udělat?“ a místo inventáře naváže na pomoc.
+• Havran rozezná „kdo ti řekl, že tu musíš zůstat?“, „byl tvůj přítel?“,
+  „jste přátelé?“, „mám hvězdáře najít?“ a i překlep „chceš abch
+  hvězdáře našel?“. Návaznost si pamatuje v daném rozhovoru.
+• Příkaz „co mám u sebe?“ dál správně ukazuje inventář. Progres a
+  uložené hry z 0.11.5 zůstávají kompatibilní.
+
+NOVINKY 0.11.5 (30. 10. 2026)
+• Zachovaná původní KLASIKA bez Ollamy/LLM. Experimentální AI není součástí hry.
+• Další desítky formulací otázek a promluv s havranem: kdy a proč čeká,
+  hvězdář a kroužek, samota, sníh, volnost, společná cesta, slib návratu,
+  podpora, důvěra, komplimenty i zastrašování a pokus chytit ho lanem.
+• Vztah se mění podle chování. Havran si pamatuje dodržený slib a nové
+  návštěvy, nepříjemné zacházení i omluvu. Pouhé opakování chvály není
+  způsob, jak bez konce získávat jeho důvěru.
+• Otázky k havranovi neaktivují chůzi, odstraňování ledu ani použití věcí.
+• Krypta: pochodně na stěnách jsou vyhaslé. Při rozsvícení lucerny se
+  rozjasní jen okolí hráče, po zhasnutí se krypta opět ponoří do tmy.
+• Otevřený sarkofág používá souvislou ručně malovanou variantu scény
+  s klíčem či prázdným vnitřkem, nikoli transformovaný kus víka z atlasu.
+• Zůstávají opravena zavřená vrata věže a odstraněna formulace o
+  „přistoupení k viditelné věci“. Nápověda nevykecá řešení bez vyžádání.
+• Webové mobilní rozhraní se škáluje na iPhone a Android a nabízí velká
+  dotyková tlačítka pro světové strany i základní příkazy. Návod v souboru
+  MOBILE_NAVOD.txt. Nejde o nativní aplikaci .ipa/.apk.
+
+CO OBSAHUJE STABILNÍ VERZE 0.11
+• Mlýn má skutečně zavřené a zajištěné dveře, které netvoří falešný vstup.
+  U pracovního stolu se lze zastavit a přezkoumat věci na něm i pod ním.
+• Rytíř u strženého mostu stojí na bezpečném břehu. Po navázání lana
+  se zobrazí namalovaný zajištěný přechod.
+• Sarkofág je po otevření souvisle překreslenou scénou, nikoliv hranatým
+  překryvem. Obraz se změní i ve chvíli, kdy z něj vezmeš klíč.
+• Dveře věže mají samostatně malovaný uzavřený stav; otevření a zavření
+  se už nedělá černým obdélníkem přes obrázek.
+• Do dalekohledu je skutečně možné nahlédnout. Má vlastní detailní VGA
+  horskou scenérii; po vyjmutí čočky je pohled rozmazaný.
+• Sníh má nezávislé velikosti, rychlosti, směry a rozmístění vloček,
+  netvoří pravidelné rovnoběžné linie.
+• Výrazně rozšířené autorsky psané reakce na předměty a činnosti.
+  Pokračovací otázky v hovoru s havranem a čarodějem rozvíjejí jedno téma
+  během několika návazných odpovědí.
+• Vylepšené reakce na dotazy o věcech pod stolem, zavřené mlýnské dveře,
+  opakované otevírání a stav již použitých předmětů.
+• Nápověda postupuje od náznaku ke konkrétnějšímu řešení. Automatický
+  výpis viditelných věcí nezasahuje do běžných popisů.
+• Zpřesněné ledové vězení při neúspěšném souboji.
+
+OBSAH Z VERZE 0.11.1 — HAVRAN A KONTINUITA
+• Havran si pamatuje, že ses s ním setkal, a postupně rozvíjí důvěru.
+  Opakovaná poděkování, pozdravy, omluvy, přátelská slova i nevhodné
+  zacházení mají vlastní autorsky připravené odpovědi.
+• Vypráví o svém čekání, samotě, hvězdáři, strachu a budoucnosti údolí.
+  Na otázky CO JEŠTĚ, PROČ a JAK TO VÍŠ navazují konkrétní odpovědi
+  vztahující se k tématu. Hra si pamatuje navštívená témata a návraty.
+• Po návratu na rozcestí havran reaguje na skutečný postup v hádankách.
+  Postupně lze získat jeho důvěru a za určitých okolností ho pohladit.
+  Při hovoru a poděkování se jeho malá pixelová postava jemně pohybuje.
+  Můžeš mu také naslouchat nebo zkusit něco darovat; odpoví podle věci.
+• Opravena nápověda po vyjmutí či vložení čočky, otevřené/odjištěné
+  dveře věže, formulace světla uloženého hvězdářem před zmrznutím údolí,
+  a manipulace s hořící odloženou lucernou.
+• Po vítězství je rozšířené textové uzavření, které připomene havrana,
+  pokud jste se poznali. Opravdu se můžeš jižní cestou vrátit přes
+  věž a most na rozcestí: čeká tam závěrečná scéna shledání a další
+  rozhovory, které už počítají s vysvobozením údolí. Portál má
+  smysluplnou závěrečnou interakci.
+  Vítězný vizuální efekt zůstává krátký; plná filmová animace ani
+  závěrečné titulky zatím nejsou součástí této verze.
+
+NOVINKY VERZE 0.11.2 — ZVUKY A PŮVODNÍ HUDBA
+• Dvě zcela nezávislá tlačítka v dolní liště:
+  ZVUK — jemný vítr, tichý temný podkres, kapání, dřevo, led, decentní
+  reakce při některých hádankách a rozhovoru s havranem.
+  HUDBA — původní pomalé fantazijní melodie ve stylu starých VGA adventur.
+• Každá ze sedmi lokací má vlastní hudební a zvukovou náladu. Hudba je
+  napsaná ve frázích s pauzami a s obměnou, není to osmivteřinové opakování.
+  Havran má při některých rozhovorech drobný třínotový motiv.
+  Po vítězství se hudba z temnějších souzvuků promění ve světlejší motiv.
+• Všechno se syntetizuje přímo v prohlížeči. Nejsou potřeba kodeky,
+  síť, streamování ani externí hudební soubory. Nejsou použity cizí skladby.
+• DŮLEŽITÉ: zvuk se sám nespustí. Klikni na ZVUK a/nebo HUDBA.
+  Prohlížeče vyžadují uživatelské kliknutí, než pustí audio.
+• Obě tlačítka jsou zpočátku vypnutá; při čtení můžeš ponechat jen ruchy,
+  jen hudbu, obojí nebo úplné ticho.
+• Všechny původní PNG grafické podklady a původní CSS vzhled zůstaly stejné.
+  Přibylo pouze potřebné tlačítko v existující dolní liště.
+
+NOVINKY VERZE 0.11.3 — PŘIROZENÉ PŘÍKAZY A HLOUBKA HAVRANA
+• Samotné názvy míst (např. MLÝN, MOST, K MLÝNU) neprovedou přesun.
+  V hovoru s havranem znamenají téma. Chůzi provede až výslovný povel
+  JDI DO MLÝNA, VYRAZ K MOSTU nebo samostatný směr ZÁPAD, SEVER atd.
+• Otázky KAM VEDE CESTA?, KUDY SE JDE K VĚŽI?, JAK SE DOSTANU DO MLÝNA?
+  odpovídají podle aktuálního místa. Nejsou zaměněny za příkazy k chůzi.
+• Na mostě lze PŘEHODIT LANO, HODIT LANO NA DRUHOU STRANU,
+  PŘEJÍT NA DRUHOU STRANU nebo PŘEJÍT PŘES MOST. Bez jištění přechod
+  zůstane zablokovaný. S hákem není potřeba pátrat po dalším předmětu:
+  je pevnou součástí lana u mlýna, nyní výslovně uveden v inventáři.
+• Havran má desítky dalších témat se souvislými autorskými reakcemi:
+  vzájemnou pomoc, sliby, přátelství, rodinu, vzpomínky, smrt, samotu,
+  minulost hvězdáře, svobodu, osud, naději i filozofické otázky.
+  Na vybrané otázky se zeptá sám, umí položit hádanku a občas při dlouhém
+  tichu pronese vlastní myšlenku. Po vítězství odpovídá jinak.
+• Předchozí grafika, pixelové animace, zvuková kulisa, hudba a původní
+  herní zápletka jsou zachovány bez změn.
+
+OPRAVY 0.11.3.1 — OTÁZKA NENÍ CHŮZE
+• „MÁM JÍT DO MLÝNA?“ a další přirozené otázky na vhodnost cesty
+  už rytíře nepřesouvají. Havran odpovídá podle skutečného postupu.
+  Je rozdíl mezi „Mám jít...?“ a „Jdi...“.
+• „ODEJÍT“ a „OPUSTIT MLÝN“ v místech s jediným bezpečným východem
+  znamenají návrat. Tam, kde se cesta větví, hra popíše možnosti a
+  počká na upřesnění. Zmizela mechanická hláška o „viditelné věci“.
+• Otázky „KDO JE HVĚZDÁŘ?“, „JAKÝ BYL?“ nebo „CO TI PROVEDL?“
+  rozvíjejí osobní vzpomínky havrana, včetně dobrých i špatných chvil.
+• „JAK DLOUHO TU JSI?“, „JAK DOUHO TU BUDEŠ?“ (i s překlepem),
+  „MUSÍŠ TU BÝT?“, „JE MOST BEZPEČNÝ?“ a „JE TO NEBEZPEČNÉ?“
+  mají nové návazné odpovědi podle místa a stavu zajištěného mostu.
+• Rovněž „HAVRANE, MŮŽU PŘEJÍT PŘES MOST?“ je otázka, ne chůze.
+• V11.3 zůstává samostatně jako předchozí záloha; V11.3.1 ji nemění.
+
+NOVINKY 0.11.4 — ČARODĚJ A STABILIZACE
+• Čaroděj má vlastní soubor stručných, nepřátelských replik v mnoha
+  tématech: výhružky, strach, dohody, vzdor, trpaslíci, hvězdář,
+  havran, samota a světlo. Návazné otázky už nevracejí obecnou hlášku.
+• Rozhovor s čarodějem je oddělený od herních akcí a nesmí měnit
+  inventář, polohu hráče ani stav hádanek. Řešení čaroděj neprozrazuje.
+• Zachován klasický ručně napsaný havran: žádné připojení, žádný model,
+  žádná registrace. AI laboratoř je samostatný druhý archiv.
+• Původní malby, kostra animací, zvuky a hudba zůstaly zachovány.
+
+ULOŽENÉ HRY
+• Tlačítko ULOŽIT vytvoří soubor Jeskyne_v11_7_ulozena_hra.json.
+• Tlačítko NAČÍST načte i starší soubory stejné série (V10 a kompatibilní
+  předchozí verze). Stav rozhraní a logika čočky se při načtení přizpůsobí.
+• Automatické pokračování sdílí pozici s V10, můžeš však zadat RESTART
+  a potvrdit ANO. Příkaz ZPĚT vrací poslední provedený tah.
+
+OVĚŘENÍ 0.11.3.1
+• 584 úspěšných automatických kontrol: dokončení hry, reverzní tah,
+  předměty a hádanky, přechody místností, interakce, návazné dialogy,
+  stovky kombinací slov a kompatibilita načtení starého souboru V10.
+  Pocházejí z ověřeného základu 0.11.0.
+• Pro 0.11.1 dále prošlo 434 samostatných kontrol a zkušebních příkazů
+  včetně havranových reakcí, logiky sedmi lokací, vítězství, návratů,
+  stavu čočky, portálu a načtení starého uloženého postupu.
+• Stejných 434 testů znovu prošlo s herními skripty 0.11.2.
+• V0.11.3 znovu prošlo všech 434 regresních testů původního průchodu
+  a další samostatné testy názvů míst, směrových otázek, havranových
+  rozhovorů, háku v inventáři a přechodu přes propast.
+• V0.11.3.1 znovu prošlo 434 původních regresních testů a 238 testů
+  rozhovorů a cest. Dalších 198 testů ověřuje rozlišení otázky a
+  příkazu, přirozený odchod, havranovy odpovědi, most a shodu všech
+  původních PNG, audio skriptů a CSS s verzí 0.11.3.
+• Zvukový modul prošel samostatným testem stavu obou přepínačů, zákazu
+  automatického spuštění, změny lokací, vítězné hudby a vypnutí plánovače.
+  Živý poslech v běžném prohlížeči Windows zde nebyl k dispozici.
+• Skutečným 2D canvasem byly vykresleny a vizuálně zkontrolovány
+  hlavní stavy lokací včetně otevřeného sarkofágu a pohledu dalekohledem.
+• Samostatný interaktivní test ve Windows prohlížeči nebyl při sestavení
+  v tomto prostředí dostupný. Pokud objevíš chybu, pošli konkrétní příkaz
+  a snímek: neznamená to, že hra rozumí každé možné větě.
+
+DALŠÍ PŘÍKAZY
+Podívej se do SLOVNIK_A_PRIKLADY.txt nebo ve hře zadej POMOC.
+CRT filtr a kreslená mapa zůstávají volitelné. Styl postav a dosavadní
+obsah prvního příběhu se zachovává; nepřibyla nehotová druhá kapitola.

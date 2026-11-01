@@ -1,110 +1,37 @@
-# Jeskyně posledního světla · V11.7 — GitHub Pages
+# Jeskyně posledního světla
 
-Klasická česká textová adventura s ručně kreslenou VGA grafikou. Obsahuje
-rozšířené rozhovory s havranem, paměť vztahu, sedm lokací, hudbu, zvuky,
-mapu a uložení rozehrané hry. Bez Ollamy, bez serverové AI a bez backendu.
+Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Novinky V11.7:** Přirozenější návazné otázky havranovi, zachovaná věta
-o slibu lehkém jako pírko, příležitostné samovolné promluvy, blikající
-retro šipka v příkazovém řádku a více než padesát drobných interakcí
-napříč sedmi původními lokacemi. V jedné z nich je ukryt nepovinný
-předmět, o kterém hra nepodává nápovědy. Dveře mlýna reagují na zásah
-mečem, byť zůstávají neprůchozí. Stav některých změn se ukládá.
-V11.6: Havran navazuje na nabídku pomoci i otázky o přátelství
-s hvězdářem. Rozumí větám „co mám udělat?“, „kdo ti řekl, že tu musíš
-zůstat?“, „byl tvůj přítel?“, „jste přátelé?“ a „mám hvězdáře najít?“.
-Rozšířená pravidla pokrývají i překlep „chceš abch hvězdáře našel?“.
-Uložené pozice z V11.5 a V11.6 jsou kompatibilní.
+**Aktuální vydání:** `0.11.8.13` (1. listopadu 2026) — obsahuje také opravu věžních dveří: sluneční mosazný zámek bez vnitřní závory.
 
-**Tento balík je připraven k publikaci na GitHub Pages.** Hratelné soubory
-jsou ve složce `docs/`. Není potřeba nic programovat ani sestavovat.
+## Hrát v prohlížeči
 
-## Nejjednodušší zveřejnění přes GitHub Desktop
+Po zapnutí **GitHub Pages** se hra otevře přímo z adresy repozitáře. Soubor `index.html` automaticky spustí `HRA.html`.
 
-1. Rozbal ZIP do vlastní složky na PC.
-2. Otevři **GitHub Desktop → File → Add local repository** a vyber
-   rozbalenou složku hry. Protože ještě nejde o Git repozitář, vyber
-   nabízenou možnost **Create a repository here**.
-3. Vytvoř místní repozitář a zkontroluj, že obsahuje složku `docs/`.
-   Pokud aplikace nabídne první commit, potvrď ho.
-4. Stiskni **Publish repository**. Zadej název
-   `jeskyne-posledniho-svetla` a **vypni Keep this code private**, chceš-li
-   hru zveřejnit zdarma přes GitHub Pages. Repozitář se tím vytvoří na
-   GitHubu; **předem ho na webu nezakládej**.
-5. Otevři repozitář na GitHubu → **Settings → Pages**.
-6. V **Build and deployment** nastav:
-   - **Source:** Deploy from a branch
-   - **Branch:** `main`
-   - **Folder:** `/docs`
-   - Potvrď **Save**.
-7. Po dokončení publikace otevři adresu ve tvaru:
-   `https://TVE_UZIVATELSKE_JMENO.github.io/jeskyne-posledniho-svetla/`
+### Zapnutí GitHub Pages
 
-GitHub ve skutečnosti ukáže hotový odkaz přímo na stránce Settings → Pages.
-Jméno účtu a název repozitáře v příkladu musíš nahradit svými.
+1. Nahraj všechny soubory z tohoto balíčku do **kořenové složky repozitáře**. Složku `assets` ponech pohromadě a nic nepřejmenovávej.
+2. Na GitHubu otevři **Settings → Pages**.
+3. V části **Build and deployment** nastav **Deploy from a branch** a vyber větev `main`, složku `/(root)`.
+4. Po zveřejnění otevři adresu GitHub Pages zobrazenou na této stránce.
 
-## Příkazový postup (Git)
+Hra běží jako statická stránka. Nepotřebuje serverovou část, databázi ani připojení k API.
 
-Po rozbalení otevři terminál **uvnitř kořenové složky tohoto balíku**.
-Pro tuto alternativu na [GitHub.com](https://github.com/new) nejprve založ
-**prázdný repozitář**, bez automatického README a dalších souborů.
+## Spuštění bez internetu
 
-```powershell
-git init
-git add .
-git commit -m "Jeskyně posledního světla V11.7 pro GitHub Pages"
-git branch -M main
-git remote add origin https://github.com/TVUJ_UCET/jeskyne-posledniho-svetla.git
-git push -u origin main
-```
+Otevři `HRA.html` dvojklikem v počítači. Na mobilu je pohodlnější otevřít hru přes webové stránky GitHub Pages. Ukládání používá úložiště prohlížeče; ve hře je také možnost exportovat a znovu načíst uloženou pozici.
 
-Změň `TVUJ_UCET` na své uživatelské jméno. GitHub se může zeptat na
-přihlášení. Poté zapni Pages jako v bodech 5–7 výše.
+## Co je v balíčku
 
-## iPhone a Android
+- `index.html` — vstup pro GitHub Pages.
+- `HRA.html`, `hra.css`, `*.js` — samotná hra, parser a dialogy.
+- `assets/` — původní grafické podklady; žádné obrázky nejsou nahrazené.
+- `CTI_ME.txt` — historie oprav a spuštění na Windows.
+- `SLOVNIK_A_PRIKLADY.txt` — příklady interakcí v češtině.
+- `MOBILE_NAVOD.txt` — návod pro mobilní použití.
 
-- Otevři zveřejněnou adresu hry v Safari nebo Chrome.
-- Na iPhonu: **Safari → Sdílet → Přidat na plochu**.
-- Na Androidu: **Chrome → nabídka → Instalovat aplikaci / Přidat na
-  plochu** (podle nabídky konkrétního zařízení).
-- Hra podporuje dotykové směry, velká tlačítka a české příkazy.
-- Veřejná HTTPS verze zkouší po prvním úplném načtení uložit soubory
-  hry pro pozdější hraní bez sítě. V prohlížeči může být offline cache
-  později odstraněna, proto není garantovaná navždy.
-- Uložené pozice a vztah s havranem se drží v úložišti daného prohlížeče.
-  Pro přesun mezi PC a iPhonem použij herní **ULOŽIT / NAČÍST** (JSON).
+**Pozor:** Toto je kompletní verze, nikoli patch. Při aktualizaci existujícího repozitáře zachovej případné vlastní soubory, které do hry nepatří, a nahraj nové herní soubory se stejnými názvy.
 
-## Co je veřejné
+## Poznámka k projektu
 
-GitHub Pages publikuje statické soubory hry na internetu. Každý, kdo zná
-odkaz, ji může otevřít. **Neukládej do repozitáře hesla, tokeny, osobní
-uložené pozice ani jiné soukromé soubory.** Tento balík nic takového
-neobsahuje. Nejde o nativní aplikaci `.ipa` nebo `.apk`.
-
-## Struktura
-
-```text
-README.md                tento návod
-docs/
-  index.html             vstupní stránka GitHub Pages
-  HRA.html               hlavní hra
-  hra.js, hra.css        logika a rozhraní
-  prostor_v117.js       vedlejší interakce a skryté objevy
-  havran_*.js            autorské dialogy a vztah
-  jazyk.js, reakce.js    parser
-  mapa.js, zvuk.js       mapa a původní hudba
-  assets/                ručně malované grafické podklady
-  manifest.webmanifest   metadata pro ikonu na ploše
-  icon.svg               ikona
-  pwa.js, sw.js          ukládání statických souborů pro offline použití
-  .nojekyll              vypnutí Jekyll transformací
-```
-
-Všechny cesty k souborům jsou relativní: hra funguje i v podadresáři
-`/jmeno-repozitare/`, jaký používá GitHub Pages.
-
-## Aktualizace hry
-
-Při další verzi nahraď soubory ve `docs/` a pusť nový commit. Pokud by
-telefon ukazoval staré soubory, otevři stránku při připojení k internetu
-a načti ji znovu; offline cache bude používat nové číslo verze.
+Repozitář neobsahuje závislosti vyžadující instalaci. Autor projektu může samostatně stanovit licenci; v tomto balíčku žádná licence k dalšímu šíření udělena není.

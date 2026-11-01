@@ -1,0 +1,36 @@
+Asset assets/rytir.png vytvořen vestavěnou obrazovou tvorbou.
+Referencí byl přímo atlas assets/svet.png.
+Zadání: transparentní atlas 2 × 2, konzistentní nízkorozlišovací VGA
+rytéř ve čtyřech pózách. Přirozené štíhlé proporce, hrubé malované pixelové
+shluky, dithering, kobaltové stíny, azurové světlo, fialový plášť.
+Omezená paleta, bez fotorealismu, drobných ornamentů a hladké ilustrace.
+Stání, chůze, hod, útok. Pozadí se nemění.
+
+0.9: Vestavěná obrazová tvorba s referencí původního atlasu vytvořila
+čistý mlýn bez lana, olejničky a lucerny; rekonstruované zdivo, dřevo
+a deska stolu v původním VGA stylu. Samostatný transparentní atlas
+obsahuje lano s hákem, zelenou olejničku a mosaznou lucernu.
+
+MAPA 0.10.2 — Vytvořeno vestavěným imagegen.
+Zadání: Hand-pixel-painted oblique VGA world map of a snowy mountain valley at midnight. Navy, cobalt, cyan and subtle magenta palette; detailed watermill west of forest crossroads; broken bridge north of crossroads; astronomer tower and courtyard north of bridge; crypt west of tower; cave in northern mountains; observatory atop the same tower. Snowy fir forests, frozen creek, architectural landmarks integrated into terrain. No text, UI, people or extra settlements. Labels, current position and exploration mask rendered by game code.
+
+0.11.0: Nové plnohodnotné grafické stavy odvozené z původního atlasu:
+zamčené dubové dveře v mlyn_zavreny.png; věžní dveře ve vez_zavrena.png;
+zajištěný přechod v most_lano.png; otevřený sarkofág s klíčem
+v krypta_otevrena_klic.png a po jeho odebrání v krypta_otevrena_prazdna.png.
+Ve všech případech jde o souvislou malovanou scénu, nikoliv dodatečný
+barevný obdélník na původní grafice.
+
+0.11.0: dalekohled_vyhled.png je samostatný panoramatický VGA obraz hor,
+hvězd a vzdálené modré záře, sestavený pro masku okuláru ve hře.
+Herní kreslicí kód přidává optické orámování, zaměřovací linky a
+rozostření po vyjmutí čočky.
+
+0.11.1: Drobné autorské animační změny v kódu postavy havrana na
+rozcestníku — sklonění hlavy při poděkování, pohyb křídla při pozdravu
+nebo návratu a reakce při nepřátelském jednání. Původní výtvarné
+atlasy a malované scény zůstávají beze změny.
+
+0.11.2: Přidaná původní hudební a zvuková syntéza (zvuk.js).
+Výtvarné atlasy, malované lokace ani CSS nebyly měněny; ve spodní liště
+HRA.html pouze přibyla dvě zvuková tlačítka.
