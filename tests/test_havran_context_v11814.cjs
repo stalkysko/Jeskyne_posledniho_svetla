@@ -22,6 +22,7 @@ const examples = [
   ['proč tu čekáš?', null, 'promiseWhyWait'],
   ['A čekáš?', {speaker:'raven',room:'clearing',topic:'master'}, 'promiseStillWaiting'],
   ['A čekáš?', oldContext, 'promiseStillWaiting'],
+  ['A čekáš?', {speaker:'raven',room:'clearing',topic:'ravenPresentAction'}, 'promiseStillWaiting'],
   ['Pořád čekáš?', {speaker:'raven',room:'clearing',topic:'duty'}, 'promiseStillWaiting'],
   ['Ještě čekáš?', oldContext, 'promiseStillWaiting'],
   ['A čekáš?', otherContext, null],
