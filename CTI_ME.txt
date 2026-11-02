@@ -1,9 +1,9 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.15 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.16 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.15.
+3. V horní liště musíš vidět 0.11.8.16.
 
 Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
 nahraj jeho rozbalený obsah do hlavní složky (main / root).
@@ -15,6 +15,15 @@ carodej_roleplay_v11812.js,
 havran_v116.js, havran_kontext_v11814.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+OPRAVA 0.11.8.16 (2. 11. 2026) — ROZHOVOR S HAVRANEM, ÚKOL, NÁPOVĚDA
+• Příkaz „nápověda“ a tlačítko NÁPOVĚDA jsou vědomá žádost o herní tip.
+• „Potřebuji pomoc“, „Potřebuju pomoct“, „Potřebuji poradit“,
+  „Pomůžeš mi?“ a „Dáš mi nějakou radu?“ patří do rozhovoru s havranem.
+• „Co je můj úkol?“, „Jaký mám quest?“, „Mám něco dělat?“ mají vlastní
+  tematické odpovědi s vysvětlením poslání, bez řešení hádanek.
+• Opakované prosby neodemykají postupně hotová řešení hádanek.
+• Beze změny zůstala celá grafika, herní svět i mobilní zvuk.
 
 OPRAVA 0.11.8.15 (2. 11. 2026) — ZVUK NA IPHONU
 • Dva ověřovací tóny na tlačítku TEST ZVUKU.

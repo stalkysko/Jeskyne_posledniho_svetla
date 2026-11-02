@@ -234,7 +234,8 @@ const ravenDeepTopics=[
  ['bridgeSafety',/\b(je (?:ten |tento )?most (?:bezpecny|nebezpecny|pevny)|je (?:ten |tento )?most (?:jeste )?bezpecny|jak (?:bezpecny|nebezpecny) je most|muze se most zritit|spadnu z mostu|je prechod pres most nebezpecny|muze me most unest|udrzi me most|mam se bat mostu|je bezpecne prejit most|prejdu most bezpecne)\b/],
  ['danger',/\b(je (?:to|tam|tady) nebezpecne|neni to nebezpecne|jak moc je to nebezpecne|hrozi mi nebezpeci|jsem v nebezpeci|co mi hrozi|bojim se ze spadnu|je tam nebezpecno)\b/],
  ['stargazer',/\b(kdo (?:vlastne )?(?:je|byl) hvezdar|kym (?:je|byl) hvezdar|jaky (?:byl|je) hvezdar|co pro tebe (?:byl|znamenal|znamena) hvezdar|co ti (?:hvezdar udelal|udelal hvezdar)|proc jsi mel hvezdare rad|mel te hvezdar rad|hvezdar te mel rad|byl hvezdar (?:dobry|zly|hodny|spravedlivy|moudry)|jaky to byl clovek|jaky byl jako clovek|co bylo na hvezdari dobre|co bylo na hvezdari spatne|mel hvezdar chyby|jake mel hvezdar chyby|proc ti hvezdar tolik chybi|proc ses na hvezdare zlobil)\b/],
- ['askHelp',/\b(pomuzes mi|pomohl bys mi|muzes mi pomoct|muzes mi pomoci|mohl bys mi pomoct|pomoz mi|poradis mi|porad mi|potrebuji tvoji pomoc|potrebuju tvoji pomoc|ukazes mi cestu|muzes mi poradit|nevim si rady havrane)\b/],
+ ['mission',/^(?:co je (?:muj|moje|nas|nasim|mym) (?:ukol|poslani|cilem)|co je mym ukolem|co je mym poslanim|jaky (?:mam|je muj) (?:ukol|quest|cil)|jaky mam vlastne ukol|jake je me poslani|jakou mam misi|jaky je muj quest|mam (?:tu|tady|vubec )?neco delat|co mam (?:ted |tedy |dal )?(?:delat|udelat)|co se ode me ceka|co mam dokazat|proc jsem (?:sem|tady|tu)|co je smyslem me cesty|jak mam pokracovat|nevim kam jit)\??$/],
+ ['askHelp',/\b(pomuzes mi|pomohl bys mi|muzes mi pomoct|muzes mi pomoci|mohl bys mi pomoct|pomoz mi|poradis mi|porad mi|potrebuji (?:tvoji |nejakou )?(?:pomoc|pomoci|pomoct|radu|poradit)|potrebuju (?:tvoji |nejakou )?(?:pomoc|pomoci|pomoct|radu|poradit)|potreboval bych (?:pomoc|radu|poradit)|das mi (?:nejakou |prosim )?radu|mas pro me (?:nejakou )?radu|mohl bys mi poradit|ukazes mi cestu|muzes mi poradit|nevim si rady havrane)\b/],
  ['offerHelp',/\b(pomuzu ti|pomohu ti|muzu ti pomoct|mohu ti pomoci|muzu ti pomoci|mohu ti pomoct|chci ti pomoct|chci ti pomoci|rad ti pomuzu|rad ti pomohu|cim ti muzu pomoct|cim ti mohu pomoci|jak ti muzu pomoct|jak ti mohu pomoci|co pro tebe muzu udelat|co pro tebe mohu udelat|muzu pro tebe neco udelat|potrebujes pomoc|potrebujes mou pomoc|chces pomoct|chces pomoc|jak ti pomuzu)\b/],
  ['promise',/\b(slibuji|slibuju|slibim|slibis|dam ti slib|vratim se za tebou|vratim se pro tebe|urcite se vratim|neopustim svuj slib|dodrzim slib|co pro tebe znamena slib)\b/],
  ['companionship',/\b(zustanu s tebou|zustanu tu s tebou|pojd se mnou|poletis se mnou|pujdes se mnou|pujdu s tebou|nechci te nechat samotneho|muzu tu zustat|mohu tu zustat|nechces jit se mnou|chces se mnou jit|neopustim te|muzu si k tobe sednout|posadim se vedle tebe|chci ti delat spolecnost)\b/],
@@ -424,6 +425,8 @@ function towerEntryParse(t){
 function languageParse(raw){
 let original=norm(raw);
 let t=original.replace(/^(?:(?:prosim te|prosim vas|prosim|hele|tak|no tak|zkus prosim|chtel bych|chtela bych|rad bych|rada bych|mohl bych|mohla bych|muzes mi|muzes|chci) )+/,'');
+// Nápověda je VÝHRADNĚ explicitní příkaz, nikoli prosba postavě o radu.
+if(t==='napoveda')return {intent:'hint',ids:[],t};
 // Společenské věty nejsou překlepy neznámých příkazů. Rozpoznáváme je
 // před hledáním podobných sloves („měj se“ nesmí navrhnout „směj se“).
 if(/^(?:mej se(?: hezky| krasne| dobre| pekne)?|opatruj se|at se ti dari|tak se mej|zase nekdy|brzy na shledanou)$/.test(t))
@@ -534,6 +537,9 @@ if(worldFocus&&['bedynka','schranka'].includes(worldFocus)&&
 }
 // Navazující havranovy otázky se řeší ještě před starším slovníkem.
 // Ten uměl poznat „hvězdář“, ale ztrácel podmět i návazné „to“.
+// Smysl výpravy musí havran pochopit dříve než univerzální otázkový parser.
+if(state.room==='clearing'&&ravenDeepTopics.some(([topic,re])=>['mission','askHelp'].includes(topic)&&re.test(t)))
+ return {intent:'talk',ids:['raven'],t};
 const raven11814=state.room==='clearing'&&
  globalThis.adventureRavenContext11814?.detect(t,state.dialogue);
 if(raven11814)return {intent:'ravenContext11814',ids:['raven'],topic:raven11814,t};
@@ -555,7 +561,11 @@ if(personal)return {intent:'ravenNatural',topic:personal,ids:['raven'],t:origina
 // V11.8 je chybně zachytávala až níže, pod ochranou všech otazníků.
 if(state.room==='clearing'&&ravenDeepTopics.some(([,re])=>re.test(original)||re.test(t)))
  return {intent:'talk',ids:['raven'],t:original};
-if(/^(?:co mam (?:ted |tedy |dal )?(?:delat|udelat)|nevim kam jit|jak mam pokracovat)$/.test(t))return {intent:'hint',ids:[],t};
+// Prosba o pomoc je promluva do světa, ne automatické otevření herní nápovědy.
+// Na rozcestí ji zachytil havran výše. Jinde se žádná nabídka sama neotevírá.
+if(state.room!=='clearing'&&/\b(?:potrebuji|potrebuju) (?:tvoji |nejakou )?(?:pomoc|pomoci|pomoct|radu|poradit)\b/.test(original))
+ return {intent:'pleaForHelp',ids:[],t:original};
+if(/^(?:co mam (?:ted |tedy |dal )?(?:delat|udelat)|nevim kam jit|jak mam pokracovat)$/.test(t))return {intent:'pleaForHelp',ids:[],t};
 if(state.lastSurface?.room===state.room&&/^(?:(?:vezmi|vzit|vem|seber|sebrat|zvedni) (?:oboje|obe|vsechny veci|veci|vse|vsechno)(?: (?:ze|z) stolu)?|veci ze stolu|oboje)$/.test(t))return {intent:'take',ids:[],source:state.lastSurface.id,all:true,t};
 // Výslovné vypáčení mlýnských dveří mečem patří ke dveřím,
 // nikoli k obecné reakci na neznámé sloveso. Závora zůstává zajištěná.
@@ -684,7 +694,7 @@ if(/^(co je uvnitr|a co je uvnitr|co je v nem|co je vevnitr|co je pod vikem|co v
  const id=state.lastSurface?.room===state.room?state.lastSurface.id:state.lastEntity;
  if(id&&surfaces[id])return {intent:'surface',source:id,ids:[id],t};
 }
-if(/^(co mam delat|jak mam pokracovat|jsem zasek|nevim si rady|porad mi)/.test(t))return {intent:'hint',ids:[],t};
+if(/^(co mam delat|jak mam pokracovat|jsem zasek|nevim si rady|porad mi)/.test(t))return {intent:'pleaForHelp',ids:[],t};
 if(/^(kdo jsem|jak se citim|jak jsem na tom|co je mym ukolem|kolik mam zivotu|jsem zraneny|co mam za ukol)/.test(t))return {intent:'status',ids:[],t};
 if(/^(kde mam|co mam u sebe|co mam v batohu|co nesu s sebou|obsah kapes)/.test(t))return {intent:'inventory',ids:[],t};
 if(/^(dobry den|dobry vecer|dobre rano|cau|ahoj|nazdar|zdravim)$/.test(t))return {intent:'hello',ids:[],t};
@@ -702,6 +712,10 @@ t=t.replace(/^(?:dej|poloz|odloz) (.+?) (?:na zem|na podlahu|vedle sebe)$/,'odlo
 t=t.replace(/^rozsvit svetlo$/,'rozsvit lucernu').replace(/^udelej svetlo$/,'rozsvit lucernu').replace(/^udelej (?:si )?prest avku$/,'cekej');
 const question=/^(?:co |co znamena|k cemu|jak funguje|proc|jak |kde |kdo |muzu |mohu |da se |je |jsou )/.test(t);
 let p=parseBase(t);p.raw=raw;
+// Široký slovník dříve zaměňoval „pomoc“, „poradit“ a „nevím“ za
+// systémovou nabídku. Ta se nesmí otevřít bez explicitního příkazu.
+if(p.intent==='hint'||(p.intent==='help'&&!/^(?:navod|manual|ovladani|instrukce|jak hrat|prikazy|slovnik)$/.test(t)))
+ p.intent='pleaForHelp';
 // Samotný název místa ani předložková fráze nejsou souhlas s přesunem.
 if(['mill','observatory'].includes(state.room)&&/\bpod (?:stul|stolem|stol|stolek|stolkem)\b/.test(t)&&/^(?:co |jak |kde |podivej|koukni|koukej|prozkoum|prohlid|prohled|nahl|ohled)/.test(t))
  return {intent:'underTable',ids:['table'],t};
@@ -726,7 +740,7 @@ if((speaker&&speech)||(active&&!pending&&(follow||topicQuestion))){
  p.intent='talk';p.ids=[speaker||active.speaker];p.followup=follow;p.t=t;p.continuation=follow;return p;
 }
 
-if(t==='co dal'&&!active)return {intent:'hint',ids:[],t};
+if(t==='co dal'&&!active)return {intent:'pleaForHelp',ids:[],t};
 const locationWords={clearing:'rozcesti rozcestim rozcestniku',mill:'mlyn mlyna mlynu mlynem',bridge:'most mostu mostem',tower:'vez veze vezi vezou nadvori nadvorim',crypt:'krypta kryptu krypty krypte kryptou hrobka hrobku hrobce',observatory:'observator observatore observatori sin sini sine hvezdarna hvezdarnu hvezdarne',cave:'jeskyne jeskyni jeskyn jeskyni jeskynou'};
 if(/\b(mistnost|mistnosti|lokaci|lokace|okoli|prostor)\b/.test(t))p.location=state.room;
 p.location=p.location||Object.keys(locationWords).find(id=>locationWords[id].split(' ').some(w=>t.split(' ').includes(w)));
@@ -968,11 +982,9 @@ if(target==='raven'&&depth){
   log('Havran si tě ostražitě prohlédne. „Můžeme spolu mluvit. Ale důvěru nejde přivázat jako lano a znovu ji získat jednou větou.“');return;
  }
  if(topic==='askHelp'&&b.helpAsked>1){
-  log(!f().bridge?'„Nejdřív se vybav u mlýna. K mostu pak půjdeš na sever. Pamatuj: pilíře stojí, prkna ne.“':
-      !f().keyTaken?'„Přes most už projdeš. Pod věží je krypta, a v ní tma, která se s tebou nebude hádat. Vezmi světlo.“':
-      !f().doorUnlocked?'„Klíč máš. Zkus ho tam, kde je stejný znak slunce jako na hvězdářově hrobu.“':
-      !f().charged?'„Dívej se ve věži do zápisníku a na dalekohled. Staré sklo ještě může prokázat službu.“':
-      '„To nejdůležitější už neseš. Ledový čaroděj se bojí tepla víc než meče.“');return;
+  // Opakovaná prosba je další rozhovor, nikoli skrytá zkratka k řešení hádanky.
+  const replies=depth.follow;
+  if(replies?.length){log(replies[(b.helpAsked-2)%replies.length]);return;}
  }
  if(topic==='questions'){
   const qs=adventureReactions.ravenQuestions,idx=((b.topics.questions||1)-1)%qs.length;
@@ -1752,6 +1764,10 @@ if(p.intent==='underTable'){
  state.lastEntity='table';return;
 }
 if(p.intent==='cancel'||p.intent==='answer'&&['ne','no','zrus','nic'].includes(p.t)){pending=null;log('Dobře, nic neměním.');return}
+if(p.intent==='pleaForHelp'){
+ log(state.room==='cave'?'Čaroděj si tě prohlédne. „O pomoc se žádá snadno,“ pronese chladně. „Já ti ji ale slíbit nemohu.“':
+ 'Vyslovíš svou prosbu do mrazivého ticha. Odpoví ti jen vítr a ozvěna vlastních slov. Kdyby tu někdo byl, mohl bys ho oslovit.');return;
+}
 if(p.intent==='help'&&p.t!=='napoveda'){dialog('Jak hrát','Piš běžně česky, s diakritikou i bez ní. Otázka sama nic nepoužije ani nespotřebuje. V rozhovoru můžeš navázat třeba „co třeba?“, „co ještě?“ nebo „proč?“. Téma platí, dokud neodejdeš nebo se nerozloučíš.\n\nMůžeš prozkoumat i celou lokaci: „prozkoumat kryptu“. Rozumím otázkám „kde je klíč“, „jak překonat most“, pozdravům i poděkování. Zkus zaklepat, zatřást, otočit, opravit, očistit, počítat, kopat, zpívat nebo se plížit.\n\nMůžeš se rozhlížet, brát a odkládat věci, otevírat, odemykat, nalévat, zapalovat, vkládat, uvazovat, řezat, házet, mluvit, ptát se, poslouchat, očichávat, dotýkat se, zkoušet útok, lezení nebo skok. Reakce závisí na místě a předmětu.\n\n„odemkni dveře klíčem“\n„klíčem otevři dveře“\n„strč klíč do zámku“\n„prohlídni lucernu“ → „vezmi ji“\n„vezmi všechno“\n„jdi do mlýna“ / „západ“\n\nJeden nebo více příkazů odděl středníkem či „a pak“. Po doplňující otázce stačí předmět. Nejasný příkaz nic neprovede.\n\nInventář, mapa, nápověda (postupně konkrétnější), zpět, uložit, načíst, restart. Šipky ↑ ↓ vracejí historii.\n\nCRT je volitelný a jeho intenzitu nastavíš posuvníkem.\n\nJde o offline slovníkový parser, nikoli jazykový model: nelze zaručit porozumění každé české větě.');return}
 if(p.intent==='hint'||p.t==='napoveda'){hint();persist();return}if(p.intent==='inventory'){log('Neseš: '+(state.inv.map(x=>entities[x].name).join(', ')||'nic')+'.');return}if(p.intent==='map'){openWorldMap(state,rooms,crtEnabled);return}if(p.intent==='save'){saveFile();return}if(p.intent==='load'){$('file').click();return}
 if(p.intent==='undo'){if(undo.length){state=undo.pop();pending=null;effect=null;walkStart=0;log('Poslední tah vrácen.','sys');sync()}else log('Není co vrátit.');return}

@@ -105,6 +105,22 @@ globalThis.adventureReactions.ravenDepth = {
       '„Kdyby ses přece chtěl podílet na mé práci,“ dodá, „počkej se mnou, až z prvního stromu spadne všechen led.“'
     ]
   },
+  mission: {
+    open: [
+      'Havran se zadívá přes zmrzlé údolí. „Podívej se kolem. Tohle není obyčejná zima. Kdysi tu lidé žili a řeka tekla. Někdo jim vzal světlo i jaro.“ Odmlčí se. „Jestli máš nějaký úkol, pak zjistit proč — a pokusit se to změnit.“',
+      '„Úkol?“ Havran si tě změří. „Nikoho jsem tě tu neviděl vyslat, rytíři. Ale přišel jsi do údolí, které pomalu umírá. Můžeš odejít, anebo se pokusit zjistit, co ho drží pod ledem.“',
+      '„Hvězdář hledal způsob, jak vrátit světlo,“ odpoví havran tiše. „Už ho sám hledat nemůže. Co s tím uděláš ty, to ti žádný havran přikazovat nebude.“'
+    ],
+    follow: [
+      '„Začni otázkami,“ prohodí havran. „Proč je tu mráz? Co hledal hvězdář? A proč se nikdo nevrátil z hory?“',
+      '„Cíl není totéž co cesta,“ zakráká. „Cíl už možná tušíš. Cestu si musíš najít sám.“',
+      '„Nečekám od tebe zázrak,“ řekne. „Ale kdybys mohl vrátit do tohohle údolí jediné ráno, nebyla by to špatná věc.“'
+    ],
+    why: '„Protože někdo musí začít. A já jsem slíbil, že tady zůstanu,“ odpoví havran a otře si zobák o křídlo.',
+    after: [
+      '„Tak to byl tvůj úkol,“ řekne havran s pohledem k horám. „Ne vyhrát. Vrátit světlo tam, kde už je nikdo nečekal.“'
+    ]
+  },
   askHelp: {
     open: [
       '„Pomohu,“ řekne havran. „Ale cestu za tebe nepřejdu. Já mám křídla, a přesto tu čekám. Ty máš před sebou cestu.“',

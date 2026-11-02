@@ -2,7 +2,7 @@
 
 Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Aktuální vydání:** `0.11.8.15` (2. listopadu 2026) — oprava zvuku v iPhone Safari: odemykání při dotyku, režim přehrávání, silnější mobilní hlasitost, obnova po přerušení a tlačítko TEST ZVUKU. Obsahuje všechny opravy verze 0.11.8.14.
+**Aktuální vydání:** `0.11.8.16` (2. listopadu 2026) — rozhovor s havranem: „Potřebuji pomoc“, „Dáš mi radu?“, „Co je můj úkol?“, „Jaký mám quest?“ a „Mám něco dělat?“ dostávají kontextovou odpověď. Systémová nápověda se spustí pouze příkazem **nápověda** nebo stejnojmenným tlačítkem. Obsahuje i předchozí opravy zvuku a grafiky.
 
 **Grafická oprava:** Scéna před mlýnem používá nový obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka už není součástí pozadí: kreslí se pouze jednou, na zasněženou zem pod stolem, a nadále mění vzhled po rozbití. Původní obrázek zůstává zachovaný.
 

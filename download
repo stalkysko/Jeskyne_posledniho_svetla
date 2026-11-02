@@ -1,0 +1,8 @@
+# Vygenerované archivy, lokální testy a uložené pozice
+*.zip
+*.tmp
+*.log
+*_ulozena_hra.json
+node_modules/
+.DS_Store
+Thumbs.db
