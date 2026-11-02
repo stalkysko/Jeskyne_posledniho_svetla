@@ -1,4 +1,4 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA 0.11.5 — MOBILNÍ VERZE PRO iPHONE A ANDROID
+JESKYNĚ POSLEDNÍHO SVĚTLA 0.11.8.15 — MOBILNÍ VERZE PRO iPHONE A ANDROID
 
 Jde o stejnou klasickou dobrodružnou hru v mobilně přizpůsobeném
 webovém rozhraní (Safari, Chrome). Součástí jsou dotykové směrové šipky,
@@ -42,5 +42,9 @@ OVLÁDÁNÍ
 • Samotné rozhraní automaticky pamatuje rozehranou hru v prohlížeči.
   Data mezi mobilem a PC se nesynchronizují — pro přenos použij JSON.
 
-TIP: Při testování nejprve nech ZVUK a HUDBU vypnuté. Poté je můžeš
-zapnout samostatnými tlačítky. Na telefonu se spustí až po dotyku.
+ZVUK NA IPHONU
+• Klepni na TEST ZVUKU — zazní dva tóny nezávisle na stavu hudby.
+• Zapni HUDBA a ZVUK. Melodie jsou pomalé; vyčkej několik sekund.
+• Po přerušení Safari klepni na OBNOVIT.
+• Pokud je stále ticho, zesil média na iPhonu, zkus tichý přepínač
+  nebo otevři hru v nové kartě Safari.

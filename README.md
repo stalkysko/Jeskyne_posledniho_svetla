@@ -2,7 +2,9 @@
 
 Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Aktuální vydání:** `0.11.8.13` (1. listopadu 2026) — obsahuje také opravu věžních dveří: sluneční mosazný zámek bez vnitřní závory.
+**Aktuální vydání:** `0.11.8.15` (2. listopadu 2026) — oprava zvuku v iPhone Safari: odemykání při dotyku, režim přehrávání, silnější mobilní hlasitost, obnova po přerušení a tlačítko TEST ZVUKU. Obsahuje všechny opravy verze 0.11.8.14.
+
+**Grafická oprava:** Scéna před mlýnem používá nový obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka už není součástí pozadí: kreslí se pouze jednou, na zasněženou zem pod stolem, a nadále mění vzhled po rozbití. Původní obrázek zůstává zachovaný.
 
 ## Hrát v prohlížeči
 
@@ -25,10 +27,16 @@ Otevři `HRA.html` dvojklikem v počítači. Na mobilu je pohodlnější otevř�
 
 - `index.html` — vstup pro GitHub Pages.
 - `HRA.html`, `hra.css`, `*.js` — samotná hra, parser a dialogy.
+- `havran_kontext_v11814.js` — rozpoznávání návazných otázek a paměť dialogu.
 - `assets/` — původní grafické podklady; žádné obrázky nejsou nahrazené.
+- `tests/` — ověřovací testy kontextových vět (volitelné pro vývojáře).
 - `CTI_ME.txt` — historie oprav a spuštění na Windows.
 - `SLOVNIK_A_PRIKLADY.txt` — příklady interakcí v češtině.
 - `MOBILE_NAVOD.txt` — návod pro mobilní použití.
+
+## Zvuk na iPhonu
+
+Klepni na **TEST ZVUKU** — mají zaznít dva tóny, i když jsou hudba a ruchy vypnuté. Poté zapni hudbu a zvuk. Pokud Safari přehrávání přeruší, u zapnuté volby se zobrazí **OBNOVIT**. Pokud nezazní ani test, zesil hlasitost médií, zkus vypnout tichý režim a případně otevři hru v nové kartě. JavaScript nemůže s jistotou ověřit, zda reproduktor telefonu opravdu vydává zvuk.
 
 **Pozor:** Toto je kompletní verze, nikoli patch. Při aktualizaci existujícího repozitáře zachovej případné vlastní soubory, které do hry nepatří, a nahraj nové herní soubory se stejnými názvy.
 

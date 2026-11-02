@@ -6,7 +6,12 @@
   const AudioClass = window.AudioContext || window.webkitAudioContext;
   const button = document.getElementById('sound');
   const musicButton = document.getElementById('music');
+  const testButton = document.getElementById('audio-test');
   if (!button || !musicButton) return;
+
+  const appleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  const mobileBoost = appleMobile ? 2 : 1;
 
   let context = null;
   let nodes = null;
@@ -19,9 +24,9 @@
   let nextBeat = 0;
   let nextBeatTime = 0;
   let lastCue = -10000;
-  let toggling = false;
+  let audioProblem = false;
 
-  // Hodnoty jsou záměrně nízké: zvuk je kulisa pod čtením textu.
+  // Na malém mobilním reproduktoru potřebuje kulisa větší rezervu hlasitosti.
   const locations = Object.freeze({
     clearing:    {wind: 0.043, cutoff: 620, tone: 0.010, pitch: 110.00, detail: 'whistle'},
     mill:        {wind: 0.030, cutoff: 480, tone: 0.012, pitch: 98.00,  detail: 'wood'},
@@ -81,7 +86,7 @@
   function build() {
     context = new AudioClass();
     const master = context.createGain();
-    master.gain.value = 0.65;
+    master.gain.value = appleMobile ? 0.85 : 0.65;
     master.connect(context.destination);
     const ambienceBus = context.createGain();
     ambienceBus.gain.value = 0;
@@ -142,6 +147,12 @@
     bass.start();
     fifth.start();
     nodes = {master, ambienceBus, musicBus, echoSend, filter, windGain, drone, bass, fifth};
+    if (typeof context.addEventListener === 'function') {
+      context.addEventListener('statechange', () => {
+        if (context.state === 'running' && musicActive) resetMusicClock();
+        paintButton();
+      });
+    }
     setScene(room, won);
   }
 
@@ -153,9 +164,9 @@
     const setting = locations[room];
     const at = now();
     const warmth = won ? 0.61 : 1;
-    nodes.windGain.gain.setTargetAtTime(setting.wind * warmth, at, 1.4);
+    nodes.windGain.gain.setTargetAtTime(setting.wind * warmth * mobileBoost, at, 1.4);
     nodes.filter.frequency.setTargetAtTime(setting.cutoff * (won ? 0.78 : 1), at, 1.8);
-    nodes.drone.gain.setTargetAtTime(setting.tone * (won ? 0.46 : 1), at, 2.0);
+    nodes.drone.gain.setTargetAtTime(setting.tone * (won ? 0.46 : 1) * mobileBoost, at, 2.0);
     nodes.bass.frequency.setTargetAtTime(setting.pitch, at, 2.0);
     nodes.fifth.frequency.setTargetAtTime(setting.pitch * (won ? 1.5 : 1.4983), at, 2.0);
     if (changed && musicActive) resetMusicClock();
@@ -171,7 +182,7 @@
     oscillator.frequency.setValueAtTime(frequency, start);
     oscillator.frequency.exponentialRampToValueAtTime(Math.max(45, frequency * slide), start + length);
     envelope.gain.setValueAtTime(0.0001, start);
-    envelope.gain.exponentialRampToValueAtTime(volume, start + Math.min(length * 0.24, 0.11));
+    envelope.gain.exponentialRampToValueAtTime(volume * mobileBoost, start + Math.min(length * 0.24, 0.11));
     envelope.gain.exponentialRampToValueAtTime(0.0001, start + length);
     oscillator.connect(envelope);
     envelope.connect(nodes.ambienceBus);
@@ -230,7 +241,7 @@
     seconds = Math.max(0.28, seconds);
     const attack = pad ? 0.63 : 0.085;
     const release = pad ? 1.05 : 0.66;
-    const volume = (pad ? 0.011 : 0.028) * strength;
+    const volume = (pad ? 0.011 : 0.028) * strength * mobileBoost;
     const envelope = context.createGain();
     envelope.gain.setValueAtTime(0.00001, at);
     envelope.gain.linearRampToValueAtTime(volume, at + Math.min(attack, seconds * 0.34));
@@ -305,50 +316,137 @@
     if (nextBeatTime < now() - 2) resetMusicClock();
   }
 
-  function paintButton() {
-    button.textContent = active ? 'ZVUK: ZAPNUT' : 'ZVUK: VYPNUT';
-    button.setAttribute('aria-pressed', String(active));
-    button.title = active ? 'Vypnout atmosférický podkres' : 'Zapnout atmosférický podkres';
-    musicButton.textContent = musicActive ? 'HUDBA: ZAPNUTA' : 'HUDBA: VYPNUTA';
-    musicButton.setAttribute('aria-pressed', String(musicActive));
-    musicButton.title = musicActive ? 'Vypnout původní melodie' : 'Zapnout původní hudbu v duchu VGA adventur';
+  function running() {
+    return Boolean(context && context.state === 'running');
   }
 
-  async function toggle(kind) {
-    if (!AudioClass || toggling) return;
-    toggling = true;
+  // Safari 17+ na iPhonu podporuje režim playback pro zvuk i v tichém režimu.
+  function requestPlaybackSession() {
+    if (!appleMobile) return;
     try {
+      if (navigator.audioSession && navigator.audioSession.type !== 'playback') {
+        navigator.audioSession.type = 'playback';
+      }
+    } catch (_) { /* Starší WebKit nemusí audioSession podporovat. */ }
+  }
+
+  // Zkušební dvojtón je slyšitelný nezávisle na hudbě a zvucích lokace.
+  // Zdroje se startují PŘÍMO při klepnutí, před jakýmkoliv await/resume().
+  function confirmationTone() {
+    if (!context || !nodes) return;
+    const at = now() + 0.025;
+    for (const [pitch, offset] of [[523.25, 0], [659.25, 0.20]]) {
+      const voice = context.createOscillator();
+      const envelope = context.createGain();
+      const start = at + offset;
+      voice.type = 'sine';
+      voice.frequency.value = pitch;
+      envelope.gain.setValueAtTime(0.0001, start);
+      envelope.gain.linearRampToValueAtTime(appleMobile ? 0.16 : 0.095, start + 0.035);
+      envelope.gain.exponentialRampToValueAtTime(0.0001, start + 0.36);
+      voice.connect(envelope);
+      envelope.connect(nodes.master);
+      voice.start(start);
+      voice.stop(start + 0.38);
+      voice.onended = () => {voice.disconnect(); envelope.disconnect();};
+    }
+  }
+
+  function paintButton() {
+    const needsResume = audioProblem || (context && !running());
+    button.textContent = active ? (needsResume ? 'ZVUK: OBNOVIT' : 'ZVUK: ZAPNUT') : 'ZVUK: VYPNUT';
+    button.setAttribute('aria-pressed', String(active));
+    button.title = needsResume ? 'Klepnutím znovu povolit zvuk v prohlížeči' :
+      (active ? 'Vypnout atmosférický podkres' : 'Zapnout atmosférický podkres');
+    musicButton.textContent = musicActive ? (needsResume ? 'HUDBA: OBNOVIT' : 'HUDBA: ZAPNUTA') : 'HUDBA: VYPNUTA';
+    musicButton.setAttribute('aria-pressed', String(musicActive));
+    musicButton.title = needsResume ? 'Klepnutím znovu povolit hudbu v prohlížeči' :
+      (musicActive ? 'Vypnout původní melodie' : 'Zapnout původní hudbu v duchu VGA adventur');
+  }
+
+  function resumeContext() {
+    if (!context) return;
+    let requested;
+    try {
+      requested = context.resume();
+    } catch (_) {
+      audioProblem = true;
+      paintButton();
+      return;
+    }
+    Promise.resolve(requested).then(() => {
+      audioProblem = !running();
+      if (running() && musicActive) resetMusicClock();
+      paintButton();
+    }).catch(() => {
+      audioProblem = true;
+      paintButton();
+    });
+  }
+
+  function enableSound() {
+    active = true;
+    nodes.ambienceBus.gain.setTargetAtTime(1, now(), 0.35);
+    scheduleDetail();
+  }
+
+  function disableSound() {
+    active = false;
+    nodes.ambienceBus.gain.setTargetAtTime(0, now(), 0.12);
+    clearTimeout(detailTimer);
+  }
+
+  function enableMusic() {
+    musicActive = true;
+    resetMusicClock();
+    clearInterval(musicTimer);
+    musicTimer = setInterval(musicTick, 120);
+    musicTick();
+  }
+
+  function disableMusic() {
+    musicActive = false;
+    nodes.musicBus.gain.setTargetAtTime(0, now(), 0.16);
+    clearInterval(musicTimer);
+    musicTimer = null;
+  }
+
+  function toggle(kind) {
+    if (!AudioClass) return;
+    try {
+      requestPlaybackSession();
       if (!context) build();
-      await context.resume();
-      if (kind === 'sound') {
-        active = !active;
-        nodes.ambienceBus.gain.setTargetAtTime(active ? 1 : 0, now(), active ? 0.70 : 0.12);
-        if (active) scheduleDetail();
-        else clearTimeout(detailTimer);
+      const recovering = !running() || audioProblem;
+      const enabled = kind === 'sound' ? active : musicActive;
+      if (enabled && !recovering) {
+        if (kind === 'sound') disableSound();
+        else disableMusic();
       } else {
-        musicActive = !musicActive;
-        if (musicActive) {
-          resetMusicClock();
-          musicTick();
-          musicTimer = setInterval(musicTick, 120);
-        } else {
-          nodes.musicBus.gain.setTargetAtTime(0, now(), 0.16);
-          clearInterval(musicTimer);
-          musicTimer = null;
-        }
+        if (kind === 'sound' && !active) enableSound();
+        if (kind === 'music' && !musicActive) enableMusic();
+        audioProblem = false;
+        confirmationTone();
+        resumeContext();
       }
       setScene(room, won);
       paintButton();
     } catch (_) {
-      active = false;
-      musicActive = false;
-      button.textContent = 'ZVUK NEDOSTUPNÝ';
-      button.title = 'Prohlížeč nepovolil přehrávání zvuku';
-      button.disabled = true;
-      musicButton.textContent = 'HUDBA NEDOSTUPNÁ';
-      musicButton.disabled = true;
-    } finally {
-      toggling = false;
+      audioProblem = true;
+      paintButton();
+    }
+  }
+
+  function testSound() {
+    if (!AudioClass) return;
+    try {
+      requestPlaybackSession();
+      if (!context) build();
+      confirmationTone();
+      resumeContext();
+      paintButton();
+    } catch (_) {
+      audioProblem = true;
+      paintButton();
     }
   }
 
@@ -360,16 +458,28 @@
   } else {
     button.addEventListener('click', () => toggle('sound'));
     musicButton.addEventListener('click', () => toggle('music'));
+    if (testButton) testButton.addEventListener('click', testSound);
     paintButton();
   }
 
   document.addEventListener('visibilitychange', () => {
     if (!context || (!active && !musicActive)) return;
-    if (document.hidden) context.suspend();
-    else context.resume().then(() => {
-      if (musicActive) resetMusicClock();
-    }).catch(() => {});
+    if (!document.hidden) {
+      requestPlaybackSession();
+      resumeContext();
+    }
   });
 
-  window.lastLightAudio = {setScene, cue};
+  window.addEventListener('pageshow', event => {
+    if (event.persisted && context && (active || musicActive)) {
+      requestPlaybackSession();
+      resumeContext();
+    }
+  });
+
+  window.lastLightAudio = {
+    setScene, cue,
+    diagnostic: () => ({state: context ? context.state : 'nevytvořen', sound: active,
+      music: musicActive, audioSession: navigator.audioSession?.type || 'nepodporováno'})
+  };
 })();

@@ -532,6 +532,11 @@ if(worldFocus&&['bedynka','schranka'].includes(worldFocus)&&
  const intent=verb&&(/^(?:prozk|prohl|podiv|kouk)/.test(verb)?'inspect':/^(?:otevr|odklop)/.test(verb)?'pull':/^(?:rozb|rozml|roztl)/.test(verb)?'break':/^(?:vypac|uvol|vytah|vynd)/.test(verb)?'pull':/^(?:pouz)/.test(verb)?'use':'touch');
  if(intent)return {intent:'world',ids:[],detail:{id:worldFocus,intent,room:state.room},t};
 }
+// Navazující havranovy otázky se řeší ještě před starším slovníkem.
+// Ten uměl poznat „hvězdář“, ale ztrácel podmět i návazné „to“.
+const raven11814=state.room==='clearing'&&
+ globalThis.adventureRavenContext11814?.detect(t,state.dialogue);
+if(raven11814)return {intent:'ravenContext11814',ids:['raven'],topic:raven11814,t};
 const story118=globalThis.adventureStory118?.detect(original,state.room,state.dialogue);
 if(story118)return story118;
 const contextual=ravenContextParse(original)||ravenContextParse(t);
@@ -1708,6 +1713,15 @@ if(p.intent==='caveDetail'){
  const before=JSON.parse(JSON.stringify(state));state.turn++;
  cavePhysicalReaction(p.topic,p.t);undo.push(before);if(undo.length>100)undo.shift();sync();return;
 }
+if(p.intent==='ravenContext11814'){
+ const b=ravenMemory();b.met=true;b.pending=null;pending=null;
+ const answer=globalThis.adventureRavenContext11814.respond(p.topic,b);
+ const topic=p.topic.startsWith('food')?'ravenHunger':'promiseOrigin';
+ state.dialogue={speaker:'raven',room:'clearing',topic,stage:answer.stage};
+ state.lastEntity='raven';ravenEmote={start:performance.now(),kind:'talk'};
+ if(['foodConcern','foodHelp'].includes(p.topic)&&answer.stage===0)b.trust=Math.min(8,b.trust+1);
+ gameAudio?.cue('raven');log(answer.text);persist();return;
+}
 if(p.intent==='ravenContext'){ravenContextAnswer(p.topic);persist();return;}
 if(p.intent==='ravenNatural'){
  const b=ravenMemory();b.pending=null;pending=null;
@@ -1781,7 +1795,7 @@ function saveFile(){let a=document.createElement('a');a.href=URL.createObjectURL
 const canvas=$('scene'),ctx=canvas.getContext('2d'),atlas=new Image();let loaded=false;atlas.src='assets/svet.png';atlas.onload=()=>{loaded=true;draw(performance.now())};atlas.onerror=()=>log('Chybí assets/svet.png. Rozbal celý ZIP do jedné složky.','sys');
 const cleanMill=new Image(),propAtlas=new Image();let cleanMillLoaded=false,propsLoaded=false;
 cleanMill.onload=()=>{cleanMillLoaded=true};propAtlas.onload=()=>{propsLoaded=true};
-cleanMill.src='assets/mlyn_zavreny.png';propAtlas.src='assets/predmety.png';
+cleanMill.src='assets/mlyn_zavreny_v11814.png';propAtlas.src='assets/predmety.png';
 const scopePainting=new Image();let scopePaintingReady=false;
 scopePainting.onload=()=>{scopePaintingReady=true;};
 scopePainting.onerror=()=>log('Kresba výhledu dalekohledu se nenačetla; použije se jednoduchý náhradní pohled.','sys');
@@ -1902,10 +1916,13 @@ if(state.room==='mill'){
 if(!has('rope')&&!f().ropeTaken&&!state.dropped.rope)drawProp('rope',347,25,24,66);
 if(!has('oil')&&!f().oilTaken&&!state.dropped.oil)drawProp('oil',391,85,23,23);
 if(!has('lamp')&&!f().lampTaken&&!state.dropped.lamp)drawProp('lamp',442,74,19,34);
- // Bedýnka stojí přímo v tmavé prostoře POD deskou pracovního stolu,
- // vlevo od pravé nohy. Spodní hrana dosedá na zasněženou podlahu;
- // všechny tři ručně malované stavy sdílejí přesně stejné umístění.
- drawPaintedProp(!f().crateBroken?'millCrateClosed':f().coinTaken?'millCrateEmpty':'millCrateBroken',405,140,25,21,.84);
+ // V malovaném pozadí zůstává pod stolem prázdno; bedýnka existuje
+ // pouze jako jediný stavový sprite. Původní pozice (405,140) ji kreslila
+ // vedle druhé bedýnky ve vrstvě pozadí a působila, jako by levitovala.
+ // Nová spodní hrana y=158 leží ve sněhu mezi oběma nohami stolu.
+ ctx.save();ctx.fillStyle='#0c102d91';ctx.beginPath();
+ ctx.ellipse(382,157,20,3.5,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ drawPaintedProp(!f().crateBroken?'millCrateClosed':f().coinTaken?'millCrateEmpty':'millCrateBroken',362,130,42,28,1);
  // Nad zápražím visí drobná namrzlá podkova. Po sebrání se ze scény odstraní.
  if(!has('horseshoe')&&!f().horseshoeTaken&&!state.dropped.horseshoe)
   drawPaintedProp('horseshoe',328,52,13,22,.82);

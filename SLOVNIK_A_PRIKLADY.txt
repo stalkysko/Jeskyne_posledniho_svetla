@@ -1,4 +1,19 @@
-JAZYKOVÝ SYSTÉM 0.11.8.13
+JAZYKOVÝ SYSTÉM 0.11.8.14
+
+HAVRAN — KONVERZACE V NÁVAZNOSTECH (0.11.8.14)
+Hvězdář ti řekl, ať zůstaneš?
+Proč ti to řekl?
+Proč T to řekl?
+Proč tu máš čekat?
+Co ti tehdy řekl?
+A co potom?
+Co když se nevrátí?
+Musíš něco jíst.
+Ty nejíš?
+Ty nemusíš žrát?
+Co tady jíš?
+Máš hlad?
+
 
 NÁDVOŘÍ HVĚZDÁŘE — VĚŽNÍ DVEŘE (0.11.8.13)
 Příkazy nejsou předepsaná hesla. Rozumí se různým způsobům,

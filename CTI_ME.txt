@@ -1,21 +1,41 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.13 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.15 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.13.
+3. V horní liště musíš vidět 0.11.8.15.
 
-Samostatný opravný ZIP pro 0.11.8.13 patří na verzi 0.11.8.12.
-Přepiš soubory z patche. Neobsahuje žádné nové grafické soubory.
-Ze starších vydání použij celý archiv FULL; uloženou hru lze
-poté znovu načíst.
+Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
+nahraj jeho rozbalený obsah do hlavní složky (main / root).
+Uloženou hru můžeš ponechat, exportovat i později načíst.
 
 Hra nepotřebuje instalaci ani internet. Neotvírej HRA.html přímo
 z náhledu ZIPu: soubory hra.js, havran_dialogy.js, carodej_dialogy.js,
 carodej_roleplay_v11812.js,
-havran_v116.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
+havran_v116.js, havran_kontext_v11814.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+OPRAVA 0.11.8.15 (2. 11. 2026) — ZVUK NA IPHONU
+• Dva ověřovací tóny na tlačítku TEST ZVUKU.
+• Přímé spuštění tónů při dotyku, kompatibilnější odemknutí Web Audio.
+• Režim playback na podporovaných iPhonech a výraznější mobilní mix.
+• Oprava obnovy po přerušení a správné zobrazení „OBNOVIT“.
+
+OPRAVA 0.11.8.14 (1. 11. 2026) — HAVRANOVA PAMĚŤ A JÍDLO
+• Havran přirozeně rozumí otázkám „Hvězdář ti řekl, ať zůstaneš?“,
+  „Proč ti to řekl?“ i „Proč tu máš čekat?“; neopakuje obecné výplně.
+• Rozlišuje dva různé důvody: proč hvězdář prosil havrana,
+  a proč havran svůj dobrovolný slib dodnes dodržuje.
+• Téma se drží i při navazujících dotazech; další otázky odhalují
+  vzpomínky a nuance, ale neprozrazují řešení herních hádanek.
+• Rozhovor o jídle („Musíš něco jíst“, „Ty nejíš?“, „Ty nemusíš
+  žrát?“, „Co jíš?“) nepadá do neznámého použití předmětu.
+• Přidán lokální test vět v tests/test_havran_context_v11814.cjs.
+• Před mlýnem opravena kresba stolu a bedýnky: stůl má opory na
+  zemi, bedýnka už se nekreslí současně v pozadí a jako sprite.
+  Její jediný dynamický obraz dosedá do sněhu; zůstává rozbitelný.
+  Původní malba je ponechána v assets.
 
 OPRAVA 0.11.8.13 (1. 11. 2026) — VĚŽNÍ DVEŘE A ROLEPLAY
 • Drobné upřesnění: věž jistí mosazný zámek se slunečním znakem;
