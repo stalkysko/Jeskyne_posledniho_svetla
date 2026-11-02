@@ -14,10 +14,17 @@ globalThis.adventureRaven115 = (() => {
     ['chatStart', /^(?:povidej|tak povidej|povidej mi|povidej neco|povidej mi neco|povez mi neco|rekni mi neco|rekni neco|co mi povis|co mi chces rict|mas mi co rict|co bys mi rekl|zacni povidat|zacinam poslouchat|posloucham te|mluv|povidej o sobe|povidej mi o sobe|povez mi o sobe|vypravej mi neco)(?: havrane)?$/],
     ['chatTopics', /^(?:o cem (?:si )?(?:budeme|chces|by sis chtel|bys chtel|si chces) (?:povidat|mluvit)|o cem si povidat|o cem se budeme bavit|o cem si muzeme povidat|o cem bychom si mohli povidat|vyber tema|navrhni tema|co te zajima|na co se mam zeptat|o cem mluvit)(?: havrane)?$/],
     ['chatPermission', /^(?:mas (?:na me |pro me )?(?:chvilku|chvili|cas)|muzu te na chvili zdrzet|nerusim te|neobtezuji te|muzu se s tebou bavit|smim s tebou mluvit|muzes me vyslechnout|vyslechnes me|poslouchas me|muzu si s tebou popovidat|mam na tebe otazku|muzu se te na neco zeptat|chtel bych se te na neco zeptat)(?: havrane)?$/],
+    // Základní otevřené otázky na havranovu každodennost. Neobsahují
+    // příkaz k prohlížení, čekání ani automatickou herní nápovědu.
+    ['ravenDay', /^(?:co (?:tu |tady )?delas (?:cele dny|cely den|celou dobu|kdyz tu nikdo neni|kdyz tady nikdo neni|kdyz jsem pryc|pres den|v noci|kdyz neprichazi nikdo)|jak (?:tu |tady )?travis (?:cas|dny|den|noc)|jak si kratis cas|jak se (?:tu |tady )?zabavujes|co delas kdyz necekas)(?: havrane)?$/],
+    ['ravenPleasures', /^(?:co (?:rad|nejradeji) delas|co (?:te|ti) (?:bavi|dela radost)|co te nejvic bavi|co delas pro radost|mas nejake (?:zaliby|konicky)|jak si uzivas den|co jsi rad delal driv)(?: havrane)?$/],
+    ['ravenRange', /^(?:jak daleko (?:letis|letas|odletas|musis letet|letavas)(?: (?:pro|za) (?:jidlem|potravou))?|nelitas daleko|nelitas odtud daleko|odletas nekam daleko|jak hlidas (?:cestu|rozcesti) kdyz (?:odletis|letas pro jidlo)|opoustis (?:tu |tady )?(?:rozcesti|krizovatku|cestu)|muzes odletet daleko|musis odletat pro jidlo|kde shanis jidlo kdyz hlidas cestu)(?: havrane)?$/],
+    ['ravenFamiliarity', /^(?:znas (?:tu|tady|to tu|to tady|tuhle cestu|toto misto|okoli|kazdy kamen|vsechny kameny|kazdou stezku)|jak dobre (?:to )?(?:tu|tady) znas|vyznas se (?:tu|tady|v okoli)|znas tu kazdy kamen|jak se vyznas (?:tu|tady|v tom snehu)|poznas cestu i pod snehem)(?: havrane)?$/],
+    ['ravenPresentAction', /^(?:co (?:(?:tu|tady|ted|prave|zrovna|vlastne|porad|obvykle) )*delas|co delas (?:ted|prave|zrovna|tady|tu|vlastne)|co (?:(?:tu|tady|ted|prave|vlastne) )?mas na praci|co (?:mas|planujes) (?:v planu|delat)|cim se (?:(?:tu|tady|ted|zrovna) )?zabyvas|jak se (?:(?:tu|tady|ted) )?zamestnavas|co je tvoje prace|co je tvym ukolem|jaka je tvoje prace|co tu cely ten cas delas)(?: havrane)?$/],
     ['chatSmallTalk', /^(?:jak se (?:ti )?(?:vede|dari)|jak to jde|jak jde zivot|co je noveho|co mas noveho|co se dnes stalo|co delas dnes|jak se dnes citis|jak ses dnes mel|jaky jsi mel den|co je u tebe noveho)(?: havrane)?$/],
     ['chatGreeting', /^(?:ahoj|cau|nazdar|dobry den|dobre rano|dobry vecer|zdravim|zdravim te|rad te vidim|zase se vidime|ahoj kamarade|vitam te)(?: havrane)?$/],
     ['playerFear', /^(?:mam strach|bojim se|mam obavy|bojim se ze to nezvladnu|bojim se ze zabloudim|co kdyz se ztratim|nevim jestli to zvladnu)(?: havrane)?$/],
-    ['playerSad', /^(?:je mi smutno|jsem smutny|cit im se sam|citim se sam|je mi smutno z toho vseho|to je smutne|je mi te lito)(?: havrane)?$/],
+    ['playerSad', /^(?:je mi smutno|jsem smutny|citim se sam|je mi smutno z toho vseho|to je smutne|je mi te lito)(?: havrane)?$/],
     ['playerCold', /^(?:je mi zima|mrznu|je mi strasna zima|jsem promrzly|je tu hrozna zima|nejak tu mrzne)(?: havrane)?$/],
     ['playerTired', /^(?:jsem unaveny|uz nemuzu|jsem vycerpany|potrebuji si odpocinout|potrebuju si odpocinout|uz jsem z toho unaveny)(?: havrane)?$/],
     ['proud', /\b(jsi dobry havran|jsi hodny havran|jsi skvely havran|jsi statecny|jsi sikovny|jsem na tebe hrdy|mam te rad havrane|jsi muj pritel|jsi muj kamarad|mas hezke peri|jsi krasny ptak|pekny havran)\b/],
@@ -68,6 +75,37 @@ globalThis.adventureRaven115 = (() => {
       'Havran se na ceduli otočí čelem k tobě. „Tak povídej, rytíři. Dlouho jsem neměl nikoho, kdo by se zastavil jen kvůli rozhovoru.“',
       '„Rád,“ odpoví havran a složí křídla. „Ptej se, na co chceš. Jen ode mě nečekej, že znám odpovědi na všechno.“',
       'Havran poposedne blíž. „V zimě se slova neztrácejí tak rychle jako stopy ve sněhu. Nuže, poslouchám.“'
+    ],
+    ravenPresentAction: [
+      'Havran se na tebe zadívá. „Právě s tebou mluvím. Vždyť přesně kvůli tomu mě hvězdář prosil, abych tu zůstal.“',
+      '„Plním svůj slib,“ řekne havran. „Čekám na toho, kdo bude potřebovat ukázat cestu. A dnes ses tu zastavil ty.“',
+      'Havran se lehce dotkne zobákem směrovky. „Ukazuji cestu těm, kdo se zeptají. I kdyby za celý den přišel jediný poutník, nemarnil jsem čas.“',
+      '„Někdy mám pocit, že jen čekám,“ připustí havran. „Ale pak někdo přijde, začne se mnou mluvit a já si vzpomenu, proč jsem slíbil zůstat.“',
+      '„Hlídám tuto cestu,“ odpoví. „Vítr tu bývá hlasitější než lidé. Proto dávám pozor, abych jejich kroky nepřeslechl.“',
+      'Havran si načechrá peří. „Teď? Poslouchám tě, rytíři.“ V jeho hlase zazní náznak úsměvu. „Hvězdář by řekl, že konečně dělám to, oč mě požádal.“'
+    ],
+    ravenDay: [
+      '„Když musím shánět potravu, držím se blízko,“ řekne havran. „I z větví nad stezkou vidím, jestli se k rozcestí někdo blíží.“',
+      '„Jedním okem hledám něco k snědku, druhým hlídám cestu,“ zakráká. „Na dlouhé výlety už nemám pomyšlení.“',
+      'Havran se rozhlédne. „Tady znám každý kámen. I ty, které už několik zim nikdo neviděl pod sněhem.“',
+      '„Někdy celý den nikdo nepřijde,“ řekne tiše. „Naučil jsem se poznat lidské kroky i v šustění větru. Když je zaslechnu, jsem zpátky na ceduli dřív, než mě zahlédnou.“',
+      '„Na jaře jsem létával dál,“ vzpomene si havran. „Teď se raději držím na dohled cesty. Co kdyby někdo přišel právě ve chvíli, kdy bych byl pryč?“',
+      'Havran poposedne. „Ve vánici si najdu závětří, odkud vidím na stezku. Nemusím sedět na ceduli každou minutu, abych dodržel slib.“'
+    ],
+    ravenRange: [
+      '„Ne dál, než musím,“ odpoví havran. „Vím, na kterých stromech se ještě dá najít potrava. A z jejich větví vidím zpátky na rozcestí.“',
+      'Havran krátce rozpřáhne křídla. „Někdy bych mohl letět až za hory. Ale kdo by ti odpověděl, kdybys přišel právě tehdy?“',
+      '„I při hledání jídla nechávám jedno oko na cestě,“ řekne havran. „Hvězdáři jsem neslíbil, že budu celou zimu hladovět. Slíbil jsem, že nezmeškám poutníka.“'
+    ],
+    ravenFamiliarity: [
+      '„Každý kámen,“ přikývne havran. „Dokonce i ten, co teď leží pod závějí u tvé pravé boty. V létě na něm býval mech.“',
+      'Havran se pousměje zobákem. „Vítr mění závěje, ne krajinu pod nimi. Poznám, kde cesta zatáčí, i když ji sníh schová.“',
+      '„Kdysi jsem ty stezky znal z výšky,“ řekne havran. „Teď znám i jejich ticho. Vím, odkud přijde první zvuk kroků.“'
+    ],
+    ravenPleasures: [
+      'Havran se zasní. „Létat nad údolím, když se na jaře probouzelo. To jsem míval rád. A také poslouchat hvězdáře, i když mluvil příliš dlouho.“',
+      '„Lesklé věci,“ přizná havran a hned dodá: „Ale nikomu to neříkej. Zní to jako hloupá ptačí slabost. A pak mám rád dobrý příběh.“',
+      '„Rád si s někým povídám,“ odpoví tiše. „Není to mnoho, ale na tomhle rozcestí je to vzácné.“'
     ],
     chatStart: [
       'Havran si vybere pevnější místo na ceduli. „Hvězdář mi kdysi říkal, že člověka poznáš podle otázek. Ptej se, rytíři. Uvidíme, co se o sobě dozvíme.“',
@@ -154,7 +192,7 @@ globalThis.adventureRaven115 = (() => {
     } else if(topic==='insult')b.trust=Math.max(-8,b.trust-(n?0:1));
     else if(topic==='sorry') {
       if(b.harmed>b.apologies){b.apologies++;b.trust=Math.min(8,b.trust+1)}
-    } else if(['proud','wisdomPraise','chatInvite','chatStart','chatTopics','chatPermission','chatSmallTalk','chatGreeting','playerFear','playerSad','playerCold','playerTired','warm','care','together','trust','promise','escort'].includes(topic)&&n===0) {
+    } else if(['proud','wisdomPraise','chatInvite','chatStart','chatTopics','chatPermission','chatSmallTalk','chatGreeting','ravenPresentAction','ravenDay','ravenPleasures','playerFear','playerSad','playerCold','playerTired','warm','care','together','trust','promise','escort'].includes(topic)&&n===0) {
       b.trust=Math.min(8,b.trust+1);
     }
     if(topic==='promise')b.promiseMade=true;

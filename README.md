@@ -2,7 +2,7 @@
 
 Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Aktuální vydání:** `0.11.8.18` (2. listopadu 2026) — rozšíření havranovy běžné konverzace: pozdravy, pozvání k rozhovoru, návrhy témat, drobné otázky, pochvaly a hráčovy pocity. Opraveny navazující otázky „A čekáš?“, „A jak se krmíš?“, „A to nemáš hlad?“ a „Takže nic nejíš?“. Zůstávají mobilní optimalizace, zvuk i herní obsah z předešlých verzí.
+**Aktuální vydání:** `0.11.8.20` (2. listopadu 2026) — přepsané havranovy odpovědi o jeho poslání, čekání a životě u rozcestí. Jeho rozhovor s rytířem přímo naplňuje slib hvězdáři; jídlo hledá jen poblíž a i za letu hlídá cestu. Drobné podrobnosti se odhalují v mnoha odlišných odpovědích, nikdy jako jediný seznam. Obsahuje veškeré předchozí herní, mobilní a zvukové opravy.
 
 **Grafická oprava:** Scéna před mlýnem používá nový obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka už není součástí pozadí: kreslí se pouze jednou, na zasněženou zem pod stolem, a nadále mění vzhled po rozbití. Původní obrázek zůstává zachovaný.
 

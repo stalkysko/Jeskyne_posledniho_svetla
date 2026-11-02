@@ -5,7 +5,7 @@ globalThis.adventureRavenContext11814 = (() => {
   const memoryTopics = new Set([
     'promiseOrigin', 'duty', 'waiting', 'whyWaiting', 'vow', 'master',
     'words', 'feather', 'abandon', 'waitingTime', 'stargazerFriend',
-    'ravenHunger'
+    'ravenHunger', 'ravenPresentAction', 'ravenDay', 'ravenRange', 'ravenFamiliarity'
   ]);
   const has = (t, re) => re.test(t);
 

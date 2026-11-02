@@ -1,9 +1,9 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.18 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.20 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.18.
+3. V horní liště musíš vidět 0.11.8.20.
 
 Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
 nahraj jeho rozbalený obsah do hlavní složky (main / root).
@@ -15,6 +15,24 @@ carodej_roleplay_v11812.js,
 havran_v116.js, havran_kontext_v11814.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+ÚPRAVA 0.11.8.20 (2. 11. 2026) — HAVRANOVO POSLÁNÍ V ROZHOVORU
+• Odpověď na „Co děláš?“ je nyní součástí jeho osobního příběhu:
+  rozhovor s poutníkem je smyslem hvězdářova slibu, nikoli vedlejší činností.
+• Šest různých odpovědí postupně odhaluje drobné pocity a vzpomínky.
+• Šest odpovědí o běžném dni rozvíjí znalost okolních kamenů, hlídání
+  stezky jedním okem a krátké lety pro potravu bez opuštění rozcestí.
+• Další tři odpovědi se týkají vzdálenosti jeho letů a tři znalosti okolí.
+• Nový test kontroluje, že odpovědi nejsou seznamem všeho naráz.
+• Grafika, zvuk, hádanky, postup i mobilní ovládání zůstaly beze změny.
+
+OPRAVA 0.11.8.19 (2. 11. 2026) — CO DĚLÁ HAVRAN?
+• „Co děláš?“ je nyní výslovná konverzační otázka, nikoli neurčený příkaz.
+• Havran rozliší, co dělá právě teď, čím tráví dlouhé dny na rozcestí
+  a co ho bavilo před příchodem zimy. Umí různé přirozené formulace.
+• Po jeho odpovědi navazuje „A čekáš?“ na slib hvězdáři.
+• Všechny dosavadní herní příkazy, zvuk i grafika zůstávají beze změny.
+• Rozšířeny automatické testy konverzačních vět.
 
 OPRAVA 0.11.8.18 (2. 11. 2026) — PŘIROZENÉ OTÁZKY A KONVERZAČNÍ OTEVÍRÁKY
 • Havran rozpozná „Jsi moudrý“, „Havrane, chci si povídat“,
