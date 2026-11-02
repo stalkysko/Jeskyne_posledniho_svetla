@@ -1,0 +1,12 @@
+{
+  "id": "./HRA.html",
+  "name": "Jeskyně posledního světla",
+  "short_name": "Poslední světlo",
+  "description": "Česká malovaná VGA textová adventura",
+  "start_url": "./HRA.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0c15",
+  "theme_color": "#0b0c15",
+  "lang": "cs"
+}

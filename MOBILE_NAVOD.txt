@@ -1,4 +1,4 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA 0.11.8.16 — MOBILNÍ VERZE PRO iPHONE A ANDROID
+JESKYNĚ POSLEDNÍHO SVĚTLA 0.11.8.18 — MOBILNÍ VERZE PRO iPHONE A ANDROID
 
 Jde o stejnou klasickou dobrodružnou hru v mobilně přizpůsobeném
 webovém rozhraní (Safari, Chrome). Součástí jsou dotykové směrové šipky,
@@ -26,13 +26,20 @@ Pokud je PC připojeno k více sítím, vyber IPv4 z té, kterou sdílí mobil.
 Pokud mobil nic neotevře, zkontroluj firewall, izolaci klientů Wi-Fi
 a stejnou síť. Nesdílej port 8765 do internetu na routeru.
 
-Na iPhonu můžeš použít Safari → Sdílet → Přidat na plochu pro zástupce.
+Na iPhonu můžeš použít Safari → Sdílet → Přidat na plochu.
+Spuštění z této ikony zobrazí hru bez běžných lišt Safari.
 Samotný místní HTTP server musí zůstat spuštěný; tento způsob
 NEINSTALUJE úplně offline iOS aplikaci. Pro skutečný offline režim
 v mobilu by bylo nutné hru hostovat na HTTPS a doplnit service worker,
 nebo vytvořit balíček přes vhodný nativní obal.
 
 OVLÁDÁNÍ
+• CELÁ OBRAZOVKA: Android a některé prohlížeče přepnou nativní
+  fullscreen. iPhone Safari spustí režim, který vyplní dostupný prostor;
+  skutečně bez lišt funguje spuštění z ikony na ploše.
+• UKONČIT REŽIM: vrátí původní uspořádání.
+• Při psaní na mobilu se herní scéna zmenší a ovládání se automaticky
+  přestaví nad softwarovou klávesnici. Rozhovor a příkaz zůstanou vidět.
 • Šipky západ / sever / jih / východ = přechod do sousední lokace.
 • ROZHLÉDNOUT SE = popis aktuálního místa.
 • OSLOVIT = zkusit promluvit s místní postavou (funguje u havrana).

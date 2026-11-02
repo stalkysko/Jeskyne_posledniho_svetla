@@ -1,4 +1,4 @@
-// V0.11.8.14: návaznost řeči o hvězdářově prosbě a havranových potřebách.
+// V0.11.8.18: návaznost řeči o hvězdářově prosbě a havranových potřebách.
 // Pravidla přijímají normalizovanou češtinu. Nevydávají hráčské otázky za
 // příkazy, nenabízejí řešení hádanek a pamatují si téma i mezi tahy.
 globalThis.adventureRavenContext11814 = (() => {
@@ -18,8 +18,8 @@ globalThis.adventureRavenContext11814 = (() => {
     const foodConversation = previous === 'ravenHunger';
 
     // Jídlo je předmětem rozhovoru, nikoli hledáním předmětu pro sloveso „jíst“.
-    if (has(t, /\b(?:co|cim|kde|odkud|jak) (?:tu |tady |vubec |ted |v zime |v tom mrazu )?(?:jis|zeres|se zivis|shanis jidlo|beres jidlo|hledas jidlo)\b/) ||
-        has(t, /\b(?:z ceho zijes|co mas k jidlu|co tu mas k jidlu|kde beres potravu|kde sezenes jidlo)\b/))
+    if (has(t, /\b(?:co|cim|kde|odkud|jak) (?:tu |tady |vubec |ted |v zime |v tom mrazu )?(?:jis|zeres|se zivis|se krmis|shanis jidlo|beres jidlo|hledas jidlo)\b/) ||
+        has(t, /\b(?:z ceho zijes|co mas k jidlu|co tu mas k jidlu|kde beres potravu|kde sezenes jidlo|jak se uzivis|cim se nakrmis|co sezobnes)\b/))
       return 'foodSource';
     if (has(t, /\b(?:muzu|mohu|mohl bych|chci|rad bych) (?:ti )?(?:dat|prinest|nabidnout) (?:neco )?(?:k jidlu|jidlo|potravu|zradlo)\b/) ||
         has(t, /\b(?:mam ti dat neco k jidlu|chces neco k jidlu|pomohu ti sehnat jidlo)\b/))
@@ -27,7 +27,9 @@ globalThis.adventureRavenContext11814 = (() => {
     if (has(t, /\b(?:musis|mel bys|mels bys|potrebujes|nemusis|muzes) (?:taky |take |vubec |aspon |neco |prece |se )*(?:jist|zrat|najist se|nacist se)\b/) ||
         has(t, /\b(?:nesmis hladovet|mel by ses najist|musis mit hlad|vzdyt potrebujes jidlo|nemas co jist)\b/))
       return 'foodConcern';
-    if (has(t, /^(?:ty )?(?:nejis|nejis vubec|nezeres|zeres|jis|jis vubec|mas hlad|nemas hlad|nepotrebujes jidlo|potrebujes jidlo|jsi hladovy|nejsi hladovy|hladovis)(?: havrane)?$/) ||
+    if (has(t, /^(?:(?:to|ty|vubec|opravdu|porad|jeste|ani|takze|tak) )*(?:mas hlad|nemas hlad|hladovis|jsi hladovy|nejsi hladovy|uz mas hlad)(?: havrane)?$/))
+      return 'foodHunger';
+    if (has(t, /^(?:(?:ty|takze|tak|opravdu|vubec|vlastne) )*(?:nic nejis|nejis|nejis vubec|nezeres|zeres|jis|jis vubec|nepotrebujes jidlo|potrebujes jidlo)(?: havrane)?$/) ||
         has(t, /^(?:jak dlouho jsi nejedl|kdy jsi (?:naposledy )?jedl|kdy ses naposledy najedl)$/))
       return 'foodHabit';
     if (foodConversation && has(t, /^(?:a )?(?:jak to zvladas|a co kdyz nenajdes jidlo|mas ho dost|mas dost jidla|a co v zime|a kdyz je zima|jak prezijes|prezijes to)$/))
@@ -58,6 +60,10 @@ globalThis.adventureRavenContext11814 = (() => {
     if (has(t, /^(?:proc|z jakeho duvodu|k cemu) (?:tu|tady|na tom rozcesti) (?:mas|musis|chces|porad musis|porad mas) (?:cekat|sedet|zustat|byt|hlidat)(?: havrane)?$/) ||
         has(t, /^(?:proc (?:tu |tady )?(?:cekas|zustavas|sedis)|proc (?:tu |tady )?(?:porad )?(?:jsi|zustavas)|proc jsi mu to slibil|proc jsi mu slibil ze zustanes|proc jsi (?:se )?rozhodl zustat)$/))
       return 'promiseWhyWait';
+    // „Kdo tě tu nechal?“ -> „A čekáš?“ musí navázat na právě vyslovený slib.
+    // Bez předchozího hovoru o slibu krátkou otázku nepřebíráme.
+    if (promiseConversation && has(t, /^(?:(?:ty|tu|tady|jeste|porad|stale|opravdu|takze|tak) )*(?:cekas|stale cekas|porad cekas|jeste cekas|cekas dal|cekas na nej|zustavas|jsi tu porad)(?: havrane)?$/))
+      return 'promiseStillWaiting';
     if (has(t, /^(?:hvezdar|on) (?:ti |te )?(?:rekl|rikal|poprosil|pozadal) (?:at|aby|abys)\b/) && mentionsStay)
       return 'promiseAsked';
     if (has(t, /^(?:(?:a |tak |takze )?co ti (?:hvezdar |tehdy |naposledy )*(?:rekl|rikal)(?: (?:tehdy|naposledy|vlastne))?|jaka byla jeho posledni slova|co presne po tobe chtel)$/))
@@ -88,6 +94,11 @@ globalThis.adventureRavenContext11814 = (() => {
       'Havran si načechrá peří. „Ten slib jsem dal, když ještě nebyl sníh. Tehdy se mi zdál lehký jako pírko. Dnes už tak lehký není.“',
       '„Čekám, protože jsem se tak rozhodl,“ řekne tiše. „A také proto, že zatím nevím, jak se loučí s někým, kdo se nevrátil.“'
     ],
+    promiseStillWaiting: [
+      '„Čekám,“ přikývne havran. „Každé ráno bych mohl odletět. Ale dal jsem mu slovo — a ještě může přijít někdo, kdo bude potřebovat ukázat cestu.“',
+      'Havran se zadívá do sněhu. „Pořád. Někdy se sám sebe ptám, jestli čekám na něj, nebo na někoho, koho sem poslal. Zatím zůstávám.“',
+      '„Ano,“ řekne prostě. „Slib se nedá položit na zem jako kámen a zase zvednout, až se ti zachce.“'
+    ],
     promiseWords: [
       '„Zůstaň na cestě,“ zopakuje havran pomalu. „A kdyby přišel někdo, kdo hledá světlo, ukaž mu směr.“ Na okamžik zmlkne. „Tak málo slov. A kolik zim se do nich vešlo.“',
       '„Pamatuji si každé slovo,“ řekne havran. „Spíš mě tíží ta, na která jsem se nezeptal.“'
@@ -109,8 +120,12 @@ globalThis.adventureRavenContext11814 = (() => {
       '„Kdyby se dalo najíst slibů, byl bych nejtlustší havran v údolí,“ odvětí. „Bohužel se musí hledat něco skutečného.“'
     ],
     foodHabit: [
-      '„Samozřejmě že jím!“ Havran si pohoršeně uhladí peří. „Jsem pták, ne socha. Jen se tu hledá potrava hůř, než když bývalo jaro.“',
-      '„Jím, když něco najdu,“ odpoví. „A ne, sníh není moje oblíbená příloha. Tu otázku sis klidně mohl nechat pro čaroděje.“'
+      '„Jím,“ opraví tě havran. „Jen ne pravidelně jako lidé u stolu. Někdy najdu semínka a zmrzlé bobule, jindy musím letět za potravou dál.“',
+      '„Kdybych nejedl, dávno bych tu neseděl,“ odpoví. „Hvězdáři jsem slíbil, že zůstanu na cestě, ne že přestanu pečovat o sebe.“'
+    ],
+    foodHunger: [
+      '„Někdy mám,“ přizná havran. „Zvlášť když přes noc napadne sníh a zakryje, co se dalo sezobnout. Pak musím vyletět hledat potravu dál.“',
+      'Havran si načechrá peří. „Hlad ano. Ale ne pořád. Když se mi poštěstí něco najít, najím se. Slib přece neznamená, že mám umřít na rozcestí.“'
     ],
     foodSource: [
       '„Pár zmrzlých bobulí, semínka, občas něco pod kůrou,“ vypočítává havran. „Na rozcestí se nedá prostřít stůl. Ale pořád jsem dost vynalézavý, abych se dožil dalšího rána.“',
@@ -133,7 +148,7 @@ globalThis.adventureRavenContext11814 = (() => {
     memo.counts[topic] = n + 1;
     memo.lastIntent = topic;
     const lines = replies[topic];
-    return {text:lines[Math.min(n, lines.length-1)],stage:n};
+    return {text:lines[n % lines.length],stage:n};
   }
 
   return {detect,respond};

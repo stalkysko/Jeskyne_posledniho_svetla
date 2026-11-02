@@ -1,9 +1,9 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.16 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.18 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.16.
+3. V horní liště musíš vidět 0.11.8.18.
 
 Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
 nahraj jeho rozbalený obsah do hlavní složky (main / root).
@@ -15,6 +15,28 @@ carodej_roleplay_v11812.js,
 havran_v116.js, havran_kontext_v11814.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+OPRAVA 0.11.8.18 (2. 11. 2026) — PŘIROZENÉ OTÁZKY A KONVERZAČNÍ OTEVÍRÁKY
+• Havran rozpozná „Jsi moudrý“, „Havrane, chci si povídat“,
+  „Povídat si“, „Máš chvilku?“, „O čem si budeme povídat?“,
+  „Co je nového?“ i přirozené pozdravy a hráčovy obavy či únavu.
+• Dialog bere v úvahu předchozí hvězdářův slib: na „A čekáš?“
+  odpoví v souvislosti s tím, co právě řekl.
+• Otázky „A jak se krmíš?“, „A to nemáš hlad?“, „Takže nic nejíš?“
+  vysvětlí, jak havran v zimě skutečně shání potravu; nepopírá hlad.
+• Odpovědi se při opakování střídají, příkazy k pohybu a předmětům
+  zůstávají oddělené. Vše funguje bez internetového chatovacího modelu.
+• Nové testy konverzačních otevíráků a rozšířené testy návazností.
+• Verze zachovává grafiku, zvuk, postup v příběhu a mobilní zobrazení.
+
+OPRAVA 0.11.8.17 (2. 11. 2026) — MOBILNÍ ZOBRAZENÍ A KLÁVESNICE
+• Tlačítko CELÁ OBRAZOVKA funguje na podporovaných zařízeních nativně;
+  iPhone Safari má vlastní režim vyplňující dostupnou plochu.
+• Pro iPhone je přiložený postup spuštění bez lišt přes ikonu na ploše.
+• Po otevření softwarové klávesnice se zmenší scéna, skryjí vedlejší
+  tlačítka a příkazový řádek s odpověďmi zůstává na viditelné obrazovce.
+• Nový mobilní modul je oddělený od herních událostí a logiky hádanek.
+• Testované varianty rozměrů visualViewport pro Safari a Android.
 
 OPRAVA 0.11.8.16 (2. 11. 2026) — ROZHOVOR S HAVRANEM, ÚKOL, NÁPOVĚDA
 • Příkaz „nápověda“ a tlačítko NÁPOVĚDA jsou vědomá žádost o herní tip.

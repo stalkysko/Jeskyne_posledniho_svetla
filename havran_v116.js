@@ -8,6 +8,18 @@ globalThis.adventureRaven115 = (() => {
     ['insult', /\b(hloupy havran|hloupy ptak|jsi blby|jsi hloupy|jsi k nicemu|nenavidim te|nechci te tu|sklapni zobak|drz zobak|mlc havrane)\b/],
     ['sorry', /^(promin|prominte|omlouvam se|mrzi me to|odpust mi|nechtel jsem ti ublizit|uz ti neublizim)(?: |$)/],
     ['salute', /^(havran|havrane|krkavce|ptaku|ptacku|hej havrane|halooo havrane|haloo havrane|jeste jsi tu|slysis me|jsi tam|ozvi se|co|coze)[?!. ]*$/],
+    ['wisdomPraise', /\b(?:jsi (?:velmi |opravdu |fakt |docela |tak )?(?:moudry|rozumny)|ty jsi moudry|mluvis moudre|moudre mluvis|to bylo moudre|to jsi rekl hezky|to jsi rekl moudre|moudry havran|mas pravdu havrane)\b/],
+    // Otevíráky záměrně přijímají celé věty; nepatří do parseru předmětů.
+    ['chatInvite', /^(?:chci si (?:s tebou )?povidat|chci (?:s tebou |si s tebou )?mluvit|rad bych si (?:s tebou )?povidal|mohli bychom si (?:spolu )?povidat|muzeme si (?:spolu |s tebou )?povidat|muzes si se mnou povidat|pojd si povidat|promluv si se mnou|povidej si se mnou|povidejme si|povidat si|povidani|pokecat si|muzeme pokecat|chci si popovidat|chci si promluvit|muzu si s tebou promluvit|muzu s tebou mluvit|chci s tebou prohodit par slov)(?: havrane)?$/],
+    ['chatStart', /^(?:povidej|tak povidej|povidej mi|povidej neco|povidej mi neco|povez mi neco|rekni mi neco|rekni neco|co mi povis|co mi chces rict|mas mi co rict|co bys mi rekl|zacni povidat|zacinam poslouchat|posloucham te|mluv|povidej o sobe|povidej mi o sobe|povez mi o sobe|vypravej mi neco)(?: havrane)?$/],
+    ['chatTopics', /^(?:o cem (?:si )?(?:budeme|chces|by sis chtel|bys chtel|si chces) (?:povidat|mluvit)|o cem si povidat|o cem se budeme bavit|o cem si muzeme povidat|o cem bychom si mohli povidat|vyber tema|navrhni tema|co te zajima|na co se mam zeptat|o cem mluvit)(?: havrane)?$/],
+    ['chatPermission', /^(?:mas (?:na me |pro me )?(?:chvilku|chvili|cas)|muzu te na chvili zdrzet|nerusim te|neobtezuji te|muzu se s tebou bavit|smim s tebou mluvit|muzes me vyslechnout|vyslechnes me|poslouchas me|muzu si s tebou popovidat|mam na tebe otazku|muzu se te na neco zeptat|chtel bych se te na neco zeptat)(?: havrane)?$/],
+    ['chatSmallTalk', /^(?:jak se (?:ti )?(?:vede|dari)|jak to jde|jak jde zivot|co je noveho|co mas noveho|co se dnes stalo|co delas dnes|jak se dnes citis|jak ses dnes mel|jaky jsi mel den|co je u tebe noveho)(?: havrane)?$/],
+    ['chatGreeting', /^(?:ahoj|cau|nazdar|dobry den|dobre rano|dobry vecer|zdravim|zdravim te|rad te vidim|zase se vidime|ahoj kamarade|vitam te)(?: havrane)?$/],
+    ['playerFear', /^(?:mam strach|bojim se|mam obavy|bojim se ze to nezvladnu|bojim se ze zabloudim|co kdyz se ztratim|nevim jestli to zvladnu)(?: havrane)?$/],
+    ['playerSad', /^(?:je mi smutno|jsem smutny|cit im se sam|citim se sam|je mi smutno z toho vseho|to je smutne|je mi te lito)(?: havrane)?$/],
+    ['playerCold', /^(?:je mi zima|mrznu|je mi strasna zima|jsem promrzly|je tu hrozna zima|nejak tu mrzne)(?: havrane)?$/],
+    ['playerTired', /^(?:jsem unaveny|uz nemuzu|jsem vycerpany|potrebuji si odpocinout|potrebuju si odpocinout|uz jsem z toho unaveny)(?: havrane)?$/],
     ['proud', /\b(jsi dobry havran|jsi hodny havran|jsi skvely havran|jsi statecny|jsi sikovny|jsem na tebe hrdy|mam te rad havrane|jsi muj pritel|jsi muj kamarad|mas hezke peri|jsi krasny ptak|pekny havran)\b/],
     ['ring', /\b(proc mas (?:ten |takovy )?krouzek|odkud mas krouzek|kdo ti dal ten krouzek|kdo ti dal krouzek|kdo ti nasadil krouzek|co znamena tvuj krouzek|proc mas na noze krouzek)\b/],
     ['master', /\b(kdo (?:byl|je) (?:tvuj|tvym) (?:pan|panem)|kdo te tu nechal|kdo te tady nechal|kdo ti rekl .*cek|kdo ti rekl .*zustat|kdo ti rekl .*musis (?:tu|tady) (?:byt|zustat|cekat)|kdo ti naridil .*zustat|kdo te pozadal .*zustat|kdo ti prikazal|kdo ti dal ten ukol|komu jsi slibil|pro koho tu cekas|kdo te tu nechal samotneho|nechal te tu samotneho|opustil te hvezdar|opustil te tvuj pan)\b/],
@@ -47,6 +59,57 @@ globalThis.adventureRaven115 = (() => {
     sorry: ['„Slyšel jsem tě,“ řekne havran opatrně. „Příště mi to raději ukaž skutky.“','Havran chvíli mlčí. „Dobrá. Ale křídla se mi ještě třesou.“'],
     salute: ['Havran se natočí k tvému hlasu. „Ano, rytíři? Stále mám uši. Tedy něco podobného.“','„Krá. Mluv. Na mráz mám času dost.“','„Slyším tě,“ odpoví. „Na tom rozcestí ještě nikdo nezmizel tak rychle jako odpověď na jednoduchou otázku.“'],
     proud: ['Havran si nadme peří. „A to říkáš dobrovolně? Zajímavé. Hvězdář mi takové věci moc neříkal.“','„Děkuji,“ odpoví zcela vážně. Pak se ošije. „Teď mi prosím dovol být zase důstojný pták.“','Havran nakloní hlavu. „Možná se s tebou nakonec nemusím jen hádat.“'],
+    wisdomPraise: [
+      'Havran sklopí hlavu. „Moudrý? To nevím. Kdybych byl tak moudrý, možná bych se hvězdáře zeptal na víc věcí, než odešel.“ Po chvíli dodá: „Ale děkuji.“',
+      '„Možná jsem jen měl příliš mnoho času přemýšlet,“ řekne havran. „A příliš málo času říct některé věci tomu, kdo je měl slyšet.“',
+      'Havran se skoro pousměje. „To říkáš teď. Počkej, až mi zase něco upadne ze zobáku. Moudrost není tak stálá, jak se zdá.“'
+    ],
+    chatInvite: [
+      'Havran se na ceduli otočí čelem k tobě. „Tak povídej, rytíři. Dlouho jsem neměl nikoho, kdo by se zastavil jen kvůli rozhovoru.“',
+      '„Rád,“ odpoví havran a složí křídla. „Ptej se, na co chceš. Jen ode mě nečekej, že znám odpovědi na všechno.“',
+      'Havran poposedne blíž. „V zimě se slova neztrácejí tak rychle jako stopy ve sněhu. Nuže, poslouchám.“'
+    ],
+    chatStart: [
+      'Havran si vybere pevnější místo na ceduli. „Hvězdář mi kdysi říkal, že člověka poznáš podle otázek. Ptej se, rytíři. Uvidíme, co se o sobě dozvíme.“',
+      '„Víš, co je zvláštní?“ začne havran. „Dřív jsem měl kolem sebe celé hejno. A přesto mi nikdo nenaslouchal tak jako ty teď.“',
+      'Havran chvíli sleduje vločky. „Kdysi tu na jaře kvetly žluté květy. Vzpomínám si na ně líp než na mnoho slov. O čem chceš slyšet?“'
+    ],
+    chatTopics: [
+      '„Můžeme mluvit o hvězdáři,“ navrhne havran. „Nebo o tom, co bývalo před zimou. A třeba o tom, proč se některé sliby tak těžko odkládají.“',
+      '„Zeptal ses někdy sám sebe, proč se vracíš na místa, odkud jsi odešel?“ zadívá se na tebe havran. „O tom bychom mohli mluvit. Anebo o něčem veselejším.“',
+      'Havran zapřemýšlí. „Pověz mi něco o své cestě. Já ti pak možná povím o době, kdy tenhle rozcestník nebyl bílý.“'
+    ],
+    chatPermission: [
+      '„Mám čas,“ odpoví havran. „Více času, než se mi někdy líbí. Ptej se.“',
+      'Havran se pohodlněji usadí. „Nerušíš mě. Ještě se mi nestalo, že by mě trápilo příliš mnoho návštěv.“',
+      '„Poslouchám,“ přikývne. „A když nebudu vědět, řeknu ti to poctivě. Hvězdář mě to tak učil.“'
+    ],
+    chatSmallTalk: [
+      'Havran se podívá na šedé nebe. „Nového? Dnes sněžilo o něco méně než včera. A pak jsi přišel ty. To je zatím nejzajímavější část dne.“',
+      '„Jde to,“ řekne havran. „Sníh je studený, dřevo tvrdé a lidé vzácní. Ale s tebou se aspoň nenudím.“',
+      '„Měl jsem klidný den,“ odpoví. „Dokud ses nezačal ptát. A to nemyslím ve zlém.“'
+    ],
+    chatGreeting: [
+      'Havran se otočí za tvým hlasem. „Zdravím, rytíři. Vítej u mého věčně zasněženého rozcestí.“',
+      '„Ahoj,“ zakráká havran. „To slovo je příjemnější, když na ně člověk — nebo pták — dostane odpověď.“',
+      'Havran lehce pokývne hlavou. „Dobré setkání. Co tě dnes přivádí?“'
+    ],
+    playerFear: [
+      'Havran ztichne. „Bát se můžeš, rytíři. Já se někdy bojím také. Důležité je vědět, kdy se zastavit, rozhlédnout a znovu vykročit.“',
+      '„Kdyby strach znamenal zbabělost, nikdy bych neroztáhl křídla,“ řekne havran. „Můžeš tu chvíli zůstat a popadnout dech.“'
+    ],
+    playerSad: [
+      'Havran skloní hlavu. „To mě mrzí. Někdy je lepší chvíli nic neřešit a jen s někým být. Jestli chceš, zůstanu poslouchat.“',
+      '„Vím, jaké to je, když je kolem moc ticho,“ řekne havran. „Nemusíš mi hned nic vysvětlovat.“'
+    ],
+    playerCold: [
+      'Havran si načechrá peří. „Mně pomáhá tohle. Tobě by se hodil plášť a nějaké závětří. Dlouho tu nestůj bez pohybu.“',
+      '„Zima nemá soucit ani s rytíři,“ poznamená. „Já mám peří. Ty máš aspoň nohy, kterými můžeš chodit.“'
+    ],
+    playerTired: [
+      '„Odpočiň si,“ řekne havran. „Nikdo po tobě nechce, abys všechno zvládl jedním krokem. Ani hvězdář by to nechtěl.“',
+      'Havran přestane přešlapovat. „Sedni si na chvíli do závětří. Cesta ti neuteče. Bohužel,“ dodá s náznakem úsměvu.'
+    ],
     ring: ['Havran zvedne nohu. „Hvězdář mi ho dal, abych se mu neztratil. Teď je to spíš on, kdo se ztratil mně.“','„Vidíš slunce? Hvězdář tvrdil, že jednou ten znak poznám i potmě. Raději bych tehdy věděl, co tím myslel.“'],
     master: ['Havran ztichne. „Hvězdář. Ale nebyl můj pán. Byl můj přítel. Prosil mě, abych počkal.“','„Ten, kdo by mě mohl zavolat zpátky, už dlouho nepřišel,“ odpoví. „Jmenoval se hvězdář. Pro mě to bylo dost.“'],
     stargazerFriend: ['„Ano,“ přikývne havran. „Hvězdář mě znal dávno před touhle zimou. Nepřikázal mi zůstat. Jen mě o to poprosil.“','„Byli jsme,“ zakráká tiše. „Já mu občas překážel v práci, on mi vyprávěl o hvězdách. Ne každé přátelství potřebuje slova.“'],
@@ -76,7 +139,9 @@ globalThis.adventureRaven115 = (() => {
     // Příkazy jako „jdi sever“, „seber lano“ či „pohladit havrana“ mají
     // přednost v herním parseru. Výjimkou jsou pokusy o chycení ptáka.
     if(t==='vratim se'||t==='mas me slovo')return 'promise';
-    return rules.find(([,pattern])=>pattern.test(t))?.[0] || null;
+    // Oslovení a úvodní spojky nemění téma konverzace.
+    const utterance=t.replace(/^(?:(?:a|no|tak|hele|prosim|havrane|hej havrane|ptaku|takze|nuze) )+/,'').trim();
+    return rules.find(([,pattern])=>pattern.test(t)||pattern.test(utterance))?.[0] || null;
   }
   function respond(topic,t,b,context) {
     b.relationCounts ||= {};
@@ -89,13 +154,13 @@ globalThis.adventureRaven115 = (() => {
     } else if(topic==='insult')b.trust=Math.max(-8,b.trust-(n?0:1));
     else if(topic==='sorry') {
       if(b.harmed>b.apologies){b.apologies++;b.trust=Math.min(8,b.trust+1)}
-    } else if(['proud','warm','care','together','trust','promise','escort'].includes(topic)&&n===0) {
+    } else if(['proud','wisdomPraise','chatInvite','chatStart','chatTopics','chatPermission','chatSmallTalk','chatGreeting','playerFear','playerSad','playerCold','playerTired','warm','care','together','trust','promise','escort'].includes(topic)&&n===0) {
       b.trust=Math.min(8,b.trust+1);
     }
     if(topic==='promise')b.promiseMade=true;
     if(['care','warm'].includes(topic))b.helpOffered=(b.helpOffered||0)+1;
     if(topic==='capture'&&b.harmed===1)return lines.capture[0];
-    if(b.harmed>b.apologies&&['proud','trust','together','escort','care'].includes(topic))return 'Havran poodstoupí. „Ještě si pamatuji tvoje ruce a lano. Nejdřív mi ukaž, že ti mohu věřit.“';
+    if(b.harmed>b.apologies&&['proud','wisdomPraise','chatInvite','chatStart','chatTopics','chatPermission','chatSmallTalk','chatGreeting','trust','together','escort','care'].includes(topic))return 'Havran poodstoupí. „Ještě si pamatuji tvoje ruce a lano. Nejdřív mi ukaž, že ti mohu věřit.“';
     if(topic==='trust'&&b.trust>=5)return 'Havran přiletí na nižší příčku cedule. „Ano. Myslím, že jsme přátelé. A raději to nikomu neříkej.“';
     if(topic==='escort'&&b.trust>=5&&b.promiseMade)return '„Když se vrátíš a ta zima skončí, možná s tebou skutečně poletím,“ přizná havran. „Dnes ještě zůstanu.“';
     if(topic==='freedom'&&b.trust>=5)return '„Až se vrátíš,“ řekne havran, „pokusím se ten slib konečně pustit. Ale musí to být moje rozhodnutí.“';

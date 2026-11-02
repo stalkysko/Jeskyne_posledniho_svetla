@@ -47,3 +47,74 @@ body{overflow-x:hidden}
 #command{caret-color:#9de5fc}
 @media(prefers-reduced-motion:reduce){#form>.dosCursor{animation-duration:1.4s}}
 
+/* V0.11.8.17 – mobilní hra v celém VIDITELNÉM viewportu.
+   iOS klávesnice zmenšuje visualViewport, nikoli vždy layout viewport.
+   Místo odhadování výšky klávesnice svěřujeme její rozměry JS. */
+html:has(body.mobile-immersive),html:has(body.mobile-keyboard-open){overscroll-behavior:none}
+body.mobile-immersive,body.mobile-keyboard-open{overflow:hidden;overscroll-behavior:none}
+@media (pointer:coarse) and (max-width:950px){
+ body.mobile-immersive>main,
+ body.mobile-keyboard-open>main{
+  position:fixed;inset:auto auto auto 0;
+  top:var(--mobile-visible-top,0px);
+  width:100%;max-width:none;
+  height:var(--mobile-visible-height,100dvh);
+  min-height:0;margin:0;
+  padding:max(3px,env(safe-area-inset-top)) max(5px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left));
+  display:flex;flex-direction:column;overflow:hidden;
+ }
+ body.mobile-immersive header,body.mobile-keyboard-open header{display:none}
+ body.mobile-immersive #monitor,body.mobile-keyboard-open #monitor{
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;
+  box-shadow:none;overflow:hidden;
+ }
+ body.mobile-immersive #picture,body.mobile-keyboard-open #picture{
+  flex:0 0 auto;min-height:0;
+  height:auto;max-height:min(220px,28vh);aspect-ratio:8/3;
+ }
+ body.mobile-immersive #picture canvas,body.mobile-keyboard-open #picture canvas{object-fit:contain}
+ body.mobile-immersive .terminal,body.mobile-keyboard-open .terminal{
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:7px 9px 4px;
+ }
+ body.mobile-immersive #log,body.mobile-keyboard-open #log{
+  flex:1 1 auto;min-height:0;height:auto!important;overflow-y:auto;
+  padding-right:5px;overscroll-behavior:contain;
+ }
+ body.mobile-immersive #form,body.mobile-keyboard-open #form{
+  flex:0 0 auto;margin-top:5px;padding:6px 0 2px;min-height:48px;
+ }
+ body.mobile-immersive #inventory,body.mobile-keyboard-open #inventory{
+  flex:0 0 auto;max-height:48px;overflow-y:auto;padding:6px 9px;
+ }
+ body.mobile-immersive #mobileNav{display:block;flex:0 0 auto;margin:6px 0 0;padding:6px}
+ body.mobile-immersive #mobileNav button{min-height:39px;padding:5px 3px;font-size:clamp(9px,2.6vw,12px)}
+ body.mobile-immersive .mobileDirections,body.mobile-immersive .mobileActions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ body.mobile-immersive .mobileActions{margin-top:5px}
+ body.mobile-immersive footer{position:absolute;z-index:10;top:5px;right:max(7px,env(safe-area-inset-right));margin:0;padding:0;display:block}
+ body.mobile-immersive footer>*:not(#full){display:none}
+ body.mobile-immersive footer #full{display:block;min-height:29px;padding:5px 6px;font-size:10px;background:#20182de8}
+ body.mobile-immersive .bar{padding-right:133px}
+ body.mobile-immersive #startup{display:none}
+
+ /* Při klávesnici je nejdůležitější viditelný vstup a poslední odpověď.
+    Přesto necháváme úzký pruh s právě navštíveným malovaným prostředím. */
+ body.mobile-keyboard-open #picture{height:clamp(60px,calc(var(--mobile-visible-height,400px)*.20),105px);max-height:none;aspect-ratio:auto}
+ body.mobile-keyboard-open #mobileNav,
+ body.mobile-keyboard-open footer,
+ body.mobile-keyboard-open #startup{display:none!important}
+ body.mobile-keyboard-open .terminal{padding:4px 7px 2px}
+ body.mobile-keyboard-open #log{font-size:13px;line-height:1.42}
+ body.mobile-keyboard-open #form{margin-top:3px;padding:4px 0 1px;min-height:47px}
+ body.mobile-keyboard-open #inventory{padding:4px 8px;max-height:28px}
+}
+
+/* Skutečné Fullscreen API – Android / desktop / iPad, pokud je povoleno. */
+main:fullscreen{width:100%;max-width:none;height:100dvh;margin:0;padding:10px;display:flex;flex-direction:column;overflow:hidden}
+main:fullscreen header{flex:0 0 auto}
+main:fullscreen #monitor{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+main:fullscreen #picture{flex:0 0 auto;max-height:min(35vh,330px)}
+main:fullscreen #picture canvas{object-fit:contain}
+main:fullscreen .terminal{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+main:fullscreen #log{height:auto!important;min-height:0;flex:1 1 auto}
+main:fullscreen #form{flex:0 0 auto}
+
