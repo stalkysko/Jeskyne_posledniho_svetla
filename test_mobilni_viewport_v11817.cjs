@@ -27,7 +27,7 @@ const html = fs.readFileSync(path.join(__dirname, '../HRA.html'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, '../hra.css'), 'utf8');
 const moduleSource = fs.readFileSync(path.join(__dirname, '../mobil_v11817.js'), 'utf8');
 
-assert.match(html, /mobil_v11817\.js\?v=0\.11\.8\.(?:17|21)/, 'mobilní skript je načtený');
+assert.match(html, /mobil_v11817\.js\?v=0\.11\.8\.(?:17|21|22|23|24|25|26|27)/, 'mobilní skript je načtený');
 assert.ok(html.includes('manifest.webmanifest'), 'instalace webové aplikace');
 assert.ok(css.includes('body.mobile-keyboard-open #form'), 'příkaz zůstává viditelný');
 assert.ok(css.includes('body.mobile-keyboard-open #log'), 'historie zůstává čitelná');

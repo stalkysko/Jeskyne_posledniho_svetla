@@ -1,4 +1,48 @@
-JAZYKOVÝ SYSTÉM 0.11.8.24
+JAZYKOVÝ SYSTÉM 0.11.8.27
+
+HISTORIE MÍSTA — 0.11.8.27
+> prozkoumat okolí
+> co se tu stalo?
+> co se tady odehrálo?
+> kdo tu byl?
+> kdy se to stalo?
+> a proč?
+> jak to víš?
+> a co bylo potom?
+
+Tyto otázky se opírají o známé detaily aktuální lokace. Návaznost
+se drží pouze v právě vedené debatě, ne po zcela jiném příkazu.
+
+PAMĚŤ ROZHOVORŮ — 0.11.8.26 (HAVRAN I ČARODĚJ)
+> proč tu jsi?
+> o čem jsme si spolu povídali?
+> o čem sjem si povídali posledně?
+> co sme posledně kecali?
+> co jsem se tě naposledy ptal?
+> co jsi mi naposledy odpověděl?
+> kolikrát jsme spolu mluvili?
+> pamatuješ si, co jsem ti slíbil?
+
+V jeskyni lze čarodějovu kroniku zkusit podobně. Příklady:
+> dokážeš mě zastavit?
+> co je to za portál?
+> co tu hlídáš?
+> pustíš mě dál?
+
+Postavy vědí jen to, co skutečně slyšely a zažily. Dřívější slova
+mohou připomenout, ale havranova minulost i čarodějova povaha zůstávají.
+
+KONTEXTOVÉ OTÁZKY — OPRAVENO V 0.11.8.25
+> proč tu jsi?
+> komu jsi to slíbil?
+> a komu?
+> jsi tu dlouho?
+> bylo jich hodně?
+> kdo se vrátil?
+> a co ti ostatní?
+
+Krátká slova „mu“ a „jich“ navazují na konkrétní zmíněné postavy.
+Hra nepředstírá znalost osudu poutníků, které havran už neviděl.
 
 ŽIVÝ SVĚT — NOVÝ SPOLEČNÝ ZÁKLAD (0.11.8.24)
 Následující věty jsou příklady, nikoli seznam povolených příkazů.

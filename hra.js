@@ -366,7 +366,7 @@ function wizardTopicFor(text,previous){
   ['bargain',/\b(?:dohoda|dohodnout|vyjednavat|nabidnu|vymenou|smlouvat|obchod|zaplatim|slibim|smlouva|neco za neco)\b/],
   ['mercy',/\b(?:smiluj|slitovani|milost|prosim|usetr|usetris|neublizuj|nech me zit|odpust|nezabijej me)\b/],
   ['surrender',/\b(?:vzdej|vzdas|vzdat|odejdi|odejdes|vypadni|tahni|skonci|ustup|nech toho|prestan|prest an)\b/],
-  ['threat',/\b(?:vyhrozujes|hrozis|zabijes|ublizis|co mi udelas|zabijet|co se stane|varovani|vyhruzka|nebezpecny|nepritel|porazim|zastavim)\b/],
+  ['threat',/\b(?:vyhrozujes|hrozis|zabijes|ublizis|co mi udelas|zabijet|co se stane|varovani|vyhruzka|nebezpecny|nepritel|porazim|zastavim|dokazes me zastavit|dokazal bys me zastavit|nedokazes me zastavit|zastavis me|muzes me zastavit|umis me zastavit|porazim te|zabiju te|znicim te)\b/],
   ['fear',/\b(?:bojis|strach|nebojim|bat|desis|zastrasit|odvaha|zbabelec)\b/],
   ['taunt',/\b(?:hlupak|hloupy|slaby|smesny|smrad|idiot|blazen|ubohe|nesnasim|nenavidim|lzes|lhari|trapny)\b/],
   ['identity',/\b(?:kdo jsi|jak se jmenujes|jmeno|jmenujes|kdo vlastne jsi|co jsi zac)\b/],
@@ -438,6 +438,18 @@ let original=norm(raw);
 let t=original.replace(/^(?:(?:prosim te|prosim vas|prosim|hele|tak|no tak|zkus prosim|chtel bych|chtela bych|rad bych|rada bych|mohl bych|mohla bych|muzes mi|muzes|chci) )+/,'');
 // Nápověda je VÝHRADNĚ explicitní příkaz, nikoli prosba postavě o radu.
 if(t==='napoveda')return {intent:'hint',ids:[],t};
+// V0.11.8.26: významové vyhledání v kronice obou postav. Rozpoznání
+// hovorové češtiny a překlepů NESMÍ měnit původní příkaz ani herní hádanky.
+const memoryRequest=globalThis.adventureDialogueUnderstanding11826?.detect(raw,state);
+if(memoryRequest?.kind==='recall')
+ return {intent:'diaryRecall',topic:'recall',mode:memoryRequest.mode,
+   ids:[memoryRequest.speaker],t:original};
+if(memoryRequest?.kind==='wizardFollowup')
+ return {intent:'wizardFollowup11826',topic:memoryRequest.topic,ids:['wizard'],t:original};
+// Otázky na historii právě popsaného místa nejsou dotazy na totožnost
+// havrana. Přirozené „Co se tu stalo?“ má odpověď z pozorovaných stop.
+const placeRequest=globalThis.adventurePlaceMemory11827?.detect(raw,state);
+if(placeRequest)return {...placeRequest,ids:[],t:original};
 // Vyžádaná vzpomínka na vlastní rozhovor nečte hvězdářův zápisník.
 if(['clearing','cave'].includes(state.room)&&
    /^(?:pamatujes si o cem jsme (?:se )?(?:bavili|mluvili|povidali)|pamatujes si co jsme (?:spolu )?(?:resili|probirali)|o cem jsme (?:se )?(?:minule |naposledy )?(?:bavili|mluvili|povidali)|co jsme (?:minule |naposledy )?(?:resili|probirali)|na co jsem se te (?:minule |naposledy )?ptal|povidej mi o nasem poslednim rozhovoru)$/.test(t))
@@ -1047,7 +1059,9 @@ if(adventureReactions.ravenOpen[topic]){
  if(topic==='friendship'&&ravenMemory().trust>=4)opening=['Havran poskočí blíž. „Jestli se ptáš, jestli jsme přátelé, odpovím ano. A teď mě tím laskavě nerozmazluj.“'];
  sayVariant('raven-open:'+topic,opening);return;
 }
-let lines=/kdo|jmen|jsi|mluvit|mluvici/.test(t)?['„Jsem havran. Víc titulů nepotřebuji.“','„Hvězdář si se mnou povídal. Člověk pochytí ledacos. Tedy pták.“']:
+// „Komu jsi to slíbil?“ není otázka „Kdo jsi?“: druhá osoba ve větě
+// nesmí sama o sobě spustit odpověď na havranovu totožnost.
+let lines=/\b(?:kdo jsi|kym jsi|jak se jmenujes|jake je tve jmeno|mas jmeno|mluvici havran|umel jsi mluvit|proc mluvis)\b/.test(t)?['„Jsem havran. Víc titulů nepotřebuji.“','„Hvězdář si se mnou povídal. Člověk pochytí ledacos. Tedy pták.“']:
 /hvezdar|klic|krypt|hrob/.test(t)?['„Hvězdář odpočívá pod věží. Klíč si nechal u sebe. Bez světla tam nechoď.“','„Znak slunce na hrobě, znak slunce na zámku. Vidíš tu souvislost?“']:
 /most|lano|provaz|propast/.test(t)?[f().bridge?'„Lano drží. Vidíš? Někdy stačí pořádný uzel.“':'„Já přeletím. Ty potřebuješ provaz. Hledej ve mlýně.“','„Za pevný pilíř se hák zachytí. Ale nejdřív si ověř, že máš druhý konec.“']:
 /lucern|lamp|olej|svetl/.test(t)?['„Suchý knot nesvítí. Nejdřív olej, potom křesadlo.“','„Lucerna se hodí víc v ruce než na stole.“']:
@@ -1432,7 +1446,12 @@ function bridgeDetail(p){
   log('Opatrně nakročíš přes sněhem zakrytou hranu. Zespodu se ozve třesk ledu. Instinktivně ucukneš zpět na pevnou skálu — dole by nebylo nic, čeho se zachytit.');return;
  }
 }
-function action(p){scopeView=false;if(p.intent!=='bridgeDetail')state.bridgeFocus=null;if(p.intent==='bridgeDetail'){bridgeDetail(p);return;}if(p.intent==='world'){
+function action(p){scopeView=false;
+if(p.intent==='placeHistory11827'||p.intent==='placeHistoryFollowup11827'){
+ const response=globalThis.adventurePlaceMemory11827?.reply(state,p.part);
+ log(response||'Tady se zatím nedá minulost určit.');return;
+}
+if(p.intent!=='bridgeDetail')state.bridgeFocus=null;if(p.intent==='bridgeDetail'){bridgeDetail(p);return;}if(p.intent==='world'){
  if(state.room==='crypt'&&!f().lit&&(['inspect','read'].includes(p.detail?.intent)||['schranka','vyklenek'].includes(p.detail?.id))){
   log('Přitáhneš si věc k očím, ale krypta je příliš temná. Bez světla nerozeznáš podrobnosti.');return;
  }
@@ -1811,8 +1830,10 @@ if(p.intent==='caveDetail'){
 if(p.intent==='ravenContext11814'){
  const b=ravenMemory();b.met=true;b.pending=null;pending=null;
  const answer=globalThis.adventureRavenContext11814.respond(p.topic,b);
- const topic=p.topic.startsWith('food')?'ravenHunger':'promiseOrigin';
+ const travelers=p.topic.startsWith('returningTravelers');
+ const topic=p.topic.startsWith('food')?'ravenHunger':travelers?'returningTravelers':'promiseOrigin';
  state.dialogue={speaker:'raven',room:'clearing',topic,stage:answer.stage};
+ if(travelers)state.dialogue.focus='returnedTravelers';
  state.lastEntity='raven';ravenEmote={start:performance.now(),kind:'talk'};
  if(['foodConcern','foodHelp'].includes(p.topic)&&answer.stage===0)b.trust=Math.min(8,b.trust+1);
  gameAudio?.cue('raven');log(answer.text);persist();return;
@@ -1823,6 +1844,11 @@ if(p.intent==='ravenNatural'){
  const dialogueContext=state.dialogue?.room==='clearing'&&state.dialogue?.speaker==='raven'?state.dialogue:null;
  const answer=globalThis.adventureRaven115.respond(p.topic,p.t,b,dialogueContext);
  state.dialogue={speaker:'raven',room:'clearing',topic:p.topic,stage:b.relationCounts[p.topic]-1};
+ // V deníku si uložíme konkrétní referent poslední repliky, ne pouhé téma.
+ // Krátké „bylo jich hodně?“ má význam pouze po skutečně zmíněných
+ // poutnících; při další odpovědi se focus automaticky vymaže.
+ if(/\bpoutniky kteri se vratili\b/.test(norm(answer)))
+  state.dialogue.focus='returnedTravelers';
  ravenEmote={start:performance.now(),kind:['capture','harm','insult'].includes(p.topic)?'startle':'talk'};
  state.lastEntity='raven';gameAudio?.cue('raven');log(answer);persist();return;
 }
@@ -1835,6 +1861,18 @@ if(p.intent==='diaryRecall'){
  const speaker=state.room==='clearing'?'raven':'wizard';
  log(globalThis.adventureDialogueDiary11824?.recall(state,speaker,p.mode||'topic')||'Na předchozí rozhovor si teď nevzpomínáš.');
  persist();return;
+}
+if(p.intent==='wizardFollowup11826'){
+ const before=JSON.parse(JSON.stringify(state));state.turn++;
+ const old=state.dialogue?.topic||'';
+ if(old.startsWith('role:')){
+  const b=wizardMemory(),topic=old.slice(5);
+  const response=globalThis.adventureWizardRoleplay.respond(topic,{text:p.t,memory:b,
+    hits:state.caveHits,approaches:b.approaches,inv:state.inv});
+  state.dialogue={speaker:'wizard',room:'cave',topic:old,stage:(b.topics[old]||1)-1};
+  log(response);
+ }else wizardConversation('proc');
+ undo.push(before);if(undo.length>100)undo.shift();persist();return;
 }
 if(p.unresolved){log('Co myslíš výrazem „'+p.unresolved+'“?');return;}
 if(p.intent==='repeatReply'){log(lastReply||'Zatím není co zopakovat.');return;}
@@ -1869,7 +1907,8 @@ if(state.won&&state.room==='cave'&&p.intent==='talk'){log('Čaroděj už zmizel.
 if(p.intent==='talk'){conversation(p.ids.find(id=>['raven','wizard'].includes(id))||p.ids[0],p.t,p.continuation);persist();return;}
 if(['question','surface','status','hello','thanks','sorry','bye','curse'].includes(p.intent)){expandedAction(p);if(p.intent==='bye')delete state.dialogue;persist();return;}
 if(p.intent==='answer'){log(pending?'Potřebuji název věci nebo místa, ne jen ano.':'Teď tu není žádná otázka na ano či ne.');return;}
-if(state.won&&state.room==='cave'&&!(p.intent==='go'&&!p.ids.includes('portal'))){
+if(state.won&&state.room==='cave'&&!(p.intent==='go'&&!p.ids.includes('portal'))&&
+   !['placeHistory11827','placeHistoryFollowup11827'].includes(p.intent)){
  if(p.ids.includes('portal')){log(p.intent==='go'?'Přejdeš ke vstupu do osvobozeného portálu. Za ním začíná další cesta, ale první kapitola tady končí. Na chvíli se zastavíš a necháš údolí vydechnout.':'Temný portál už nestřeží čaroděj. V průchodu je vidět slabé světlo rodícího se rána a vítr už nenese mráz.');return;}
  if(p.ids.includes('wizard')||p.ids.includes('scepter')){log('Po čaroději zůstala jen voda a úlomky ledu. Jeho žezlo leží rozbité na dně.');return;}
  if(['look','inspect','read'].includes(p.intent)){describe();log('Rozlámané ledové stěny odrážejí první teplé světlo. Cesta k portálu je konečně volná.');return;}
@@ -1890,6 +1929,7 @@ function command(raw){
     raven:{harmed:state.raven?.harmed||0,apologies:state.raven?.apologies||0},won:state.won},
     start=$('log').children.length;
   execute(part,parsed);
+  state.lastCommandIntent=parsed.intent||null;
   // Bezprostřední záznam po tahu; staré repliky mají vždy přednost.
   const lines=[],children=$('log').children;
   for(let i=start;i<children.length;i++)if(children[i].className!=='cmd')lines.push(children[i].textContent);
@@ -1912,11 +1952,18 @@ function upgradeState(s){
  if(!Number.isSafeInteger(s.wizard.approaches)||s.wizard.approaches<0)s.wizard.approaches=0;
  if(!Number.isSafeInteger(s.wizard.exchanges)||s.wizard.exchanges<0)s.wizard.exchanges=0;
  if(!s.wizard.topics||typeof s.wizard.topics!=='object')s.wizard.topics={};
+ // Starší uložená hra mohla skončit těsně po větě o návratu poutníků.
+ // Neodhadujeme obsah z tématu „dlouhé čekání“: obnovíme referent jedině
+ // tehdy, když je doslova zapsaný v poslední havranově odpovědi.
+ if(s.room==='clearing'&&s.dialogue?.speaker==='raven'&&s.dialogue?.topic==='long'&&!s.dialogue.focus){
+  const last=s.conversationJournal?.entries?.filter(e=>e.kind==='dialogue'&&e.speaker==='raven').at(-1);
+  if(last&&/poutniky kteri se vratili/.test(norm(last.reply||'')))s.dialogue.focus='returnedTravelers';
+ }
  if(s.flags.charged&&!s.flags.lensInSun){s.flags.lensInSun=true;s.inv=s.inv.filter(id=>id!=='lens');}
  if(s.flags.door&&!s.flags.doorUnlocked)s.flags.doorUnlocked=true;
  return s;
 }
-function saveFile(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({game:'last-light-v04',state},null,2)],{type:'application/json'}));a.download='Jeskyne_v0_11_8_24_ulozena_hra.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Soubor s uloženou hrou je připraven ke stažení.','sys')}
+function saveFile(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({game:'last-light-v04',state},null,2)],{type:'application/json'}));a.download='Jeskyne_v0_11_8_27_ulozena_hra.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Soubor s uloženou hrou je připraven ke stažení.','sys')}
 const canvas=$('scene'),ctx=canvas.getContext('2d'),atlas=new Image();let loaded=false;atlas.src='assets/svet.png';atlas.onload=()=>{loaded=true;draw(performance.now())};atlas.onerror=()=>log('Chybí assets/svet.png. Rozbal celý ZIP do jedné složky.','sys');
 const cleanMill=new Image(),propAtlas=new Image();let cleanMillLoaded=false,propsLoaded=false;
 cleanMill.onload=()=>{cleanMillLoaded=true};propAtlas.onload=()=>{propsLoaded=true};

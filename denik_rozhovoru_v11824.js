@@ -27,7 +27,24 @@ globalThis.adventureDialogueDiary11824 = (() => {
     crypt:'kryptě',cave:'ledové jeskyni',power:'moci',passage:'průchodu',
     choice:'rozhodování',truth:'pravdě',fear:'strachu',memory:'vzpomínkách',
     time:'čase',fate:'osudu',drawing:'kresbě',food:'jídle',
-    wizard:'čaroději',riddles:'hádankách',magic:'magii'
+    wizard:'čaroději',riddles:'hádankách',magic:'magii',
+    returningTravelers:'poutnících, kteří se vrátili',
+    guard:'střežení průchodu',portalBeyond:'druhé straně portálu',
+    portalNature:'povaze portálu',stargazerFate:'hvězdářově osudu',
+    stargazerRelation:'čarodějově vztahu k hvězdáři',
+    dwarfsFate:'osudu trpaslíků',eyes:'čarodějových očích',
+    scepter:'žezle',iceColumn:'ledovém sloupu',winterOrigin:'původu zimy',
+    change:'změnách a jaru',freedom:'svobodě',fearOfLoss:'strachu ze ztráty',
+    regret:'lítosti',morality:'dobru a zlu',human:'lidech',
+    knight:'rytíři',form:'čarodějově podobě',combat:'boji',
+    bargain:'dohodě',mercy:'milosti',surrender:'ústupu',threat:'hrozbách',
+    taunt:'urážkách',identity:'totožnosti',loneliness:'samotě',
+    motive:'důvodech věčné zimy',purpose:'smyslu čekání',
+    long:'dlouhém čekání',waitingDuration:'dlouhém čekání',
+    origin:'havranově minulosti',howMuchLonger:'délce čekání',
+    warmOffer:'nabídce tepla',feelingBetter:'tom, jak se havran cítí',
+    stillCold:'zimě',returnWhere:'návratu',
+    role:'rozhovoru'
   };
   const skipRecall=new Set(['greeting','hello','thanks','bye','sorry','curse','unknown','openQuestion','recall','actionWitness',
     'sigh','speaking','staring','praiseHuman','questions','status','weatherQuestion']);
@@ -70,7 +87,7 @@ globalThis.adventureDialogueDiary11824 = (() => {
     const named=p.ids?.find(id=>id==='raven'||id==='wizard');
     const ravenIntents=new Set(['v118Raven','ravenContext11814','ravenContext','ravenNatural',
       'v118RavenContext','worldWitness','diaryRecall']);
-    const wizardIntents=new Set(['caveRoleplay','wizardRoleplay','wizardOpen','wizardConversation']);
+    const wizardIntents=new Set(['caveRoleplay','wizardRoleplay','wizardOpen','wizardConversation','wizardFollowup11826']);
     if(ravenIntents.has(p.intent))return room==='clearing'?'raven':null;
     if(wizardIntents.has(p.intent))return room==='cave'?'wizard':null;
     if(['talk','question','hello','thanks','sorry','bye','curse','status','surface'].includes(p.intent)){
@@ -83,6 +100,8 @@ globalThis.adventureDialogueDiary11824 = (() => {
     let topic=p.detail?.topic||p.topic||(state.dialogue?.speaker===speaker&&state.dialogue.topic)||'';
     topic=String(topic).replace(/^(?:role:|semantic:)/,'');
     const raw=normalize(input);
+    if(topic.startsWith('returningTravelers'))return 'returningTravelers';
+    if(topic==='promiseRecipient')return 'promise';
     if(['deathTruth','deathCause','killer','knewDeath','deathFollow','loss','mortality','stargazerDeath'].includes(topic))
       return 'grief';
     if(topic==='starMemory')return 'stargazer';
@@ -98,6 +117,10 @@ globalThis.adventureDialogueDiary11824 = (() => {
     if(topic==='stargazerMagic')return 'magic';
     if(topic==='band'||topic==='ringComfort')return 'ring';
     if(topic==='offerHelp'||topic==='askHelp'||topic==='mission')return 'journey';
+    if(topic==='waitingTime'||topic==='long'||topic==='waitingDuration')return 'waiting';
+    if(topic==='promiseOrigin'||topic==='promiseAsked'||topic==='promiseWhyWait'||topic==='vow')return 'promise';
+    if(topic==='purpose')return 'waiting';
+    if(topic==='role:challenge'||topic==='challenge')return 'threat';
     if(topic==='voiceMemory')return 'voice';
     if(topic==='angryAfterHarm'||topic==='forgiveAfterHarm')return 'truth';
     if(topic==='openQuestion')return 'unknown';
@@ -160,6 +183,9 @@ globalThis.adventureDialogueDiary11824 = (() => {
     }
     if(p.intent==='world'&&p.detail&&['clean','kick','break','cut','attack','pull','push','turn','shake','dig','open'].includes(p.detail.intent))
       append(d,{kind:'action',room,object:p.detail.id,action:p.detail.intent,turn:state.turn});
+    if(['placeHistory11827','placeHistoryFollowup11827'].includes(p.intent))
+      append(d,{kind:'investigation',room,part:p.part,turn:state.turn,
+        question:String(input).slice(0,240),reply:lines.join('\n').slice(0,1800)});
     if(p.intent!=='world'&&p.ids?.length&&
       ['clean','kick','break','cut','attack','pull','push','turn','shake','dig','open','knock','repair'].includes(p.intent))
       append(d,{kind:'action',room,object:p.ids[0],action:p.intent,turn:state.turn});
@@ -182,10 +208,32 @@ globalThis.adventureDialogueDiary11824 = (() => {
       firstTurn:previous?.firstTurn??state.turn,lastTurn:state.turn,
       lastInput:entry.input,lastReply:entry.reply,lastMood:entry.mood};
     d.lastDialogue={speaker,topic,seq:d.sequence};
+    // Spontánní dodatek musí být také v kronice. Jinak by postava při
+    // příští otázce „Co jsi mi odpověděl?“ zapomněla vlastní slova.
+    function rememberAside(comment){
+      const actual=d.entries[d.entries.length-1];
+      actual.reply+='\n'+comment;
+      d.topics[speaker][topic].lastReply=actual.reply;
+      append(d,{kind:'aside',speaker,topic,room,turn:state.turn,
+        reply:comment,mood:entry.mood,relation:entry.relation});
+      return comment;
+    }
+    // Čaroděj si pamatuje skutečnou hráčovu výzvu. Pozdější prosbu o
+    // průchod může připomenout, ale nemění tím zámek portálu ani svůj motiv.
+    if(speaker==='wizard'&&topic==='passage'&&!state.won&&
+       !d.milestones.wizardChallengeRemembered){
+      const challenge=d.entries.find(x=>x.kind==='dialogue'&&x.speaker==='wizard'&&
+        x.seq<d.sequence&&d.sequence-x.seq>=2&&
+        /\b(?:dokazes me zastavit|zastavis me|porazim te|zabiju te|znicim te|nedokazes me zastavit)\b/.test(normalize(x.input)));
+      if(challenge){
+        d.milestones.wizardChallengeRemembered={turn:state.turn,originalTurn:challenge.turn};
+        return rememberAside('Čaroděj si vzpomene na tvou dřívější otázku. „Nejdřív ses zajímal, jestli tě dokážu zastavit. Teď chceš, abych tě pustil. Jak rychle umí odvaha změnit hlas.“');
+      }
+    }
     // Jen řídká osobní odezva; nejdřív zůstává kompletní autorská odpověď.
     if(repeated&&previous.count>=1&&d.topics[speaker][topic].count%2===0){
       d.lastCallback[speaker]=d.sequence;
-      return recurrence(speaker,topic,state);
+      return rememberAside(recurrence(speaker,topic,state));
     }
     return null;
   }
@@ -196,10 +244,42 @@ globalThis.adventureDialogueDiary11824 = (() => {
     }
     return null;
   }
-  function recall(state,speaker='raven',kind='asked'){
-    const d=diary(state),e=lastMeaningful(d,speaker);
-    if(!e)return speaker==='raven'?'Havran přimhouří oči. „Zatím jsme spolu mnoho neprobrali. Na co myslíš?“':
-      'Čaroděj zkříží ruce. „Neměli jsme spolu žádný rozhovor, ke kterému bych se chtěl vracet.“';
+  function recall(state,speaker='raven',kind='topic'){
+    const d=diary(state),e=lastMeaningful(d,speaker),known=d.entries.filter(entry=>
+      entry.kind==='dialogue'&&entry.speaker===speaker&&!skipRecall.has(entry.topic));
+    const isWizard=speaker==='wizard';
+    if(kind==='count'){
+      const n=known.length;
+      if(n===0)return isWizard?'Čaroděj zkříží ruce. „Zatím jsme spolu nevedli žádnou skutečnou rozmluvu.“':
+        'Havran nakloní hlavu. „Zatím si nevybavuji žádnou naši rozmluvu.“';
+      const count=n===1?'jednu naši rozmluvu':
+        n>=2&&n<=4?n+' naše rozmluvy':n+' našich rozmluv';
+      return isWizard?'Čaroděj zkříží ruce. „Zaznamenal jsem '+count+'. Nečekej, že jejich počet změní mé rozhodnutí.“':
+        'Havran se zamyslí. „Vzpomínám si na '+count+'. Některé byly krátké, ale i ty se počítají.“';
+    }
+    if(kind==='playerPromise'){
+      const promise=[...known].reverse().find(entry=>
+        /\b(?:slibuji|slibuju|slibim|vratim se|dodrzim slib|prislubuji)\b/.test(normalize(entry.input)));
+      if(!promise)return isWizard?'Čaroděj zúží oči. „Žádný tvůj slib, který bys mi skutečně dal, si nevybavuji.“':
+        'Havran pootočí hlavu. „Nerad bych ti vkládal do úst slib, který jsi nevyslovil. V našich hovorech si žádný takový nevybavuji.“';
+      const said=promise.input.replace(/[.!?\s]+$/,'');
+      return isWizard?'„Pamatuji si tvá slova: ‚'+said+'‘,“ pronese čaroděj. „Ale slovo není čin.“':
+        'Havran skloní hlavu. „Řekl jsi mi: ‚'+said+'‘. To jsem nezapomněl.“';
+    }
+    if(!e)return isWizard?'Čaroděj zkříží ruce. „Neměli jsme spolu žádný rozhovor, ke kterému bych se chtěl vracet.“':
+      'Havran přimhouří oči. „Zatím jsme spolu mnoho neprobrali. Na co myslíš?“';
+    if(kind==='topics'){
+      const subjects=[];
+      for(const entry of known.slice().reverse()){
+        const subject=topicTerms[entry.topic];
+        if(subject&&!subjects.includes(subject))subjects.push(subject);
+        if(subjects.length===4)break;
+      }
+      if(!subjects.length)return isWizard?'„O mnoha věcech jsme dosud nemluvili,“ odpoví čaroděj.':'„Zatím jsme toho mnoho neprobrali,“ připustí havran.';
+      const list=subjects.join(', ');
+      return isWizard?'Čaroděj si tě změří. „Mluvili jsme o '+list+'. Já na svá slova nezapomínám.“':
+        'Havran pootočí hlavu. „Probírali jsme '+list+'. Některé z těch věcí mi ještě leží v hlavě.“';
+    }
     const subject=topicTerms[e.topic];
     if(kind==='question'){
       const question=e.input.replace(/[.!? ]+$/,'');
@@ -207,6 +287,11 @@ globalThis.adventureDialogueDiary11824 = (() => {
         mood(state,'raven')==='zarmoucený'?
           'Havran ztiší hlas. „Ptal ses mě: ‚'+question+'‘. Vzpomínám si. Jen odpověď mě pořád bolí.“':
           'Havran nakloní hlavu. „Posledně ses mě ptal: ‚'+question+'‘. Pamatuji si.“';
+    }
+    if(kind==='reply'){
+      const response=e.reply||'';
+      if(!response)return isWizard?'„Poslední odpověď teď nemohu přesně zopakovat,“ řekne čaroděj.':'„Slova jsem tehdy neuchoval všechna,“ přizná havran.';
+      return (isWizard?'Čaroděj sevře žezlo. „Chceš znovu slyšet má vlastní slova?“':'Havran přikývne. „Takhle jsem ti tehdy odpověděl:“')+'\n'+response;
     }
     if(speaker==='wizard')return 'Čaroděj ani nemrkne. „Pamatuji si. Mluvili jsme o '+subject+'. Nečekej, že opakováním změníš má rozhodnutí.“';
     if(mood(state,'raven')==='zarmoucený')return 'Havran chvíli mlčí. „Pamatuji si, že jsme mluvili o '+subject+'. Jen mě teď stále tíží vzpomínka na hvězdáře.“';

@@ -16,6 +16,10 @@ globalThis.adventureRavenContext11814 = (() => {
     const sameConversation = memoryTopics.has(previous);
     const promiseConversation = sameConversation && previous !== 'ravenHunger';
     const foodConversation = previous === 'ravenHunger';
+    // „Jich“ odkazuje na skutečně vyslovené poutníky, nikoli na libovolnou
+    // otázku po čekání. Focus se ukládá spolu s rozhovorem a přežije reload.
+    const returnedTravelers = context?.speaker === 'raven' && context.room === 'clearing' &&
+      context.focus === 'returnedTravelers';
 
     // Jídlo je předmětem rozhovoru, nikoli hledáním předmětu pro sloveso „jíst“.
     if (has(t, /\b(?:co|cim|kde|odkud|jak) (?:tu |tady |vubec |ted |v zime |v tom mrazu )?(?:jis|zeres|se zivis|se krmis|shanis jidlo|beres jidlo|hledas jidlo)\b/) ||
@@ -34,6 +38,22 @@ globalThis.adventureRavenContext11814 = (() => {
       return 'foodHabit';
     if (foodConversation && has(t, /^(?:a )?(?:jak to zvladas|a co kdyz nenajdes jidlo|mas ho dost|mas dost jidla|a co v zime|a kdyz je zima|jak prezijes|prezijes to)$/))
       return 'foodNeed';
+
+    // Kontext z repliky „počítám poutníky, kteří se vrátili“.
+    // Neodpovídáme za havrana, dokud takové poutníky skutečně nezmínil.
+    if (returnedTravelers && has(t, /^(?:(?:bylo|je) jich (?:hodne|malo|vic|nekolik)|(?:vratilo|vraci) se jich (?:hodne|malo|vic|kolik)|kolik (?:jich bylo|se jich vratilo|se vratilo)|(?:a |tak )?kolik(?: jich)?|(?:hodne|malo) (?:jich )?(?:se vratilo|jich bylo)|kolik tech poutniku (?:bylo|se vratilo)|vratilo se (?:hodne|malo) poutniku|hodne|malo)(?: vlastne)?$/))
+      return 'returningTravelersCount';
+    if (returnedTravelers && has(t, /^(?:co (?:ti |s temi )?(?:ostatni|kteri se nevratili)|ti ostatni|ti co se nevratili|kam (?:se podeli|sli) ti ostatni|vis co se jim stalo)$/))
+      return 'returningTravelersMissing';
+    if (returnedTravelers && has(t, /^(?:(?:a |tak )?kdo se vratil|kteri (?:se vratili|to byli)|kdo to byl)$/))
+      return 'returningTravelersWho';
+
+    // Příjemce slibu není totožnost mluvčího: „komu jsi to slíbil?“ nikdy
+    // nesmí spadnout do fallbacku „Jsem havran“ kvůli slovu „jsi“.
+    if (has(t, /^(?:komu (?:jsi |tys )?(?:(?:to|ten slib|vlastne|to vlastne) )?(?:slibil|prisahal|dal slovo)(?: ze (?:tu|tady) (?:zustanes|pockas))?|komu (?:jsi )?(?:ten |to )?slib (?:dal|urcil)|kdo te (?:o to )?(?:pozadal|poprosil)(?: abys (?:tu|tady) (?:zustal|cekal))?|komu (?:jsi )?(?:to )?sliboval)$/))
+      return 'promiseRecipient';
+    if (promiseConversation && has(t, /^(?:komu|komu to|komu vlastne|kdo to byl|a kdo to byl|komu jsi to slibil)$/))
+      return 'promiseRecipient';
 
     // Přímá otázka na prosbu hvězdáře musí mít přednost před obecným
     // slovem „hvězdář“, které jinak vyvolávalo nápovědu o kryptě a klíči.
@@ -80,6 +100,23 @@ globalThis.adventureRavenContext11814 = (() => {
   }
 
   const replies = {
+    promiseRecipient: [
+      'Havran se na chvíli odmlčí. „Hvězdáři,“ řekne nakonec. „Byl to můj přítel. Poprosil mě, abych zůstal na cestě a ukazoval směr těm, kdo hledají světlo. Dal jsem mu slovo sám od sebe.“',
+      '„Jemu. Hvězdáři,“ odpoví havran tiše. „Nikdy mi neporoučel. Právě proto pro mě tolik znamená, že jsem mu to slíbil.“',
+      'Havran se podívá k věži. „Hvězdáři. Když se mě ptal, věřil, že nezapomenu. Nemýlil se. Jen neřekl, kolik zim to bude trvat.“'
+    ],
+    returningTravelersCount: [
+      '„Ne tolik, kolik bych si přál,“ přizná havran. „Někteří se vrátili a já je poznal už z dálky. U jiných pořád vyhlížím kroky. Přesný počet ti neřeknu.“',
+      'Havran se zadívá na stezku. „Pár jich bylo. Každý návrat si pamatuji lépe než další uplynulou zimu. A na ty ostatní se mě, prosím, neptej, jako bych věděl, kde skončili.“'
+    ],
+    returningTravelersWho: [
+      '„Různí poutníci,“ odpoví havran. „Někteří tudy šli poprvé a někteří znali cestu lépe než já. Jména všech neznám. Vzpomínám si spíš na jejich kroky, když se znovu ozvaly ve sněhu.“',
+      '„Lidé, kteří se dokázali vrátit,“ řekne. „Neptej se na jejich jména; mnozí mi je ani neřekli. Důležitější bylo, že se zase objevili na cestě.“'
+    ],
+    returningTravelersMissing: [
+      'Havran sklopí hlavu. „To právě nevím. Někteří šli dál a už jsem je neviděl. Možná se vrátili jinou cestou. Nemám právo říkat, že se jim něco stalo, jen proto, že jsem neslyšel jejich kroky.“',
+      '„Na ty myslívám v noci,“ přizná havran. „Ale neznám jejich osudy. Kdybych věděl, kde jsou, nečekal bych tu jen s očima upřenýma na cestu.“'
+    ],
     promiseAsked: [
       'Havran na okamžik přestane přešlapovat. „Ano. Hvězdář mi řekl: Zůstaň na cestě. Kdyby sem někdo přišel hledat světlo, ukaž mu směr. Nebyl to rozkaz. Poprosil mě — a já mu to slíbil.“',
       '„Požádal mě, abych počkal,“ přikývne havran. „Byl to můj přítel, ne pán. Kdybych chtěl, mohl bych odletět. Právě proto si toho slibu tolik vážil.“'

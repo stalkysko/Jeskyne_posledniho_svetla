@@ -8,7 +8,26 @@ const norm = s => s.toLowerCase().normalize('NFD')
 const oldContext = {speaker:'raven',room:'clearing',topic:'promiseOrigin'};
 const foodContext = {speaker:'raven',room:'clearing',topic:'ravenHunger'};
 const otherContext = {speaker:'raven',room:'clearing',topic:'bridge'};
+const travelersContext = {speaker:'raven',room:'clearing',topic:'long',focus:'returnedTravelers'};
+const travelersFollowupContext = {speaker:'raven',room:'clearing',topic:'returningTravelers',focus:'returnedTravelers'};
 const examples = [
+  ['komu jsi to slíbil?', oldContext, 'promiseRecipient'],
+  ['komu jsi to slíbil?', null, 'promiseRecipient'],
+  ['a komu?', oldContext, 'promiseRecipient'],
+  ['komu?', otherContext, null],
+  ['kdo to byl?', oldContext, 'promiseRecipient'],
+  ['komu jsi dal slovo?', null, 'promiseRecipient'],
+  ['bylo jich hodně?', travelersContext, 'returningTravelersCount'],
+  ['hodně?', travelersContext, 'returningTravelersCount'],
+  ['a kolik jich?', travelersContext, 'returningTravelersCount'],
+  ['kolik se jich vrátilo?', travelersFollowupContext, 'returningTravelersCount'],
+  ['kdo se vrátil?', travelersContext, 'returningTravelersWho'],
+  ['a co ti ostatní?', travelersContext, 'returningTravelersMissing'],
+  ['a ti, co se nevrátili?', travelersContext, 'returningTravelersMissing'],
+  ['víš, co se jim stalo?', travelersFollowupContext, 'returningTravelersMissing'],
+  ['bylo jich hodně?', oldContext, null],
+  ['bylo jich hodně?', {speaker:'raven',room:'clearing',topic:'long'}, null],
+  ['bylo jich hodně?', {speaker:'raven',room:'bridge',topic:'long',focus:'returnedTravelers'}, null],
   ['hvězdář ti řekl ať zůstaneš?', null, 'promiseAsked'],
   ['hvezdar te pozadal abys tu zustal', null, 'promiseAsked'],
   ['Hvězdář ti řekl, ať tu čekáš?', null, 'promiseAsked'],

@@ -169,7 +169,7 @@ checked+=3;
 
 const html=fs.readFileSync(path.join(__dirname,'../HRA.html'),'utf8');
 const source=fs.readFileSync(path.join(__dirname,'../hra.js'),'utf8');
-assert.ok(html.includes('semantika_v11821.js?v=0.11.8.21'),'načtení modulu');
+assert.ok(html.includes('semantika_v11821.js?v=0.11.8.27'),'načtení modulu');
 assert.ok(source.includes("if(p.intent==='semantic11821')"),'napojení odpovědí');
 assert.ok(source.includes("if(semantic.kind==='bridgePry')"),'meč v reálné herní mechanice');
 assert.doesNotMatch(source,/dostat\|presunout se\|presun se/,'sloveso dostat věc není přesun');
