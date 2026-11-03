@@ -427,6 +427,22 @@ let original=norm(raw);
 let t=original.replace(/^(?:(?:prosim te|prosim vas|prosim|hele|tak|no tak|zkus prosim|chtel bych|chtela bych|rad bych|rada bych|mohl bych|mohla bych|muzes mi|muzes|chci) )+/,'');
 // Nápověda je VÝHRADNĚ explicitní příkaz, nikoli prosba postavě o radu.
 if(t==='napoveda')return {intent:'hint',ids:[],t};
+// V11.8.21: význam celé věty a kontext místa mají přednost před jednotlivými
+// slovy. Zvlášť důležité pro „zabil ho někdo?“ a „uvolnit to mečem“.
+const semantic=globalThis.adventureSemantics11821?.detect(raw,{
+ room:state.room,won:state.won,dialogue:state.dialogue,
+ lastEntity:state.lastEntity,lastWorld:state.lastWorld?.room===state.room?state.lastWorld.id:null,
+ bridgeFocus:state.bridgeFocus,glintSeen:f().glintSeen,ledgeInspected:f().ledgeInspected,
+ diaryReads:state.diaryReads||0,griefThread:state.raven?.griefThread
+});
+if(semantic){
+ if(semantic.kind==='survey')return {intent:'look',ids:[],t:original};
+ if(semantic.kind==='journal')return {intent:'v118Journal',last:false,ids:['book'],t:original};
+ if(semantic.kind==='millTravel')return {intent:'go',dir:'w',ids:[],t:original};
+ if(semantic.kind==='bridgePry')return {intent:'world',ids:[],detail:{id:'spona',intent:'cut',room:'bridge'},t:original};
+ if(semantic.kind==='bridgeHands')return {intent:'world',ids:[],detail:{id:'spona',intent:'pull',room:'bridge'},t:original};
+ return {intent:'semantic11821',detail:semantic,ids:semantic.kind==='ravenTalk'?['raven']:semantic.kind==='wizardOpen'?['wizard']:[],t:original};
+}
 // Společenské věty nejsou překlepy neznámých příkazů. Rozpoznáváme je
 // před hledáním podobných sloves („měj se“ nesmí navrhnout „směj se“).
 if(/^(?:mej se(?: hezky| krasne| dobre| pekne)?|opatruj se|at se ti dari|tak se mej|zase nekdy|brzy na shledanou)$/.test(t))
@@ -1243,7 +1259,7 @@ if(intent==='dig'){log('Tady nic nevykopeš. Nemáš nářadí ani důvod rozru�
 log(adventureLanguage.material[entities[id].mat]?.[intent]||'Opatrně to zkusíš. Předmět zůstane beze změny.');return true;
 }
 
-function parseBase(raw){let t=norm(raw).replace(/^(?:(?:prosim|prosimte|zkus|zkusme|chci|chtel bych|mohl bys|muzes|rad bych) )+/, '').replace(/\b(dej|dat) (si )?pauzu\b/g,'cekej').replace(/\b(dej|dat) (si )?do (batohu|vaku|kapsy|inventare)\b/g,'vezmi').replace(/\b(rozdelej|rozdelat) ohen\b/g,'zapal lucernu').replace(/\b(dostat se|dostat|presunout se|presun se)\b/g,'jdi');t=t.replace(/^(?:dej|schovej|uloz) (.+?) do (?:batohu|vaku|kapsy|inventare)$/, 'vezmi $1').replace(/^(?:podivej|koukni) (?:se )?do (?:batohu|vaku|kapsy|inventare)$/, 'inventar');let words=t.split(' ');if(/\b(nechci|nedelej|nedelat|neotevirej|nepouzivej)\b/.test(t))return {intent:'cancel',ids:[],t};if(/^(rozhl|rozhled|co vidim|kde jsem|co je (tu|tady)|okoli)/.test(t))return {intent:'look',ids:[],t};if(/^(otevri|ukaz|zobraz) (mi |si )?(inventar|batoh|vak)/.test(t))return {intent:'inventory',ids:[],t};if(/^(otevri|ukaz|zobraz) (mi |si )?map/.test(t))return {intent:'map',ids:[],t};if(/^(co (mam|nesu)|ukaz (inventar|batoh)|obsah (vaku|batohu))/.test(t))return {intent:'inventory',ids:[],t};if(/^(nova hra|zacni znovu|od zacatku)/.test(t))return {intent:'restart',ids:[],t};if(/^(vrat tah|vrat posledni|zpatky tah)/.test(t))return {intent:'undo',ids:[],t};if(/^(porad|nevim|jak dal)/.test(t))return {intent:'hint',ids:[],t};if(['ano','jo','jasne','yes','ne','no','zrus','nic'].includes(t))return {intent:'answer',ids:[],t};let v=words.find(w=>wordIntent.has(w)),intent=wordIntent.get(v)||null;
+function parseBase(raw){let t=norm(raw).replace(/^(?:(?:prosim|prosimte|zkus|zkusme|chci|chtel bych|mohl bys|muzes|rad bych) )+/, '').replace(/\b(dej|dat) (si )?pauzu\b/g,'cekej').replace(/\b(dej|dat) (si )?do (batohu|vaku|kapsy|inventare)\b/g,'vezmi').replace(/\b(rozdelej|rozdelat) ohen\b/g,'zapal lucernu').replace(/\b(dostat se|presunout se|presun se)\b/g,'jdi');t=t.replace(/^(?:dej|schovej|uloz) (.+?) do (?:batohu|vaku|kapsy|inventare)$/, 'vezmi $1').replace(/^(?:podivej|koukni) (?:se )?do (?:batohu|vaku|kapsy|inventare)$/, 'inventar');let words=t.split(' ');if(/\b(nechci|nedelej|nedelat|neotevirej|nepouzivej)\b/.test(t))return {intent:'cancel',ids:[],t};if(/^(rozhl|rozhled|co vidim|kde jsem|co je (tu|tady)|okoli)/.test(t))return {intent:'look',ids:[],t};if(/^(otevri|ukaz|zobraz) (mi |si )?(inventar|batoh|vak)/.test(t))return {intent:'inventory',ids:[],t};if(/^(otevri|ukaz|zobraz) (mi |si )?map/.test(t))return {intent:'map',ids:[],t};if(/^(co (mam|nesu)|ukaz (inventar|batoh)|obsah (vaku|batohu))/.test(t))return {intent:'inventory',ids:[],t};if(/^(nova hra|zacni znovu|od zacatku)/.test(t))return {intent:'restart',ids:[],t};if(/^(vrat tah|vrat posledni|zpatky tah)/.test(t))return {intent:'undo',ids:[],t};if(/^(porad|nevim|jak dal)/.test(t))return {intent:'hint',ids:[],t};if(['ano','jo','jasne','yes','ne','no','zrus','nic'].includes(t))return {intent:'answer',ids:[],t};let v=words.find(w=>wordIntent.has(w)),intent=wordIntent.get(v)||null;
 const dirs={sever:'n',severu:'n',severne:'n',north:'n',n:'n',jih:'s',jihu:'s',jizne:'s',south:'s',s:'s',vychod:'e',vychodu:'e',vychodne:'e',east:'e',e:'e',zapad:'w',zapadu:'w',zapadne:'w',west:'w',w:'w'};let dir=words.map(w=>w.length===1&&words.length>1?null:dirs[w]).find(Boolean);if(!intent&&dir)intent='go';if(words.some(w=>['vejdi','vejit','vstup','vstoupit','dovnitr','vlez'].includes(w))){intent='go';dir='in'}if(t==='ven'||t==='out'||intent==='go'&&words.includes('ven')){intent='go';dir='out'}if(t==='zpatky'||intent==='go'&&/\b(zpatky|zpet)\b/.test(t)){intent='go';dir='back'}let ids=Object.entries(entities).map(([id,e])=>({id,at:words.findIndex(w=>e.words.split(' ').includes(w))})).filter(x=>x.at>=0).sort((a,b)=>a.at-b.at).map(x=>x.id);if(state.room==='cave'&&ids.includes('pillar'))ids=ids.map(x=>x==='pillar'?'ice':x);if(!ids.length&&/\b(ho|ji|to|jej|jejich|nim|ni|nej|nejho|tim|toto|tenhle|tuhle|tuhleto|tento|tuto|tahle|ten|ta)\b/.test(t)&&state.lastEntity)ids=[state.lastEntity];ids=[...new Set(ids)];if(state.room==='mill'&&ids.includes('millDoor'))ids=ids.filter(id=>id!=='door');if(state.room!=='mill')ids=ids.filter(id=>id!=='millDoor');return {intent,ids,dir,t,v,all:/\b(vse|vsechno|vsechny|all)\b/.test(t)}}
 function failReach(id){if(state.room==='crypt'&&!f().lit&&id==='key'){log('Sarkofág je ve stínu. V jeho dutině bez vlastní lucerny nic bezpečně nerozeznáš.');return false}log('„'+entities[id].name+'“ tady není na dosah.');return false}
 function examine(id,deep){
@@ -1412,7 +1428,7 @@ if(target==='millDoor'){
  }
  if(['go','open','unlock','push','pull','use','insert'].includes(intent)){
   sayVariant('mill:sealed',[
-   'Zkusíš starou kliku. Dveře jsou pevně uzavřené závorou zevnitř. Není zde volný průchod; cesta pokračuje zpět na rozcestí.',
+   'Zkusíš starou kliku. Dveře nepovolí; podle odporu se zdá, že je někdo zevnitř zajistil. Za fošnami neslyšíš žádný pohyb.',
    'Opřeš se ramenem do dubových fošen. Nepovolí ani o píď. Všechny věci, které mlynář nechal poutníkům, jsou venku u stolu.',
    'Železné závěsy drží. Za těžkými dveřmi už dlouho nikdo nepracuje; necháš je zavřené a obrátíš pozornost ke dvoru.'
   ]);return;
@@ -1670,6 +1686,34 @@ function raven118(topic,t){
  gameAudio?.cue('raven');log(line);
 }
 function execute(raw){if(!raw.trim())return;let p=parse(raw);log('> '+raw,'cmd');history.push(raw);historyIndex=history.length;
+if(p.intent==='semantic11821'){
+ const before=JSON.parse(JSON.stringify(state));state.turn++;
+ const semantic=p.detail,tool=globalThis.adventureSemantics11821;
+ if(semantic.kind==='ravenTalk'){
+  const b=ravenMemory();b.met=true;b.pending=null;pending=null;
+  const answer=tool.ravenReply(semantic.topic,b,{after:state.won});
+  state.dialogue={speaker:'raven',room:'clearing',topic:semantic.topic,stage:answer.stage};
+  state.lastEntity='raven';ravenEmote={start:performance.now(),kind:'talk'};
+  if(semantic.topic==='opening'&&answer.stage===0)b.trust=Math.min(8,b.trust+1);
+  gameAudio?.cue('raven');log(answer.text);
+ }else if(semantic.kind==='wizardOpen'){
+  const b=wizardMemory(),answer=tool.wizardOpening(b);
+  state.dialogue={speaker:'wizard',room:'cave',topic:'greeting',stage:b.semanticOpening-1};
+  state.lastEntity='wizard';log(answer);
+ }else if(semantic.kind==='millKnock'){
+  state.lastEntity='millDoor';state.spot='millDoor';walkStart=performance.now();
+  log(tool.millKnock(f(),semantic.force));
+ }else if(semantic.kind==='millBatter'){
+  state.lastEntity='millDoor';state.spot='millDoor';walkStart=performance.now();
+  if(semantic.method==='sword'&&!has('sword'))log('Sáhneš po meči, ale ve vaku ho nemáš. Do vrat se tedy čepelí pustit nemůžeš.');
+  else{log(tool.millBatter(f(),semantic.method));effect={type:'attack',start:performance.now()};}
+ }else if(semantic.kind==='stalactite'){
+  state.lastWorld={id:'krapnik',room:'cave'};
+  if(semantic.armed&&!has('sword'))log('Chceš sáhnout po meči, ale už ho nemáš u sebe. Zmrzlý krápník vysoko nad stezkou rukou neulomíš.');
+  else log(tool.stalactite(f(),has('sword')));
+ }
+ undo.push(before);if(undo.length>100)undo.shift();sync();return;
+}
 if(journalView&&state.room==='observatory'){
  const n=norm(raw);
  if(/^(?:pryc|odejit|odejdi|odejdu|chci odejit|odstup|odstoupit|odstoupim|zavri denik|zavrit denik|zavri zapisnik|zavrit zapisnik|odloz denik|odlozit denik|odloz zapisnik|odlozit zapisnik|prestan cist|prestat cist|zpatky od deniku|odvratim se|odvrat se)$/.test(n)){

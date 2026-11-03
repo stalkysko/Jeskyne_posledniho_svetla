@@ -2,7 +2,7 @@
 
 Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Aktuální vydání:** `0.11.8.20` (2. listopadu 2026) — přepsané havranovy odpovědi o jeho poslání, čekání a životě u rozcestí. Jeho rozhovor s rytířem přímo naplňuje slib hvězdáři; jídlo hledá jen poblíž a i za letu hlídá cestu. Drobné podrobnosti se odhalují v mnoha odlišných odpovědích, nikdy jako jediný seznam. Obsahuje veškeré předchozí herní, mobilní a zvukové opravy.
+**Aktuální vydání:** `0.11.8.21` (2. listopadu 2026) — rozšířený kontextový parser běžné češtiny a rozsáhlé, proměnlivé rozhovory s havranem o hvězdářově smrti, nejistotě, slibu i budoucnosti po osvobození údolí. Opravené otázky na čaroděje, průzkum jeho jeskyně, čtení deníku, klepání a vyrážení mlýnských dveří, použití meče na zaklíněnou sponu i ledové krápníky. Původní hratelnost, grafika a inventář zůstaly zachovány.
 
 **Grafická oprava:** Scéna před mlýnem používá nový obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka už není součástí pozadí: kreslí se pouze jednou, na zasněženou zem pod stolem, a nadále mění vzhled po rozbití. Původní obrázek zůstává zachovaný.
 
@@ -29,6 +29,7 @@ Otevři `HRA.html` dvojklikem v počítači. Na mobilu je pohodlnější otevř�
 - `HRA.html`, `hra.css`, `*.js` — samotná hra, parser a dialogy.
 - `havran_kontext_v11814.js` — rozpoznávání návazných otázek a paměť dialogu.
 - `havran_v116.js` — konverzační otevíráky, společenské reakce a paměť vztahu s havranem.
+- `semantika_v11821.js` — nové rozpoznávání významu vět, kontextových zájmen, fyzických úkonů a postavy po závěru.
 - `assets/` — původní grafické podklady; žádné obrázky nejsou nahrazené.
 - `tests/` — ověřovací testy kontextových vět (volitelné pro vývojáře).
 - `CTI_ME.txt` — historie oprav a spuštění na Windows.
@@ -44,6 +45,10 @@ Klepni na **TEST ZVUKU** — mají zaznít dva tóny, i když jsou hudba a ruchy
 Tlačítko **CELÁ OBRAZOVKA** rozšíří hru na celý viditelný prostor. Na Androidu a podporovaných prohlížečích použije nativní fullscreen. iPhone Safari standardní fullscreen pro běžnou stránku nepodporuje: hra proto přejde na kompaktní zobrazení, ale lišty Safari nemůže sama odstranit. Bez lišt ji lze spustit přes **Safari → Sdílet → Přidat na plochu** a následné otevření ikony. Při otevření klávesnice hra skryje vedlejší ovládání, zmenší grafiku a udrží vstup i poslední zprávy nad klávesnicí. Po zavření klávesnice se rozložení obnoví. Pro návrat z herního režimu klepni na **UKONČIT REŽIM**.
 
 **Pozor:** Toto je kompletní verze, nikoli patch. Při aktualizaci existujícího repozitáře zachovej případné vlastní soubory, které do hry nepatří, a nahraj nové herní soubory se stejnými názvy.
+
+## Vývojářské ověření
+
+V kořenové složce lze spustit testy například `node tests/test_semantika_v11821.cjs` a `node tests/test_integrace_hry_v11821.cjs`. Nové testy obsahují 235 jazykových a emocionálně kontextových případů a 30 scénářů se spuštěným enginem a uloženým stavem. Jde o automatické kontroly parseru a stavů, nikoli o potvrzení vzhledu na konkrétním telefonu. Rozhovor nevyužívá online model, takže neomezenému množství českých vět nelze garantovat porozumění.
 
 ## Poznámka k projektu
 

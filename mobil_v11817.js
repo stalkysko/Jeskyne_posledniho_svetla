@@ -1,4 +1,4 @@
-// V0.11.8.17 – dotyková obrazovka a klávesnice: bez zásahu do logiky hry.
+// V0.11.8.21 – dotyková obrazovka a klávesnice: bez zásahu do logiky hry.
 // iPhone Safari nepodporuje Element.requestFullscreen pro běžné stránky.
 // Proto používáme skutečný Fullscreen API tam, kde existuje, a jinde
 // vlastní režim vyplňující celý viditelný viewport.
@@ -69,6 +69,10 @@
     scheduleViewport();
     setTimeout(scheduleViewport, 350);
   });
+  field.addEventListener('input', scheduleViewport);
+  // Při návratu ze zamčené obrazovky iOS někdy ponechá starou výšku.
+  window.addEventListener('pageshow', scheduleViewport);
+  document.addEventListener('visibilitychange', scheduleViewport);
   viewport?.addEventListener('resize', scheduleViewport);
   viewport?.addEventListener('scroll', scheduleViewport);
   window.addEventListener('resize', scheduleViewport);
@@ -76,6 +80,7 @@
     baselineHeight = 0;
     scheduleViewport();
     setTimeout(scheduleViewport, 550);
+    setTimeout(scheduleViewport, 900);
   });
 
   function reflectFullscreen() {

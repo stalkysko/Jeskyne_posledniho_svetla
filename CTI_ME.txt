@@ -1,9 +1,9 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.20 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.21 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.20.
+3. V horní liště musíš vidět 0.11.8.21.
 
 Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
 nahraj jeho rozbalený obsah do hlavní složky (main / root).
@@ -12,9 +12,35 @@ Uloženou hru můžeš ponechat, exportovat i později načíst.
 Hra nepotřebuje instalaci ani internet. Neotvírej HRA.html přímo
 z náhledu ZIPu: soubory hra.js, havran_dialogy.js, carodej_dialogy.js,
 carodej_roleplay_v11812.js,
-havran_v116.js, havran_kontext_v11814.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
+havran_v116.js, havran_kontext_v11814.js, semantika_v11821.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+ÚPRAVA 0.11.8.21 (2. 11. 2026) — VELKÁ OPRAVA PŘIROZENÉ ČEŠTINY
+• Nové rozlišování významu věty před obecným slovníkem příkazů.
+• Havran rozumí krátkým návaznostem „Hvězdář?“, „Už nežije?“,
+  „Proč byl?“, „Co se mu stalo?“, „Zabil ho někdo?“ a mnoha obměnám.
+• Pravda příběhu se nevymýšlí: havran zná hrob, nezná spolehlivě
+  poslední chvíle přítele ani totožnost případného viníka.
+• Po vítězství umí zvolna mluvit o příštím ránu, dalším čekání,
+  odletu, společné cestě, návratu hráče a naplnění dávného slibu.
+• Havran si pamatuje bolestnou část rozhovoru a nepřeskočí po dvou větách
+  do žertů. Téma smrti má 13 osobních reakcí včetně věty
+  „Černá mám pera, rytíři. Ne srdce.“ a vlastních otázek poutníkovi.
+• Rozšířené konverzační otevíráky, poděkování a otázky o jídle.
+• „Jít k mlejnu“ znamená přesun, nikoli otázku na směr.
+• „Zatluč/zatloct na dveře“, „bušit“ i „vyrazit“ mají fyzické
+  reakce bez falešného otevření mlýna; opraveny krkolomné věty o závorách.
+• Meč lze různě popsat při páčení spony u útesu; výraz „dostat“
+  už obecně není příkaz k pohybu. Hra zachovává skutečné podmínky objevu.
+• Uznává příkazy „urazit krápník mečem“ a další příbuzné obraty.
+• „Číst“ a „další stránku“ pokračují v rozečteném deníku.
+• „Prozkoumat místnost“, „rozhlédnout se“ a rozhovor s čarodějem
+  již nevyvolávají nesmyslnou čarodějovu odpověď.
+• Mobil: při návratu z pozadí a psaní se znovu měří viditelný viewport,
+  malá klávesnice zachovává vstup a viditelnou část dialogu.
+• Přibylo 235 jazykových a kontextových testů a 30 skutečných průchodů herním enginem.
+• Bez změny kresby, původních hádanek a mechanismů ukládání.
 
 ÚPRAVA 0.11.8.20 (2. 11. 2026) — HAVRANOVO POSLÁNÍ V ROZHOVORU
 • Odpověď na „Co děláš?“ je nyní součástí jeho osobního příběhu:

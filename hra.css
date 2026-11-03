@@ -47,7 +47,7 @@ body{overflow-x:hidden}
 #command{caret-color:#9de5fc}
 @media(prefers-reduced-motion:reduce){#form>.dosCursor{animation-duration:1.4s}}
 
-/* V0.11.8.17 – mobilní hra v celém VIDITELNÉM viewportu.
+/* V0.11.8.21 – mobilní hra v celém VIDITELNÉM viewportu.
    iOS klávesnice zmenšuje visualViewport, nikoli vždy layout viewport.
    Místo odhadování výšky klávesnice svěřujeme její rozměry JS. */
 html:has(body.mobile-immersive),html:has(body.mobile-keyboard-open){overscroll-behavior:none}
@@ -106,6 +106,12 @@ body.mobile-immersive,body.mobile-keyboard-open{overflow:hidden;overscroll-behav
  body.mobile-keyboard-open #log{font-size:13px;line-height:1.42}
  body.mobile-keyboard-open #form{margin-top:3px;padding:4px 0 1px;min-height:47px}
  body.mobile-keyboard-open #inventory{padding:4px 8px;max-height:28px}
+ /* Na menších iPhonech s otevřenou klávesnicí se obraz zmenší, ne vstup.
+    Vizuální výšku máme od visualViewport; CSS dvh ji na Safari někdy ignoruje. */
+ body.mobile-keyboard-open #picture{height:clamp(35px,calc(var(--mobile-visible-height,400px)*.14),84px)}
+ body.mobile-keyboard-open #log{min-height:35px}
+ body.mobile-keyboard-open #command{font-size:16px;line-height:1.4}
+ body.mobile-keyboard-open #form button{flex:0 0 auto;min-width:58px}
 }
 
 /* Skutečné Fullscreen API – Android / desktop / iPad, pokud je povoleno. */

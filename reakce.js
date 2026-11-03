@@ -4,7 +4,7 @@ globalThis.adventureReactions = {
   approach: {
     millDoor: [
       'Vystoupáš na zasněžené schody. Masivní fošny mlýnských dveří pevně dosedají do rámu. Na prahu leží čerstvá závěj.',
-      'Přistoupíš až ke dveřím. V mrazu se dřevo trochu stáhlo, ale železné závory jsou spuštěné z druhé strany.',
+      'Přistoupíš až ke dveřím. V mrazu se fošny seschly a ve spárách je jinovatka. Když vezmeš za kliku, cítíš, že vrata něco pevně drží zevnitř.',
       'Opatrně dojdeš k prahu. Zevnitř není slyšet práci ani kroky; mlýn je už dlouho opuštěný.'
     ],
     table: [
