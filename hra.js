@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
-const rooms={clearing:{title:'Rozcestí pod horou',art:0,exits:{n:'bridge',w:'mill'},text:'Noc nad údolím. Po letech stále krutějších zim přišel další mráz a sevřel i poslední cesty. Na rozcestníku sedí havran. Na západ stojí mlýn; na sever vede cesta k mostu.'},mill:{title:'Mlýn bez mlynáře',art:1,exits:{e:'clearing'},text:'Zamrzlé kolo mlčí. U dveří visí lano s železným hákem, na stole stojí lucerna a olejnička. Vrátit se můžeš na východ.'},bridge:{title:'Stržený most',art:2,exits:{s:'clearing',n:'tower'},text:'Mezi pilíři zůstala černá propast. Pod tebou praská led. Severní cesta pokračuje k věži; na jihu je rozcestí.'},tower:{title:'Nádvoří hvězdáře',art:3,exits:{s:'bridge',w:'crypt',n:'cave'},text:'Na nádvoří stojí sluneční kotouč. Od schodů do krypty táhne studený vzduch; dole už dávno vyhasly nástěnné louče. Dveře věže nesou mosazný zámek. Západní schody klesají do krypty, severní stezka míří do jeskyně, most je na jihu.'},crypt:{title:'Krypta',art:4,exits:{e:'tower'},text:'V kryptě je taková tma, že sotva rozeznáš sloupy a obrys sarkofágu. Louče na stěnách dávno vyhasly. Ve vzduchu je cítit vlhký kámen. Schody na východ vedou zpátky na nádvoří.'},observatory:{title:'Síň posledního paprsku',art:5,exits:{s:'tower'},text:'Mezi trámy prasklé kopule svítí hvězdy. Dalekohled míří do tmy a na stole leží zápisník. Jižními dveřmi se vrátíš ven.'},cave:{title:'Jeskyně ledového čaroděje',art:6,exits:{s:'tower'},text:'Nad cestou se tyčí čaroděj na ledovém sloupu. Na jeho rouchu se otevírají oči. Kolem leží těla padlých ledových trpaslíků. Cesta se stáčí k temnému portálu vpravo nahoře. Zpět k věži se vrátíš na jih.'}};
+const rooms={clearing:{title:'Rozcestí pod horou',art:0,exits:{n:'bridge',w:'mill'},text:'Noc nad údolím. Po letech stále krutějších zim přišel další mráz a sevřel i poslední cesty. Na rozcestníku sedí havran. Mezi smrky se rozbíhají dvě zasněžené stezky.'},mill:{title:'Mlýn bez mlynáře',art:1,exits:{e:'clearing'},text:'Zamrzlé kolo mlčí. U dveří visí lano s železným hákem, na stole stojí lucerna a olejnička. V závětří pod stolem se vrší starý sníh.'},bridge:{title:'Stržený most',art:2,exits:{s:'clearing',n:'tower'},text:'Mezi pilíři zůstala černá propast. Pod tebou praská led. Na protějším břehu se nad skalami rýsuje věž.'},tower:{title:'Nádvoří hvězdáře',art:3,exits:{s:'bridge',w:'crypt',n:'cave'},text:'Na nádvoří stojí sluneční kotouč. Od schodů do krypty táhne studený vzduch; dole už dávno vyhasly nástěnné louče. Dveře věže nesou mosazný zámek. Ze skalního průchodu se ozývá vzdálené dunění.'},crypt:{title:'Krypta',art:4,exits:{e:'tower'},text:'V kryptě je taková tma, že sotva rozeznáš sloupy a obrys sarkofágu. Louče na stěnách dávno vyhasly. Ve vzduchu je cítit vlhký kámen.'},observatory:{title:'Síň posledního paprsku',art:5,exits:{s:'tower'},text:'Mezi trámy prasklé kopule svítí hvězdy. Dalekohled míří do tmy a na stole leží zápisník. Vítr občas rozvibruje uvolněný kovový plát.'},cave:{title:'Jeskyně ledového čaroděje',art:6,exits:{s:'tower'},text:'Nad cestou se tyčí čaroděj na ledovém sloupu. Na jeho rouchu se otevírají oči. Kolem leží těla padlých ledových trpaslíků. Cesta se stáčí k temnému portálu vpravo nahoře.'}};
 const entities={
 rope:{name:'lano s železným hákem',loc:'mill',portable:true,gender:'m',mat:'fiber',words:'lano lana lanu lanem provaz provazu provazem snura snuru rope',look:'Pevné konopné lano. Na jeho konci je připevněný těžký železný hák.',detail:'Hák je pevně spojený s lanem, jde o jeden předmět. Mohl by se zachytit za vzdálený pilíř. Lano vypadá dost dlouhé na propast.'},
 oil:{name:'olejnička',loc:'mill',portable:true,gender:'f',mat:'metal',words:'olej oleje olejem olejnicka olejnicku olejnicky olejnicce olejnickou lahvicka lahvicku oil',look:'V plechové olejničce něco šplouchá.',detail:'Lampový olej. Na lucerně je stejně široké plnicí hrdlo.'},
@@ -50,16 +50,17 @@ function persist(){try{localStorage.setItem('lastlight-v04',JSON.stringify(state
 function sync(){$('place').textContent=rooms[state.room].title.toUpperCase();$('turn').textContent='TAH '+state.turn;$('inventory').textContent='VAK: '+state.inv.map(x=>entities[x].name).join(' · ')+(f().lit?' · lucerna svítí':'');gameAudio?.setScene(state.room,state.won);persist()}
 function describe(){
  if(state.won){
-  log({clearing:'Na rozcestí se ještě drží sníh. Mezi smrky ale voní vlhká hlína a z cedule se ozve známé kráknutí. Havran je stále tady. K mlýnu vede cesta na západ, k mostu na sever.',mill:'Mlýnské kolo je pořád zledovatělé, ale hluboko pod ním už zurčí první voda. Dubové dveře zůstávají zavřené. Na východ vede cesta k rozcestí.',bridge:'Přes propast vede tvé pevně uvázané lano. Z útesů po kapkách stéká tající led. Za mostem na sever stojí věž, na jihu se vrátíš k havranovi.',tower:'Kamenné nádvoří pomalu osychá. Věžní dveře jsou '+(f().door?'otevřené':'zavřené')+'. Západní schodiště vede ke kryptě, cesta na sever do jeskyně a most je na jihu.',crypt:'V kryptě je pořád chladno a ticho. Hvězdářův sarkofág zůstává na svém místě. Zpět na nádvoří vede východní schodiště.',observatory:'Skrz prasklou kopuli proniká první příslib rána. Mosazný dalekohled a hvězdářův zápisník zůstávají na svých místech. Jižní cestou sestoupíš na nádvoří.',cave:'Ledová vláda skončila. Z portálu proudí svítání a první kapky dopadají na cestu. Zpět k věži vede cesta na jih.'}[state.room]);return;
+  log({clearing:'Na rozcestí se ještě drží sníh. Mezi smrky ale voní vlhká hlína a z cedule se ozve známé kráknutí. Havran je stále tady.',mill:'Mlýnské kolo je pořád zledovatělé, ale hluboko pod ním už zurčí první voda. Dubové dveře zůstávají zavřené. Pod pracovním stolem začíná tát sníh.',bridge:'Přes propast vede tvé pevně uvázané lano. Z útesů po kapkách stéká tající led. V dálce se nad skálou rýsuje hvězdářova věž.',tower:'Kamenné nádvoří pomalu osychá. Věžní dveře jsou '+(f().door?'otevřené':'zavřené')+'. Voda odkapává z kamenných říms a z vyhaslé krypty stoupá chlad.',crypt:'V kryptě je pořád chladno a ticho. Hvězdářův sarkofág zůstává na svém místě. Mezi spárami kamene se lesknou první kapky.',observatory:'Skrz prasklou kopuli proniká první příslib rána. Mosazný dalekohled a hvězdářův zápisník zůstávají na svých místech.',cave:'Ledová vláda skončila. Z portálu proudí svítání a první kapky dopadají na cestu.'}[state.room]);return;
  }
  let d=rooms[state.room].text;
- if(state.room==='mill')d='Zamrzlé mlýnské kolo mlčí. Těžké dubové dveře jsou zavřené a zevnitř zapřené. U zdi stojí pracovní stůl.'+(visible('rope')?' Na trámu visí smotané lano s těžkým železným hákem na konci.':'')+' Na východě se vrátíš na rozcestí.';
- if(state.room==='cave')d='Nad ledovou cestou se na vysokém sloupu tyčí modrý čaroděj. Čtyři velké oči se na tebe upírají z jeho těla a páté vykukuje z ledového hřebene. V levé ruce svírá žezlo s růžově zářící hvězdou. Kolem leží padlí ledoví trpaslíci; cesta pokračuje k temnému portálu vpravo nahoře, zpět k věži na jih.';
-if(state.room==='observatory')d='Do prasklé kopule proniká měsíční světlo. Uprostřed stojí mosazný dalekohled s okulárem, napravo pracovní stůl se zápisníkem. Jižními dveřmi se vrátíš ven.';
+ if(state.room==='mill')d='Zamrzlé mlýnské kolo mlčí. Těžké dubové dveře drží pevně v rámu. U kamenné zdi stojí starý pracovní stůl.'+(visible('rope')?' Z trámu nad ním visí smotané lano s těžkým železným hákem.':'')+' Pod deskou stolu se drží hluboký stín.';
+if(state.room==='cave')d='Nad ledovou cestou se na vysokém sloupu tyčí modrý čaroděj. Čtyři velké oči se na tebe upírají z jeho těla a páté vykukuje z ledového hřebene. V levé ruce svírá žezlo s růžově zářící hvězdou. Kolem leží padlí ledoví trpaslíci a nad skalami černá ústa portálu.';
+if(state.room==='observatory')d='Do prasklé kopule proniká měsíční světlo. Uprostřed stojí mosazný dalekohled s okulárem, napravo pracovní stůl se zápisníkem. Ve výšce povrzává uvolněný plát střechy.';
  log(d);
  if(state.room!=='crypt'||f().lit){
   const vista=globalThis.adventureWorld117?.glimpse(state.room,f());if(vista)log(vista);
  }
+ const traces=(state.room!=='crypt'||f().lit)&&globalThis.adventureLivingWorld11824?.sceneEcho(state.room,f());if(traces)log(traces);
  if(state.room==='crypt')log(f().lit?'Světlo tvé lucerny dopadá na kamenné reliéfy a úchyty víka. Sarkofág je '+(f().tomb?'otevřený.':'zavřený.'):'Bez lucerny saháš do tmy. Žádný z držáků pochodní nehoří.');
  if(state.room==='bridge'&&f().bridge)log('Mezi pilíři drží napnuté lano; cesta na sever je nyní bezpečná.');
  if(state.room==='bridge'&&f().pendantRevealed&&!f().pendantTaken)log('Ve skalní dutině na hraně útesu je vidět drobný bronzový přívěsek.');
@@ -204,7 +205,13 @@ function ravenReturn(){
   log('Ze stromu ukápne voda. Havran se na chvíli zadívá k věži. „Ráno,“ řekne tiše, jako by to slovo zkoušel po mnoha letech znovu.');
   return;
  }
+ // Deník navazuje až po předem napsaných příběhových reakcích. Vzpomínka
+ // se objeví pouze při některých skutečných návratech, nikdy při prvním setkání.
  const progress=f().charged?6:f().lensTaken?5:f().doorUnlocked?4:f().keyTaken?3:f().bridge?2:has('rope')?1:0;
+ if(progress<=b.lastProgress&&!(b.promiseHonored&&b.returns===1)){
+  const remembered=globalThis.adventureDialogueDiary11824?.onReturn(state);
+  if(remembered)log(remembered);
+ }
  if(progress<=b.lastProgress)return;b.lastProgress=progress;ravenEmote={start:performance.now(),kind:'recognize'};
  if(progress>=6)log('Havran zahlédne světlo odrážející se od tvé výstroje. „Ty jsi našel hvězdářův poslední paprsek! Snad to ještě stihneme.“');
  else if(progress>=4){b.pending={kind:'towerRecognition'};log('Havran si tě přeměří. „Ten sluneční znak už znám. Dokázal ses dostat do věže, že?“');}
@@ -215,11 +222,15 @@ function ravenReturn(){
 // rozehranou otázku ani rozhovor; stejné poznámky neopakuje hned po sobě.
 function maybeRavenAside(){
  const b=ravenMemory(),now=Date.now();
- if(document.hidden!==true&&state.room==='clearing'&&b.met&&!state.lost&&!b.pending&&!pending&&
+ const griefInProgress=!!b.griefThread?.active||(b.harmed||0)>(b.apologies||0)||
+   (state.dialogue?.speaker==='raven'&&['deathTruth','deathCause','killer','knewDeath','grief','deathFollow'].includes(state.dialogue.topic));
+ if(document.hidden!==true&&state.room==='clearing'&&b.met&&!state.lost&&!b.pending&&!pending&&!griefInProgress&&
     now-lastPlayerInputAt>75000&&(!b.lastAsideAt||now-b.lastAsideAt>170000)){
   const pool=state.won?adventureReactions.ravenAsides?.spring:adventureReactions.ravenAsides?.winter;
   if(pool?.length){
-   log(pool[b.asideCount%pool.length]);b.asideCount++;b.lastAsideAt=now;
+   const aside=pool[b.asideCount%pool.length];
+   log(aside);globalThis.adventureDialogueDiary11824?.noteAside(state,'raven',aside);
+   b.asideCount++;b.lastAsideAt=now;
    ravenEmote={start:performance.now(),kind:'talk'};lastPlayerInputAt=now;
    gameAudio?.cue('raven');persist();
   }
@@ -427,6 +438,11 @@ let original=norm(raw);
 let t=original.replace(/^(?:(?:prosim te|prosim vas|prosim|hele|tak|no tak|zkus prosim|chtel bych|chtela bych|rad bych|rada bych|mohl bych|mohla bych|muzes mi|muzes|chci) )+/,'');
 // Nápověda je VÝHRADNĚ explicitní příkaz, nikoli prosba postavě o radu.
 if(t==='napoveda')return {intent:'hint',ids:[],t};
+// Vyžádaná vzpomínka na vlastní rozhovor nečte hvězdářův zápisník.
+if(['clearing','cave'].includes(state.room)&&
+   /^(?:pamatujes si o cem jsme (?:se )?(?:bavili|mluvili|povidali)|pamatujes si co jsme (?:spolu )?(?:resili|probirali)|o cem jsme (?:se )?(?:minule |naposledy )?(?:bavili|mluvili|povidali)|co jsme (?:minule |naposledy )?(?:resili|probirali)|na co jsem se te (?:minule |naposledy )?ptal|povidej mi o nasem poslednim rozhovoru)$/.test(t))
+ return {intent:'diaryRecall',topic:'recall',mode:/^(?:na co jsem se te|pamatujes si co jsem)/.test(t)?'question':'topic',
+   ids:[state.room==='clearing'?'raven':'wizard'],t};
 // V11.8.21: význam celé věty a kontext místa mají přednost před jednotlivými
 // slovy. Zvlášť důležité pro „zabil ho někdo?“ a „uvolnit to mečem“.
 const semantic=globalThis.adventureSemantics11821?.detect(raw,{
@@ -544,12 +560,20 @@ if(state.room==='mill'&&/^(?:vl[eizt]*|vlezt|prolezt|proplazit se|vstoupit|dosta
 // Zájmena „to“, „ji“ a „ho“ se vážou i k právě objeveným malovaným
 // předmětům, nejen k položkám inventáře. Do jiné místnosti neplatí.
 const worldFocus=state.lastWorld?.room===state.room?state.lastWorld.id:null;
+// Starý lastEntity může ukazovat například na dveře mlýna. Po prozkoumání
+// bedýnky má ale zájmeno „ji“ odkazovat na právě zkoumanou bedýnku, ne na dveře.
+// Proto ověřujeme jen skutečně VYSLOVENÁ jména jiných předmětů, nikoliv
+// domněnku parseBase založenou na zastaralém lastEntity.
+const worldWords=t.split(' ');
+const namedCoreObject=typeof entities!=='undefined'&&Object.entries(entities).some(([id,e])=>id!=='sword'&&
+ e.words.split(' ').some(w=>w.length>=4&&worldWords.includes(w)));
 if(worldFocus&&['bedynka','schranka'].includes(worldFocus)&&
    /\b(?:to|ho|ji|jej|tu vec|ten predmet|tu bedynku|tu schranku|to viko)\b/.test(t)&&
-   !parseBase(t).ids.some(id=>id!=='sword')){
+   !namedCoreObject){
  const verb=t.split(' ').find(w=>['prozkoumat','prozkoumej','prohlidnout','prohlednout','podivat','koukni','otevrit','otevri','odklopit','odklop','rozbit','rozbij','roztlouct','rozmlatit','vypacit','vypac','uvolnit','uvolni','pouzit','pouzij','vytahnout','vytahni','vyndat','vyndej','sahnout','sahni','dotknout'].includes(w));
  const intent=verb&&(/^(?:prozk|prohl|podiv|kouk)/.test(verb)?'inspect':/^(?:otevr|odklop)/.test(verb)?'pull':/^(?:rozb|rozml|roztl)/.test(verb)?'break':/^(?:vypac|uvol|vytah|vynd)/.test(verb)?'pull':/^(?:pouz)/.test(verb)?'use':'touch');
- if(intent)return {intent:'world',ids:[],detail:{id:worldFocus,intent,room:state.room},t};
+ if(intent)return {intent:'world',ids:[],detail:{id:worldFocus,intent,room:state.room,
+  swordExplicit:/\b(?:mec|mece|mecem|meci|cepel|cepeli|ostri|ostrim)\b/.test(t)},t};
 }
 // Navazující havranovy otázky se řeší ještě před starším slovníkem.
 // Ten uměl poznat „hvězdář“, ale ztrácel podmět i návazné „to“.
@@ -572,6 +596,9 @@ if(state.room==='clearing'&&state.dialogue?.speaker==='raven'&&/^(?:a |ale )?pro
 if(state.room==='clearing'&&state.dialogue?.speaker==='raven'&&/^(?:co|coze|jak to|co tim myslis|a jak to|tomu nerozumim)$/.test(original))
  return {intent:'talk',ids:['raven'],t:'proc',continuation:true};
 const personal=state.room==='clearing'&&globalThis.adventureRaven115?.detect(original);
+if(state.room==='clearing'&&typeof ravenMemory==='function'&&ravenMemory().lastObservedWorld&&
+   /^(?:vsiml sis toho|videl jsi to|videl jsi co jsem udelal|co si o tom myslis|co na to rikas|jak se ti to libilo|co rikas na to co jsem udelal)$/.test(t))
+ return {intent:'worldWitness',ids:['raven'],t};
 if(personal)return {intent:'ravenNatural',topic:personal,ids:['raven'],t:original};
 // Osobní dotazy havranovi musí předcházet všem generickým otázkám na cestu.
 // V11.8 je chybně zachytávala až níže, pod ochranou všech otazníků.
@@ -588,7 +615,7 @@ if(state.lastSurface?.room===state.room&&/^(?:(?:vezmi|vzit|vem|seber|sebrat|zve
 if(state.room==='mill'&&/^(?:vypac|vypacit|vypacim|vypacete|podeber|podebrat)\b/.test(t)&&
    /\b(?:dvere|dveri|vrata|vrat)\b/.test(t))
  return {intent:'cut',ids:['millDoor','sword'],t};
-const worldHit=globalThis.adventureWorld117?.resolve(original,state.room,f());
+const worldHit=globalThis.adventureWorld117?.resolve(original,state.room,f(),pending?.intent);
 if(worldHit)return {intent:'world',ids:[],detail:worldHit,t:original};
 // Na strženém mostě nejsou kámen v dlani a kamenné zdivo totéž.
 // Volné předměty a terén se vyhodnocují před obecným slovníkem.
@@ -1256,6 +1283,8 @@ if(intent==='count'){log(entities[id].portable?'Je tu jeden takový předmět.':
 if(intent==='weigh'){log(entities[id].portable?'Potěžkáš předmět. Uneseš ho, přesnou váhu bez vah nezjistíš.':'Tak velkou věc nezvedneš.');return true;}
 if(intent==='point'){log('Ukážeš směrem k předmětu. Nic se tím nezmění.');return true;}
 if(intent==='dig'){log('Tady nic nevykopeš. Nemáš nářadí ani důvod rozrušovat povrch.');return true;}
+const living=globalThis.adventureLivingWorld11824?.core({id,room:state.room,intent},f(),entities[id]);
+if(living){log(living);return true;}
 log(adventureLanguage.material[entities[id].mat]?.[intent]||'Opatrně to zkusíš. Předmět zůstane beze změny.');return true;
 }
 
@@ -1408,8 +1437,16 @@ function action(p){scopeView=false;if(p.intent!=='bridgeDetail')state.bridgeFocu
   log('Přitáhneš si věc k očím, ale krypta je příliš temná. Bez světla nerozeznáš podrobnosti.');return;
  }
  const message=globalThis.adventureWorld117?.react(p.detail,f(),has('sword'));
+ globalThis.adventureLivingWorld11824?.observe(p.detail,f());
  log(message||'Na chvíli to zkusíš, ale nic se nezmění.');
+ if(p.detail?.intent==='inspect'){
+  const memory=globalThis.adventureLivingWorld11824?.memory(p.detail,f());
+  if(memory)log(memory);
+ }
  state.lastWorld={id:p.detail?.id==='vyklenek'&&f().cryptNicheFound?'schranka':p.detail?.id,room:state.room};
+ if(state.room==='clearing'&&['clean','kick','attack','break','knock','shake','cut','push','pull'].includes(p.detail?.intent)){
+  const bird=ravenMemory();if(bird.met)bird.lastObservedWorld={id:p.detail.id,intent:p.detail.intent,turn:state.turn};
+ }
  if(f().pendantRevealed&&!f().pendantTaken&&p.detail?.id==='spona')state.lastEntity='pendant';
  if(f().crateBroken&&!f().coinTaken&&p.detail?.id==='bedynka')state.lastEntity='coin';
  if(f().cryptChestOpen&&!f().cryptLetterTaken&&p.detail?.id==='schranka')state.lastEntity='cryptLetter';
@@ -1499,6 +1536,8 @@ if(intent==='attack'&&target==='raven'){
 }
 if(intent==='attack'){effect={type:'attack',start:performance.now()};if(target==='wizard'||target==='ice'||target==='scepter'){state.caveHits++;effect={type:'bolt',start:performance.now()};if(state.caveHits>=3){state.lost=true;log('Žezlo vyšle plný výboj. Led tě uzavře do průsvitného vězení. „Zpět“ vrátí poslední tah.')}else log('Meč nedosáhne. Čaroděj odpoví ledovým zábleskem. Potřebuješ jiný způsob.');return}log(target==='door'?'Dveře vydrží. Tvoje rameno by další náraz neocenilo.':'Násilím si tady nepomůžeš.');return}
 if(intent==='throw'){log('„'+entities[target].name+'“ si raději necháš. Ještě se může hodit.');return}
+const physical=globalThis.adventureLivingWorld11824?.core({id:target,room:state.room,intent},f(),entities[target]);
+if(physical){log(physical);return;}
 log(({open:'Tento předmět se takhle neotevírá.',close:'Tady není co zavřít.',push:'Zatlačíš, ale nic užitečného se nepohne.',pull:'Zatáhneš, ale předmět drží pevně.',fill:'Tento předmět není nádoba.',insert:'Tyto předměty k sobě nepasují.',use:'Rozumím, co chceš použít, ale tady to nemá vhodné využití.',unlock:'Tady není vhodný zámek.'})[intent]||'Tahle činnost v této situaci nic nezmění.')}
 function viewThroughScope(){
  if(state.room!=='observatory'){log('Dalekohled stojí v observatoři. Odtud do něj nahlédnout nemůžeš.');return;}
@@ -1685,7 +1724,7 @@ function raven118(topic,t){
  }
  gameAudio?.cue('raven');log(line);
 }
-function execute(raw){if(!raw.trim())return;let p=parse(raw);log('> '+raw,'cmd');history.push(raw);historyIndex=history.length;
+function execute(raw,prepared){if(!raw.trim())return;let p=prepared||parse(raw);log('> '+raw,'cmd');history.push(raw);historyIndex=history.length;
 if(p.intent==='semantic11821'){
  const before=JSON.parse(JSON.stringify(state));state.turn++;
  const semantic=p.detail,tool=globalThis.adventureSemantics11821;
@@ -1787,6 +1826,16 @@ if(p.intent==='ravenNatural'){
  ravenEmote={start:performance.now(),kind:['capture','harm','insult'].includes(p.topic)?'startle':'talk'};
  state.lastEntity='raven';gameAudio?.cue('raven');log(answer);persist();return;
 }
+if(p.intent==='worldWitness'){
+ const b=ravenMemory(),grieving=!!b.griefThread?.active;
+ log(globalThis.adventureLivingWorld11824?.ravenWitness(b.lastObservedWorld,grieving)||'Havran tiše přikývne.');
+ persist();return;
+}
+if(p.intent==='diaryRecall'){
+ const speaker=state.room==='clearing'?'raven':'wizard';
+ log(globalThis.adventureDialogueDiary11824?.recall(state,speaker,p.mode||'topic')||'Na předchozí rozhovor si teď nevzpomínáš.');
+ persist();return;
+}
 if(p.unresolved){log('Co myslíš výrazem „'+p.unresolved+'“?');return;}
 if(p.intent==='repeatReply'){log(lastReply||'Zatím není co zopakovat.');return;}
 if(p.nounSuggestion){log('Myslíš „'+p.nounSuggestion+'“? Upřesni název.');pending={intent:p.intent,ids:[]};return;}
@@ -1833,7 +1882,23 @@ if(pending&&p.ids.length&&!p.intent){p.intent=pending.intent;p.ids=[...new Set([
 if(!p.intent&&p.location&&!pending){log('Chceš místo „'+rooms[p.location].title+'“ prozkoumat, nebo tam jít?');return;}
 if(!p.intent){if(p.ids.length){log('Co s tím chceš udělat?');return}let first=p.t.split(' ').filter(w=>!['prosim','zkus','chci','si','se','mi'].includes(w))[0]||'';let near=[...wordIntent.keys()].filter(w=>w.length>3&&Math.abs(w.length-first.length)<=1&&distance(first,w)===1);if(near.length)log('Slovesu „'+first+'“ nerozumím. Myslel jsi „'+near[0]+'“? Upřesni to prosím.','sys');else log('Nerozumím, co chceš udělat.','sys');return}
 const before=JSON.parse(JSON.stringify(state));const previousPending=pending;try{state.turn++;action(p);if(p.ids.length&&!p.source&&(!['inspect','look','read'].includes(p.intent)||p.ids.length>1))state.lastEntities=p.ids.filter(visible);if(!valid(state))throw new Error('Neplatny stav');undo.push(before);if(undo.length>100)undo.shift();sync();}catch(error){state=before;pending=previousPending;effect=null;log('Příkaz se nepodařilo dokončit. Stav hry jsem vrátil před něj; zkus jiné vyjádření.','sys');sync();}}
-function command(raw){lastPlayerInputAt=Date.now();let parts=raw.split(/;|\ba pak\b|\ba potom\b|\ba nasledne\b/i).map(x=>x.trim()).filter(Boolean);for(let part of parts){execute(part);if(pending||state.lost||state.won)break}}
+function command(raw){
+ lastPlayerInputAt=Date.now();
+ const parts=raw.split(/;|\ba pak\b|\ba potom\b|\ba nasledne\b/i).map(x=>x.trim()).filter(Boolean);
+ for(const part of parts){
+  const parsed=parse(part),before={room:state.room,flags:{...state.flags},inv:[...state.inv],
+    raven:{harmed:state.raven?.harmed||0,apologies:state.raven?.apologies||0},won:state.won},
+    start=$('log').children.length;
+  execute(part,parsed);
+  // Bezprostřední záznam po tahu; staré repliky mají vždy přednost.
+  const lines=[],children=$('log').children;
+  for(let i=start;i<children.length;i++)if(children[i].className!=='cmd')lines.push(children[i].textContent);
+  const comment=globalThis.adventureDialogueDiary11824?.track(state,before,parsed,part,lines);
+  if(comment)log(comment);
+  persist();
+  if(pending||state.lost||state.won)break;
+ }
+}
 function distance(a,b){let row=Array.from({length:b.length+1},(_,i)=>i);for(let i=1;i<=a.length;i++){let next=[i];for(let j=1;j<=b.length;j++)next[j]=Math.min(next[j-1]+1,row[j]+1,row[j-1]+(a[i-1]!==b[j-1]));row=next}return row[b.length]}
 function valid(s){return s&&rooms[s.room]&&Array.isArray(s.inv)&&s.inv.every(x=>entities[x]?.portable)&&s.flags&&typeof s.flags==='object'&&s.dropped&&Object.entries(s.dropped).every(([id,r])=>entities[id]?.portable&&rooms[r])&&Number.isSafeInteger(s.turn)&&s.turn>=0&&typeof s.won==='boolean'&&typeof s.lost==='boolean'&&Array.isArray(s.visited)&&s.visited.every(x=>rooms[x])&&s.hints&&Number.isFinite(s.caveHits)}
 // V10 a V11 používají stejné označení uložené hry. Doplní se jen nová stavová data.
@@ -1851,7 +1916,7 @@ function upgradeState(s){
  if(s.flags.door&&!s.flags.doorUnlocked)s.flags.doorUnlocked=true;
  return s;
 }
-function saveFile(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({game:'last-light-v04',state},null,2)],{type:'application/json'}));a.download='Jeskyne_v11_8_11_ulozena_hra.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Soubor s uloženou hrou je připraven ke stažení.','sys')}
+function saveFile(){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({game:'last-light-v04',state},null,2)],{type:'application/json'}));a.download='Jeskyne_v0_11_8_24_ulozena_hra.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);log('Soubor s uloženou hrou je připraven ke stažení.','sys')}
 const canvas=$('scene'),ctx=canvas.getContext('2d'),atlas=new Image();let loaded=false;atlas.src='assets/svet.png';atlas.onload=()=>{loaded=true;draw(performance.now())};atlas.onerror=()=>log('Chybí assets/svet.png. Rozbal celý ZIP do jedné složky.','sys');
 const cleanMill=new Image(),propAtlas=new Image();let cleanMillLoaded=false,propsLoaded=false;
 cleanMill.onload=()=>{cleanMillLoaded=true};propAtlas.onload=()=>{propsLoaded=true};
@@ -1976,13 +2041,12 @@ if(state.room==='mill'){
 if(!has('rope')&&!f().ropeTaken&&!state.dropped.rope)drawProp('rope',347,25,24,66);
 if(!has('oil')&&!f().oilTaken&&!state.dropped.oil)drawProp('oil',391,85,23,23);
 if(!has('lamp')&&!f().lampTaken&&!state.dropped.lamp)drawProp('lamp',442,74,19,34);
- // V malovaném pozadí zůstává pod stolem prázdno; bedýnka existuje
- // pouze jako jediný stavový sprite. Původní pozice (405,140) ji kreslila
- // vedle druhé bedýnky ve vrstvě pozadí a působila, jako by levitovala.
- // Nová spodní hrana y=158 leží ve sněhu mezi oběma nohami stolu.
+ // Bedýnka je stavový sprite, nikoli součást pozadí. Je zasunutá hlouběji
+ // pod pracovní deskou, mezi nohami stolu; ve větší vzdálenosti je i menší.
+ // Spodní hrana y=151 se ztrácí v tmavém sněhu pod stolem.
  ctx.save();ctx.fillStyle='#0c102d91';ctx.beginPath();
- ctx.ellipse(382,157,20,3.5,0,0,Math.PI*2);ctx.fill();ctx.restore();
- drawPaintedProp(!f().crateBroken?'millCrateClosed':f().coinTaken?'millCrateEmpty':'millCrateBroken',362,130,42,28,1);
+ ctx.ellipse(399,149,16,2.5,0,0,Math.PI*2);ctx.fill();ctx.restore();
+ drawPaintedProp(!f().crateBroken?'millCrateClosed':f().coinTaken?'millCrateEmpty':'millCrateBroken',382,127,34,24,.92);
  // Nad zápražím visí drobná namrzlá podkova. Po sebrání se ze scény odstraní.
  if(!has('horseshoe')&&!f().horseshoeTaken&&!state.dropped.horseshoe)
   drawPaintedProp('horseshoe',328,52,13,22,.82);
@@ -2272,7 +2336,7 @@ if(journalView&&state.room==='observatory')drawJournalView();
 
 function applyCRT(){let monitor=$('monitor');monitor.classList.toggle('crt',crtEnabled);monitor.style.setProperty('--crt',String(Number($('strength').value)/100));$('crt').textContent=crtEnabled?'CRT: ZAPNUT':'CRT: VYPNUT';$('crt').setAttribute('aria-pressed',String(crtEnabled));try{localStorage.setItem('lastlight-crt',JSON.stringify({enabled:crtEnabled,strength:Number($('strength').value)}))}catch(e){}}
 $('form').onsubmit=e=>{e.preventDefault();let raw=$('command').value;$('command').value='';command(raw);$('command').focus()};$('command').onkeydown=e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();historyIndex=Math.max(0,Math.min(history.length,historyIndex+(e.key==='ArrowUp'?-1:1)));$('command').value=history[historyIndex]||''}};document.querySelectorAll('[data-cmd]').forEach(b=>b.onclick=()=>command(b.dataset.cmd));$('close').onclick=()=>$('dialog').close();$('crt').onclick=()=>{crtEnabled=!crtEnabled;applyCRT()};$('strength').oninput=applyCRT;$('save').onclick=saveFile;$('load').onclick=()=>$('file').click();$('full').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>log('Celá obrazovka není dostupná.'))};
-$('file').onchange=async e=>{let file=e.target.files[0];if(!file)return;try{if(file.size>100000)throw Error();let d=JSON.parse(await file.text());if(d.game!=='last-light-v04'||!valid(d.state))throw Error();undo.push(JSON.parse(JSON.stringify(state)));state=upgradeState(d.state);pending=null;effect=null;scopeView=false;log('Uložená hra načtena.','good');describe();sync()}catch(err){log('Soubor není platná uložená hra této série. Aktuální hra zůstává beze změny.')}e.target.value=''};
+$('file').onchange=async e=>{let file=e.target.files[0];if(!file)return;try{if(file.size>3000000)throw Error();let d=JSON.parse(await file.text());if(d.game!=='last-light-v04'||!valid(d.state))throw Error();undo.push(JSON.parse(JSON.stringify(state)));state=upgradeState(d.state);pending=null;effect=null;scopeView=false;log('Uložená hra načtena.','good');describe();sync()}catch(err){log('Soubor není platná uložená hra této série. Aktuální hra zůstává beze změny.')}e.target.value=''};
 try{let s=JSON.parse(localStorage.getItem('lastlight-v04'));if(valid(s)){state=upgradeState(s);log('Pokračuješ v rozehrané hře. Nový začátek: „restart“.','sys')}let crt=JSON.parse(localStorage.getItem('lastlight-crt'));if(crt&&typeof crt.enabled==='boolean'){crtEnabled=crt.enabled;$('strength').value=String(Math.max(0,Math.min(100,crt.strength||45)))}}catch(e){}
 log('Po letech sílícího chladu sevřel údolí další mráz. Hvězdář zmizel a jeho věž zůstala zamčená. Někde v hoře čeká odpověď.','good');describe();sync();applyCRT();$('startup').hidden=true;function frame(t){draw(t);requestAnimationFrame(frame)}requestAnimationFrame(frame);setTimeout(maybeRavenAside,19000);
 // Při startu na PC je kurzor opravdu ve vstupním řádku; na dotykovém

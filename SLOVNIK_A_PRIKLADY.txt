@@ -1,4 +1,27 @@
-JAZYKOVÝ SYSTÉM 0.11.8.14
+JAZYKOVÝ SYSTÉM 0.11.8.24
+
+ŽIVÝ SVĚT — NOVÝ SPOLEČNÝ ZÁKLAD (0.11.8.24)
+Následující věty jsou příklady, nikoli seznam povolených příkazů.
+Zkus se dotknout, rozbít, posunout, otevřít, očistit nebo prozkoumat
+to, co skutečně vidíš. Předměty se chovají podle materiálu a umístění.
+prozkoumat bednu
+otevřít bednu
+zatřást bednou
+kopnout do bedny
+rozmlátit bednu
+očistit lavici
+prozkoumat lavici
+posunout misku
+poklepat na přilbu
+
+SKRYTÁ PAMĚŤ ROZHOVORŮ (0.11.8.24)
+Hra si průběžně pamatuje témata, skutečné repliky, vztah i okolnosti.
+Není nutné otevírat žádný deník. Zkus se po jiných tématech vrátit
+k původní otázce, nebo po návštěvě mlýna promluvit znovu s havranem.
+pamatuješ si o čem jsme mluvili
+o čem jsme se minule bavili
+na co jsem se tě naposledy ptal
+Pevně danou minulost postav tento systém nikdy nepřepisuje.
 
 HAVRAN — KONVERZACE V NÁVAZNOSTECH (0.11.8.14)
 Hvězdář ti řekl, ať zůstaneš?

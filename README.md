@@ -2,9 +2,13 @@
 
 Česká grafická textová adventura s malovanou VGA grafikou, volným psaním příkazů, rozhovory s havranem a ledovým čarodějem a volitelným CRT efektem.
 
-**Aktuální vydání:** `0.11.8.21` (2. listopadu 2026) — rozšířený kontextový parser běžné češtiny a rozsáhlé, proměnlivé rozhovory s havranem o hvězdářově smrti, nejistotě, slibu i budoucnosti po osvobození údolí. Opravené otázky na čaroděje, průzkum jeho jeskyně, čtení deníku, klepání a vyrážení mlýnských dveří, použití meče na zaklíněnou sponu i ledové krápníky. Původní hratelnost, grafika a inventář zůstaly zachovány.
+**Aktuální vydání:** `0.11.8.24` (3. listopadu 2026) — **živý svět + skrytý deník rozhovorů**. Všech 54 vedlejších rekvizit sedmi lokací má definovaný materiál a fyzická pravidla, takže vedle přímých autorských reakcí fungují i další pokusy o dotek, náraz, prozkoumání, otevření, posunutí nebo očištění. Menší zásahy se pamatují při návratu a v uložené pozici. Hlavní hádanky se vyhodnocují samostatně.
 
-**Grafická oprava:** Scéna před mlýnem používá nový obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka už není součástí pozadí: kreslí se pouze jednou, na zasněženou zem pod stolem, a nadále mění vzhled po rozbití. Původní obrázek zůstává zachovaný.
+**Paměť postav:** S rozhovory vzniká neviditelný záznam tématu, skutečného hráčova dotazu, odpovědi, nálady a vztahu. Zápisy zahrnují také cestu údolím, důležité nálezy a fyzické úkony. Když se hráč k otázce vrátí, může havran či čaroděj reagovat na opakování; při dalším setkání může havran připomenout předchozí rozhovor. Lze se ho také zeptat: „Pamatuješ si, o čem jsme mluvili?“ Neměnný kánon má přednost: hvězdář byl havranův přítel, havran dobrovolně dodržuje slib, nezná jistě podrobnosti jeho smrti a v bolestném rozhovoru nežertuje. Čaroděj si ponechává svou povahu a motivy. Původní dialogy, malovaná grafika, zvuk a mobilní rozhraní zůstávají.
+
+**Poznámka k rozsahu:** Jde o autorsky řízený offline svět s rozšířeným slovníkem, nikoli o generativní AI a libovolně simulovatelnou fyziku. Stopy menších zásahů jsou nyní zachyceny hlavně v textu a uloženém stavu; všechny nemají nové grafické varianty.
+
+**Grafická oprava:** Scéna před mlýnem používá obrázek `assets/mlyn_zavreny_v11814.png`, v němž má pracovní stůl nohy dosedající do sněhu. Bedýnka je nezávislý malovaný sprite. V této verzi se kreslí menší a hlouběji pod deskou stolu; stav zavřená/rozbitá/prázdná se zobrazuje na shodném místě. Původní obrázek i sprite zůstávají zachované.
 
 ## Hrát v prohlížeči
 
@@ -30,6 +34,8 @@ Otevři `HRA.html` dvojklikem v počítači. Na mobilu je pohodlnější otevř�
 - `havran_kontext_v11814.js` — rozpoznávání návazných otázek a paměť dialogu.
 - `havran_v116.js` — konverzační otevíráky, společenské reakce a paměť vztahu s havranem.
 - `semantika_v11821.js` — nové rozpoznávání významu vět, kontextových zájmen, fyzických úkonů a postavy po závěru.
+- `prostor_v117.js` a `zivy_svet_v11824.js` — vedlejší předměty, fyzikální profily a paměť zásahů.
+- `denik_rozhovoru_v11824.js` — skrytá chronologie, témata, vztahový a emoční kontext, připomenutí rozhovorů.
 - `assets/` — původní grafické podklady; žádné obrázky nejsou nahrazené.
 - `tests/` — ověřovací testy kontextových vět (volitelné pro vývojáře).
 - `CTI_ME.txt` — historie oprav a spuštění na Windows.
@@ -48,7 +54,7 @@ Tlačítko **CELÁ OBRAZOVKA** rozšíří hru na celý viditelný prostor. Na A
 
 ## Vývojářské ověření
 
-V kořenové složce lze spustit testy například `node tests/test_semantika_v11821.cjs` a `node tests/test_integrace_hry_v11821.cjs`. Nové testy obsahují 235 jazykových a emocionálně kontextových případů a 30 scénářů se spuštěným enginem a uloženým stavem. Jde o automatické kontroly parseru a stavů, nikoli o potvrzení vzhledu na konkrétním telefonu. Rozhovor nevyužívá online model, takže neomezenému množství českých vět nelze garantovat porozumění.
+V kořenové složce lze spustit všech devět testovacích souborů postupně: `for test in tests/*.cjs; do node "$test" || exit 1; done` (Bash) nebo jednotlivě `node tests/test_integrace_hry_v11821.cjs` a `node tests/test_zivy_svet_v11824.cjs`. Aktuální kontroly zahrnují 235 kontextových a jazykových případů, 70 scénářů nad spuštěným enginem a 1 232 kontrol reakcí všech 54 vedlejších předmětů i paměti. Jde o automatické kontroly parseru a stavů, nikoli o potvrzení vzhledu na konkrétním telefonu. Rozhovor nevyužívá online model, takže neomezenému množství českých vět nelze garantovat porozumění.
 
 ## Poznámka k projektu
 

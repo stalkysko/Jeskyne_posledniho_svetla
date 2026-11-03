@@ -1,9 +1,9 @@
-JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.21 KLASIKA + MOBILNÍ WEBOVÁ VERZE
+JESKYNĚ POSLEDNÍHO SVĚTLA — 0.11.8.24 KLASIKA + MOBILNÍ WEBOVÁ VERZE
 
 SPUŠTĚNÍ NA WINDOWS
 1. Rozbal celý archiv do nové složky.
 2. Dvakrát klikni na HRA.html.
-3. V horní liště musíš vidět 0.11.8.21.
+3. V horní liště musíš vidět 0.11.8.24.
 
 Tento balíček je KOMPLETNÍ, nikoli opravný patch. V repozitáři
 nahraj jeho rozbalený obsah do hlavní složky (main / root).
@@ -12,9 +12,45 @@ Uloženou hru můžeš ponechat, exportovat i později načíst.
 Hra nepotřebuje instalaci ani internet. Neotvírej HRA.html přímo
 z náhledu ZIPu: soubory hra.js, havran_dialogy.js, carodej_dialogy.js,
 carodej_roleplay_v11812.js,
-havran_v116.js, havran_kontext_v11814.js, semantika_v11821.js, prostor_v117.js, pribeh_v118.js, zvuk.js, jazyk.js,
+havran_v116.js, havran_kontext_v11814.js, semantika_v11821.js, prostor_v117.js,
+zivy_svet_v11824.js, denik_rozhovoru_v11824.js, pribeh_v118.js, zvuk.js, jazyk.js,
 reakce.js, mapa.js, hra.css
 a celá složka assets musejí zůstat vedle sebe.
+
+ROZŠÍŘENÍ 0.11.8.24 (3. 11. 2026) — ŽIVÝ SVĚT A DENÍK VZTAHŮ
+• Všech 54 vedlejších rekvizit sedmi lokací má fyzikální vlastnosti
+  pro rozumné reakce na řadu českých příkazů.
+• Očištění, poškrábání, posunutí a další drobné zásahy přetrvají
+  návrat do lokace i uložení/načtení hry.
+• Vedlejší interakce neobcházejí meč, klíč ani jiné autorské hádanky.
+• Hra v pozadí zapisuje skutečná témata a promluvy, hráčovy činy,
+  cestování, důležité události, náladu a současnou míru vztahu.
+• Při návratu k tématu postava může poznamenat, že už o něm mluvila.
+  Havran může při návratu k rozcestí sám připomenout minulé setkání.
+• Otázka „Pamatuješ si, o čem jsme mluvili?“ vybaví poslední
+  významné téma. Záznam se převádí i do starších uložených her.
+• Minulost postav je pevná: havran nezná jistě okolnosti smrti
+  hvězdáře a po bolestivé otázce nemá bezdůvodně vtipkovat.
+• Rozhovory jsou autorské a offline; nejde o neomezenou AI simulaci.
+• Devět testovacích sad včetně 1 232 kontrol živého světa a
+  70 skutečných příkazů nad herním enginem.
+
+OPRAVA 0.11.8.23 (3. 11. 2026) — PŘIROZENÁ INTERAKCE S BEDNOU
+• „Otevřít bednu“ a „otevřít bednu¨“ rozpoznají víko a pokus o otevření.
+• „Kopnout do bedny“ a „rozmlátit bednu“ mají vlastní fyzické reakce,
+  aniž by hlásily neznámý předmět nebo automaticky použily meč z vaku.
+• Po „prozkoumat bednu“ funguje „otevři ji“: zájmeno odkazuje na bednu,
+  nikoli na dveře mlýna, o kterých mohl hráč mluvit dříve.
+• „Vypáčit víko bedny mečem“ skutečně rozbije bedýnku a odkryje minci.
+• Doplněné regresní testy průchodů včetně zachování stavu bedny.
+
+ÚPRAVA 0.11.8.22 (3. 11. 2026) — POPISY PROSTŘEDÍ A BEDÝNKA U MLÝNA
+• Rozhlížení nevkládá navigační pokyny do popisu atmosféry.
+  Na směry se můžeš zeptat samostatně, např. „Kam vede cesta?“.
+• Bedýnka stojí hlouběji ve stínu pod stolem, je menší a má
+  opravený kontaktní stín. Všechny stavy používají stejnou polohu.
+• Při rozhlédnutí se bedýnka neprozradí přímo; je možné ji objevit
+  cíleným zkoumáním prostoru pod stolem.
 
 ÚPRAVA 0.11.8.21 (2. 11. 2026) — VELKÁ OPRAVA PŘIROZENÉ ČEŠTINY
 • Nové rozlišování významu věty před obecným slovníkem příkazů.

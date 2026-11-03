@@ -12,7 +12,7 @@ globalThis.adventureWorld117 = (() => {
       ['mesic','mesic nad udolim;mesicni svit','Měsíc visí nad sedlem mezi dvěma vrcholy.',{inspect:'Na okamžik se obloha vyjasní a světlo na cestě zesílí.',listen:'Na obloze je ticho. Pod tebou však vržou stromy.'}]
     ],
     mill: [
-      ['bedynka','bedynka;bedynku;bedynky;bedynce;bednou;bedna;bednu;bedny;dreve na zemi;drevena bedynka;drevenou bedynku;krabice;krabici;stara bedynka','U pracovního stolu stojí nízká dřevěná bedýnka. Několik fošen je odchlípnutých, ale víko drží.',{}],
+      ['bedynka','bedynka;bedynku;bedynky;bedynce;bednou;bedna;bednu;bedny;bedne;bednou;drevena bedna;drevenou bednu;stara bedna;starou bednu;dreve na zemi;drevena bedynka;drevenou bedynku;krabice;krabici;krabici pod stolem;stara bedynka;viko bedny;viko bedynky','U pracovního stolu stojí nízká dřevěná bedýnka. Několik fošen je odchlípnutých, ale víko drží.',{}],
       ['nahon','led v nahonu;zamrzly nahon;nahon','Mlýnským náhonem teče pod tlustou ledovou deskou voda.',{listen:'Přiložíš ucho ke kameni. Proud uvnitř šumí, jako by se mlýn nadechoval.',attack:'Meč v ledu vyštipne sotva patrnou rýhu. Proud dole je příliš hluboko.',throw:'Oblázky po ledu poskakují a mizí u břehu.'}],
       ['panty','panty;pantu;zavesy dveri;zaves','Železné panty jsou staré, ale pevně zavrtané do kamene.',{touch:'Studené železo zanechá na rukavici rezavý prach.',cut:'Čepel cinkne o železo. Panty drží, jen do mlýna se to hlasitě rozlehne.',knock:'Závěsy dlouze zadrnčí, ale dveře se nepohnou.'}],
       ['hrnek','kruhy po hrncich;otisky hrnku;skvrny po hrnku','Na stole zůstaly tmavé kruhy od hrnků.',{touch:'Přejedeš přes zaschlé kruhy. Někdo tu ještě nedávno sedával u horkého pití.',smell:'Dřevo voní po oleji, nikoli po čaji.'}],
@@ -73,7 +73,11 @@ globalThis.adventureWorld117 = (() => {
   };
   const verbs = {
     inspect:'prozkoumat prozkoumej prohlidnout prohlidni prohlednout prohledni prohledat prohledni podivat podivej koukni kouknout zkoumat ohledat omrknout zjistit co',
-    touch:'dotknout dotkni sahnout sahni osahat ohmatat vzit chytit zvednout odhrnout odhrn rozhrnout rozhrn rozhrni odhrni',
+    take:'vezmi vezmete vem vzit seber sebrat zvednout zvedni zvednete uchop uchopit',
+    open:'otevrit otevri otevru otevreme pootevrit pootevri odklopit odklop otevirej nadzvednout nadzvedni',
+    close:'zavrit zavri privrit privri zaklapnout zaklapni',
+    kick:'kopnout kopni kopnu kopat nakopnout nakopni vykopnout vykopni',
+    touch:'dotknout dotkni sahnout sahni osahat ohmatat chytit odhrnout odhrn rozhrnout rozhrn rozhrni odhrni',
     listen:'poslouchat poslouchej naslouchat naslouchej slyset zaposlouchat',
     smell:'privonet pricichnout ocichat cuchnout cuchni',
     knock:'zaklepat zaklepej tuknout klepnout zabouchat',
@@ -89,8 +93,12 @@ globalThis.adventureWorld117 = (() => {
     sit:'sednout sedni posadit',
     shout:'kricet zakricet zavolat',
     watch:'sledovat sleduj pozorovat pozoruj',
-    break:'zlomit zlom rozlomit rozbij',
+    break:'zlomit zlom rozlomit rozbij rozmlatit rozmlat rozmlatim roztlouct roztluc roztlouci roztriskat roztriskej roztriskam rozdrtit rozbijet rozbijej',
     use:'pouzit pouzij aplikovat',
+    shake:'zatrasit zatras zatrast zatrasu zatres protrepat protrep zatrepat zatrep zachrastit zachrastej',
+    burn:'spalit spal zapalit zapal podpalit podpal',
+    repair:'opravit oprav spravit sprav',
+    weigh:'potazkat potazkej zvazit zvaz',
   };
   const index = Object.fromEntries(Object.entries(objects).map(([room,lines])=>[room,lines.map(([id,aliases,look,actions])=>({id,aliases:aliases.split(';').sort((a,b)=>b.length-a.length),look,actions}))]));
   // Jen neškodné úkony lze domyslet při JEDNOM překlepu/skloňování.
@@ -119,10 +127,17 @@ globalThis.adventureWorld117 = (() => {
     observatory:'U stěny se zastavily kyvadlové hodiny. Nad nimi visí hvězdná mapa a u mosazného dalekohledu jsou rozložené pracovní náčrty.',
     cave:'U skály leží promáčknutá přilba. V ledu se táhnou černé praskliny a stěny poseté krystaly vracejí čarodějovu modrou zář.'
   };
-  function resolve(raw,room,flags={}) {
-    const text=raw.trim();if(!text)return null;
-    const first=text.split(' ')[0];
-    let intent=Object.entries(verbs).find(([,list])=>list.split(' ').includes(first))?.[0];
+  function resolve(raw,room,flags={},pendingIntent=null) {
+    const text=raw.trim().replace(/^(?:(?:zkusim|zkus|chtel bych|chtela bych|pokusim se|pokus se|prosim|mohl bych|mohla bych|rad bych|rada bych|chci) )+/, '');if(!text)return null;
+    const words=text.split(' '),first=words[0];
+    // Sjednocení s hlavním slovníkem: další tvary téhož slovesa nemají
+    // padat do jiné logiky jen proto, že stojí před malovanou kulisou.
+    const verbForms=Object.entries(verbs).map(([intent,list])=>
+      [intent,new Set((list+' '+(globalThis.adventureLanguage?.verbs?.[intent]||'')).split(/\s+/))]);
+    // Sloveso může být za předmětem: „bednu chci otevřít“.
+    let intent=verbForms.find(([,forms])=>forms.has(first))?.[0];
+    if(!intent&&words.length>1&&!/^(?:co|kde|proc|jak|kdo|kam|kudy|jestli|zda)$/.test(first))
+      intent=verbForms.find(([,forms])=>words.slice(1,5).some(w=>forms.has(w)))?.[0];
     // „prozkiumat lavici“: bezpečný překlep v příkazu pro pozorování.
     // U destruktivních sloves nikdy automaticky nehádáme záměr hráče.
     if(!intent&&first.length>=6&&text.includes(' ')){
@@ -130,16 +145,22 @@ globalThis.adventureWorld117 = (() => {
       if(guesses.length===1)intent='inspect';
     }
     if(!intent&&/^(co (je|jsou) (na|pod|u)|jak vypada|co vidim na)/.test(text))intent='inspect';
+    if(!intent&&pendingIntent&&['open','inspect','take','touch','pull','push','cut','break','use','close','kick'].includes(pendingIntent))intent=pendingIntent;
     if(!intent)return null;
+    // Delší název má přednost před vnořenou obecnou částí:
+    // „plachta ve výklenku“ není výklenek.
+    let best=null;
     for(const object of index[room]||[])for(const alias of object.aliases){
       const expr=new RegExp('(?:^| )'+alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:$| )');
       // Podkova není jen kulisa: při sebrání ji přenecháme inventářovému
       // systému, aby se hráči skutečně dostala do vaku.
       if(expr.test(text)){
         if(object.id==='privesena'&&(intent==='take'||flags.horseshoeTaken))continue;
-        return {id:object.id,intent,room};
+        if(!best||alias.length>best.length)best={id:object.id,length:alias.length};
       }
     }
+    if(best)return {id:best.id,intent,room,
+      swordExplicit:/\b(?:mec|mece|mecem|meci|cepel|cepeli|ostri|ostrim)\b/.test(text)};
     // Jediný drobný překlep v jednoslovném názvu okolního předmětu.
     // Použít lze jen jednoznačný nález v aktuální místnosti.
     if(safeNounIntents.has(intent)){
@@ -153,7 +174,7 @@ globalThis.adventureWorld117 = (() => {
     }
     return null;
   }
-  function react({id,intent,room},flags,hasSword){
+  function react({id,intent,room,swordExplicit=false},flags,hasSword){
     const o=index[room]?.find(obj=>obj.id===id);if(!o)return null;
     flags.worldDetails ||= {};
     const k=room+':'+id;
@@ -168,14 +189,35 @@ globalThis.adventureWorld117 = (() => {
       ][Math.min(inspection,3)];
     }
     if(room==='mill'&&id==='bedynka'){
-      if(flags.crateBroken)return ['inspect','touch'].includes(intent)?(flags.coinTaken?'Mezi rozházenými třískami leží zbytek prázdného dna. Bedýnku už znovu nerozbiješ.':'Mezi rozházenými třískami se leskne stříbrná mince. Bedýnka je úplně rozštípnutá.'):'Rozbitá bedýnka už jen tiše leží ve sněhu.';
-      if(['cut','attack','break','use'].includes(intent)){
-        if(!hasSword)return 'Zkusíš víko nadzvednout, ale drží. Něčím pevným bys mohl fošny rozštípnout.';
-        flags.crateBroken=true;
-        return 'Rozmáchneš se mečem. Staré víko se rozletí na třísky a bedýnka se sesype do sněhu. Ze dna vyklouzne drobná stříbrná mince, na okamžik se zableskne a zůstane ležet mezi prkénky.';
+      if(flags.crateBroken){
+        if(intent==='close')return 'Rozštípané víko už nesložíš dohromady; bedýnka je zničená.';
+        return flags.coinTaken?'Mezi rozházenými třískami leží zbytek prázdného dna. Bedýnku už znovu neotevřeš.':'Mezi rozházenými třískami se leskne stříbrná mince. Bedýnka je úplně rozštípnutá.';
       }
-      if(intent==='touch'||intent==='pull')return 'Zkusíš víko rukou. Drží pevně; bedýnka je křehčí než její zrezlé hřeby.';
-      return o.look;
+      if(intent==='inspect')return o.look;
+      if(swordExplicit&&['open','pull','cut','attack','break','use'].includes(intent)){
+        if(!hasSword)return 'Sáhneš po meči, ale nemáš ho u sebe. Víko zůstává přibité.';
+        flags.crateBroken=true;
+        return 'Zasunuješ ostří meče pod odchlípnutou fošnu a zabereš. Staré víko se rozletí na třísky, bedýnka se sesype do sněhu a ze dna vyklouzne drobná stříbrná mince.';
+      }
+      if(intent==='open'||intent==='pull'){
+        const n=used.openAttempts||0;used.openAttempts=n+1;
+        return n===0?'Vsuneš prsty pod odchlípnutou fošnu a zkusíš nadzvednout víko. Dřevo zavrže, ale staré hřeby je nepustí.':
+          n===1?'Zabereš znovu za okraj víka. Prkno se bolestivě prohne a uvolní několik třísek, hřeby však drží dál.':
+          'Víko už má otlačený okraj, ale rukama ho neotevřeš. Při dalším pokusu by ses jen pořezal o třísky.';
+      }
+      if(intent==='kick'){
+        const n=used.kicks||0;used.kicks=n+1;
+        return n===0?'Kopneš do bedýnky. Posune se ve sněhu a narazí o nohu pracovního stolu. Víko zarachotí, ale neotevře se.':
+          'Další kopnutí uvolní pár třísek. Bedýnka se nakloní, hřeby však stále drží víko pohromadě.';
+      }
+      if(intent==='close')return 'Víko je už zavřené, i když jeho prkna odstávají. Přitlačíš je, ale hřeby se ani nepohnou.';
+      if(['cut','attack','break','use'].includes(intent)){
+        // Meč se nesmí „sám“ použít jen proto, že ho hráč nese ve vaku.
+        return intent==='cut'?'Přejedeš prsty po odchlípnuté fošně. Holou rukou ji nepřetneš; hřeby stále drží víko.':
+          'Zkusíš bedýnku rozbít holýma rukama. Fošny praskají, ale víko na hřebech nepovolí.';
+      }
+      if(intent==='touch')return 'Přejedeš prsty po drsném dřevě. Pod odchlípnutou fošnou nahmatáš hřebíky, ale dovnitř nedosáhneš.';
+      return globalThis.adventureLivingWorld11824?.generic({id,intent,room},flags)||o.look;
     }
     if(room==='crypt'&&id==='vyklenek'){
       flags.cryptNicheFound=true;
@@ -184,19 +226,26 @@ globalThis.adventureWorld117 = (() => {
     if(room==='crypt'&&id==='schranka'){
       if(!flags.cryptNicheFound){flags.cryptNicheFound=true;return 'Přejedeš rukou po stěně výklenku a odhrneš zetlelou látku. Pod ní je stará okovaná schránka se zrezlým uzávěrem.';}
       if(flags.cryptChestOpen)return flags.cryptLetterTaken?'Víko schránky stojí odklopené na starém pantu. Uvnitř už nic nezůstalo.':'Víko schránky stojí odklopené. Uvnitř je úhledně složený zažloutlý lístek.';
+      if(intent==='open')return 'Zkusíš otevřít schránku prsty, ale uzávěr je zrezlý a víko se ani nehne.';
+      if(intent==='close')return 'Schránka je už pevně zavřená. Poklop drží zrezlý uzávěr.';
       if(['cut','attack','break','use','pull'].includes(intent)){
+        if(!swordExplicit)return 'Zkusíš uvolnit zrezlý uzávěr rukama. Jeho hrana je ostrá, ale víko se nepohne. Bez vhodného nástroje by ses jen poranil.';
         if(!hasSword)return 'Zarezlý uzávěr drží. Potřebuješ něco pevného a ostrého, co dostaneš pod jeho okraj.';
         flags.cryptChestOpen=true;
         return 'Zasunuješ špičku meče pod zrezlý uzávěr a opatrně zatlačíš. Ozve se ostré lupnutí kovu. Víko na starém pantu povolí a pod ním objevíš pečlivě složený lístek, který tam někdo nechal dávno před mrazem.';
       }
       if(intent==='touch')return 'Prstem zkoušíš odchlípnout víko. Zarezlý uzávěr drží překvapivě pevně.';
-      return o.look;
+      return globalThis.adventureLivingWorld11824?.generic({id,intent,room},flags)||o.look;
     }
     if(room==='bridge'&&id==='krovi'){
       if(flags.pendantRevealed)return 'Na okraji útesu zůstala mělká otevřená skrýš v kameni.';
       if(['inspect','touch','clean','pull','cut'].includes(intent))return 'Žádné křoví tu neroste. Zaměříš se raději na tmavou skalní spáru u okraje.';
       return o.look;
     }
+    if(room==='mill'&&id==='klice'&&intent==='pull'&&used.changed)
+      return 'Po klínu zůstaly v kameni jen drobné třísky. Už není za co zatáhnout.';
+    if(room==='bridge'&&id==='provazky'&&intent==='cut'&&used.changed)
+      return 'Zbytky starého provazu už jsi přerušil. Ve spáře zůstala jen roztřepená vlákna.';
     if(room==='bridge'&&id==='spona'){
       if(!flags.ledgeInspected){flags.ledgeInspected=true;return 'Přiklekneš u hrany útesu. Teprve teď rozeznáš, že lesk vychází ze zrezlé spony zaklíněné v úzké skalní spáře. Něco pod ní zůstalo uvězněné.';}
       if(['cut','attack','use','pull'].includes(intent)){
@@ -211,7 +260,13 @@ globalThis.adventureWorld117 = (() => {
     if(intent==='inspect')return used.changed&&o.actions.inspectAfter?o.actions.inspectAfter:(o.actions.inspect||o.look);
     const special=o.actions[intent];
     if(!special){
+      const living=globalThis.adventureLivingWorld11824?.generic({id,intent,room},flags);
+      if(living)return living;
       return intent==='cut'||intent==='attack'?'Ostří zasáhne povrch, ale nic dalšího se nestane.':
+        intent==='open'?'Zkoušíš najít víko nebo západku, ale na této věci není co otevřít.':
+        intent==='close'?'Tady není nic, co bys mohl zavřít.':
+        intent==='kick'?'Kopneš do toho. Odpoví ti jen tupý zvuk; na okolí se nic nezmění.':
+        intent==='break'?'Pokoušíš se to rozbít, ale bez výsledku.':
         intent==='use'?'Zkusíš s tím něco udělat. V tomto místě se nic nezmění.':
         intent==='touch'?'Dotkneš se toho. Je to skutečné, studené a staré; víc teď nezjistíš.':
         o.look;
@@ -219,7 +274,11 @@ globalThis.adventureWorld117 = (() => {
     if(['touch','clean','cut','attack','pull','break','turn'].includes(intent))used.changed=true;
     return special;
   }
-  return {resolve,react,glimpse:(room,flags={})=>{
+  return {resolve,react,
+    listObjects:()=>Object.entries(index).flatMap(([room,objects])=>objects.map(o=>room+':'+o.id)),
+    listDescriptors:()=>Object.entries(index).flatMap(([room,objects])=>objects.map(o=>
+      ({room,id:o.id,aliases:[...o.aliases]}))),
+    glimpse:(room,flags={})=>{
     const vista=vistas[room]||'';
     return room==='mill'&&flags.horseshoeTaken?vista.replace('Na zápraží visí rezavá podkova. ',''):vista;
   }};
